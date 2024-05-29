@@ -3,5 +3,29 @@
 @tailwind utilities;
 
 body {
-    background-color: skyblue;
+    @apply bg-white;
+}
+
+.btn {
+    @apply inline-flex items-center justify-center rounded-[10px] transition-colors focus-visible:outline-none focus-visible:ring-2 disabled:opacity-50 disabled:pointer-events-none px-4 py-2 gap-3;
+}
+
+.btn-primary {
+    @apply bg-primary text-white hover:bg-primary/80;
+}
+
+.btn-secondary {
+    @apply bg-white border border-input text-foreground hover:bg-white/80;
+}
+
+.btn-ternary {
+    @apply bg-ternary text-foreground hover:bg-ternary/80;
+}
+
+.btn-ghost {
+    @apply text-foreground bg-white hover:bg-white/80;
+}
+
+.wrapper {
+    @apply mx-auto w-full max-w-[1152px] px-4 md:px-6;
 }

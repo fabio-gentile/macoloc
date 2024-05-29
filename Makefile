@@ -102,5 +102,9 @@ sf-check-requirements: ## Check requirements.
 
 sf-mcrud: ## Make symfony crud
 	@$(SYMFONY) make:crud
-.PHONY: sf-mc
+.PHONY: sf-mcrud
+
+sf-mtc: ## Make twig component
+	@$(SYMFONY) make:twig-component
+.PHONY: sf-mtc
 
