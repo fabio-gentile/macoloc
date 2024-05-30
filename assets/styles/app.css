@@ -29,3 +29,11 @@ body {
 .wrapper {
     @apply mx-auto w-full max-w-[1152px] px-4 md:px-6;
 }
+
+.alert {
+    @apply p-4 mb-3 text-sm rounded-lg;
+}
+
+.alert-danger {
+    @apply text-destructive bg-destructive/5;
+}
