@@ -31,7 +31,8 @@
         "symfony/yaml": "6.4.*",
         "symfonycasts/reset-password-bundle": "^1.21",
         "symfonycasts/tailwind-bundle": "^0.5.3",
-        "symfonycasts/verify-email-bundle": "^1.17"
+        "symfonycasts/verify-email-bundle": "^1.17",
+        "tales-from-a-dev/flowbite-bundle": "^0.7.0"
     },
     "config": {
         "allow-plugins": {
