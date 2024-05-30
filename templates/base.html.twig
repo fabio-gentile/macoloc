@@ -23,7 +23,13 @@
     <body class="overflow-x-hidden mx-auto flex min-h-[100dvh] flex-col justify-center">
         {% include 'partials/_header.html.twig' %}
         {% set route = app.request.get('_route') %}
-        {% if route in ['app_login', 'app_check_mail', 'app_reset_password'] %}
+        {% if route in [
+            'app_login',
+            'app_check_mail',
+            'app_reset_password',
+            'app_forgot_password_request',
+            'app_check_email'
+        ] %}
         <main class="grow mx-auto w-full px-4 md:px-6 lg:px-0">
         {% else %}
         <main class="grow wrapper">
