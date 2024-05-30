@@ -4,27 +4,36 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Form\RegistrationProfileType;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
+#[Route('/register')]
 class RegistrationController extends AbstractController
 {
     public function __construct(private EmailVerifier $emailVerifier)
     {
     }
 
-    #[Route('/register', name: 'app_register')]
+    #[Route('/', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_homepage');
+        }
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -42,7 +51,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            $this->emailVerifier->sendEmailConfirmation('app_register_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address('no-replay@macoloc.fr', 'No Reply'))
                     ->to($user->getEmail())
@@ -52,7 +61,7 @@ class RegistrationController extends AbstractController
 
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('_preview_error');
+            return $this->redirectToRoute('app_register_verify');
         }
 
         return $this->render('registration/register.html.twig', [
@@ -60,8 +69,14 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, UserRepository $userRepository): Response
+    #[Route('/verify', name: 'app_register_verify')]
+    public function verify(Request $request): Response
+    {
+        return $this->render('reset_password/check_email.html.twig');
+    }
+
+    #[Route('/verify/email', name: 'app_register_verify_email')]
+    public function verifyUserEmail(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager, Security $security): Response
     {
         $id = $request->query->get('id');
 
@@ -84,9 +99,41 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
+        $user->setRoles(['ROLE_REGISTRATION_WAITING']);
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $security->login($user, 'form_login');
+
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('app_register_profile');
+    }
+
+    #[Route('/profile', name: 'app_register_profile')]
+    #[IsGranted('ROLE_REGISTRATION_WAITING')]
+    public function profile(Request $request, EntityManagerInterface $entityManager, UserInterface $user): Response
+    {
+        $form = $this->createForm(RegistrationProfileType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /* @var $user User */
+            $user->setFirstname($form->get('firstname')->getData())
+                ->setLastname($form->get('lastname')->getData())
+                ->setGender($form->get('gender')->getData())
+                ->setDateOfBirth($form->get('dateOfBirth')->getData())
+                ->setRoles(['ROLE_USER']);
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('registration/profile.html.twig', [
+            'profileForm' => $form,
+        ]);
     }
 }

@@ -8,10 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cette adresse e-mail.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -19,13 +20,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner votre adresse e-mail')]
+    #[Assert\Length(
+        min: 5,
+        max: 100,
+        minMessage: 'Votre adresse e-mail doit contenir au moins {{ limit }} caractères',
+        maxMessage: 'Votre adresse e-mail doit contenir au maximum {{ limit }} caractères'
+    )]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        min: 3,
+        max: 40,
+        minMessage: 'Votre prénom doit contenir au moins {{ limit }} caractères',
+        maxMessage: 'Votre prénom doit contenir au maximum {{ limit }} caractères'
+    )]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        min: 3,
+        max: 40,
+        minMessage: 'Votre nom doit contenir au moins {{ limit }} caractères',
+        maxMessage: 'Votre nom doit contenir au maximum {{ limit }} caractères'
+    )]
     private ?string $lastname = null;
 
     #[ORM\Column]
@@ -48,6 +69,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private array $roles = [];
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $gender = null;
 
     public function __construct()
     {
@@ -198,6 +222,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?string $gender): static
+    {
+        $this->gender = $gender;
 
         return $this;
     }

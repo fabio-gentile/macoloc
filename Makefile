@@ -108,3 +108,7 @@ sf-mtc: ## Make twig component
 	@$(SYMFONY) make:twig-component
 .PHONY: sf-mtc
 
+sf-ml: ## Make Event listener
+	@$(SYMFONY) make:listener
+.PHONY: sf-ml
+

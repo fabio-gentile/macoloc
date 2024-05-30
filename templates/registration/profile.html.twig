@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compléter son inscription{% endblock %}
+
+{% block body %}
+    {% embed 'partials/_authentication.html.twig' %}
+        {% block form_content %}
+            <form method="post" class="w-full max-w-lg">
+                <div class="border-input border rounded-lg p-6 grid gap-4">
+                    <h1 class="font-semibold text-xl">Complétez votre inscription</h1>
+                    <p class="text-muted">Veuillez compléter votre profil pour finaliser l'inscription.</p>
+
+                    {{ form_start(profileForm) }}
+                    {{ form_widget(profileForm) }}
+                    <button class="btn btn-primary">
+                        Terminer l’inscription
+                    </button>
+                    {{ form_end(profileForm) }}
+                </div>
+            </form>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

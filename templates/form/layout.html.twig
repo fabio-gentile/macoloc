@@ -16,3 +16,25 @@
     ml-2.5 text-sm  text-foreground
 {%- endblock class_input_radio_label %}
 
+{% block class_input_radio -%}
+    w-4 h-4 text-accent bg-white border-input focus:ring-accent focus:border-accent
+{%- endblock class_input_radio %}
+
+{%- block date_widget -%}
+    {%- if widget == 'single_text' -%}
+        {{ block('form_widget_simple') }}
+    {%- else -%}
+        {%- set attr = attr|merge({'class': attr.class|default('flex')|trim}) -%}
+        {%- set attr_class_error = '' -%}
+        {%- if not valid -%}
+            {%- set attr_class_error = ' ' ~ block('class_input_error') -%}
+        {%- endif -%}
+        <div {{ block('widget_container_attributes') }}>
+            {{- date_pattern|replace({
+                '{{ year }}':  form_widget(form.year, { attr: { class: (block('class_widget_addon_append') ~ ' ' ~ attr_class_error|trim|tailwind_merge) }}),
+                '{{ day }}': form_widget(form.day, { attr: { class: (block('class_widget_addon_prepend') ~ ' ' ~ attr_class_error|trim|tailwind_merge) }}),
+                '{{ month }}':   form_widget(form.month, { attr: { class: ('rounded-none' ~ attr_class_error)|trim|tailwind_merge }}),
+            })|raw -}}
+        </div>
+    {%- endif -%}
+{%- endblock date_widget -%}

@@ -3,3 +3,11 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+app_register_verify:
+    path: /register/verify
+    controller: App\Controller\RegistrationController::verify
+
+app_register_profile:
+    path: /register/profile
+    controller: App\Controller\RegistrationController::profile
