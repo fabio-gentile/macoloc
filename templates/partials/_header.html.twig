@@ -39,10 +39,10 @@
     </nav>
 
     {# Background overlay #}
-    <div data-menu-target="overlay" class="fixed inset-0 bg-foreground bg-opacity-50 hidden" data-action="click->menu#closeMenu"></div>
+    <div data-menu-target="overlay" class="fixed inset-0 bg-foreground z-[9999] bg-opacity-50 hidden" data-action="click->menu#closeMenu"></div>
 
     {# Mobile menu #}
-    <nav data-menu-target="mobile" class="fixed top-0 left-0 z-50 flex w-96 max-w-full w-fit flex-col bg-white text-white transition-transform transform -translate-x-full h-full">
+    <nav data-menu-target="mobile" class="fixed top-0 left-0 z-[99999] flex w-96 max-w-full w-fit flex-col bg-white text-white transition-transform transform -translate-x-full h-full">
         <div class="flex justify-between items-center px-4">
             <a href="#" class="flex gap-2 items-center">
                 <img src="{{ asset('images/logo.png') }}" alt="Macoloc" class="object-contain w-9 md:w-12 lg:w-16 my-2 md:my-4 lg:my-6">
