@@ -24,16 +24,6 @@ services:
       # Ensure that host.docker.internal is correctly defined on Linux
       - host.docker.internal:host-gateway
     tty: true
-  node:
-    image: node:lts-alpine
-    tty: true
-    working_dir: /app
-    depends_on:
-      - php
-    volumes:
-      - ./:/app
-    environment:
-      NODE_ENV: development
 
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
