@@ -25,4 +25,24 @@ return [
     '@symfony/ux-live-component' => [
         'path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js',
     ],
+    'swiper/swiper-bundle.css' => [
+        'version' => '11.1.4',
+        'type' => 'css',
+    ],
+    '@stimulus-components/carousel' => [
+        'version' => '6.0.0',
+    ],
+    'swiper/bundle' => [
+        'version' => '11.1.0',
+    ],
+    'flowbite' => [
+        'version' => '2.3.0',
+    ],
+    '@popperjs/core' => [
+        'version' => '2.11.8',
+    ],
+    'flowbite/dist/flowbite.min.css' => [
+        'version' => '2.3.0',
+        'type' => 'css',
+    ],
 ];
