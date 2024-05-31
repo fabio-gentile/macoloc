@@ -42,8 +42,9 @@
     <div class="flex gap-8 lg:gap-12 flex-col wrapper !max-w-[800px] mt-8 md:mt-12">
         <h2 class="text-lg text-center text-foreground font-semibold sm:text-2xl">Les derniers logement publiés</h2>
         <div class="grid gap-4 lg:gap-6">
+        {# TODO Export card AND get data from controller #}
         {% for i in 0..4 %}
-            <div class="bg-white rounded-lg border-input border-1 flex flex-col md:flex-row">
+            <div class="bg-white rounded-lg border-input border flex flex-col md:flex-row">
             <img src="https://placehold.co/400" alt="House" class="w-full md:w-[250px] h-[250px] md:min-h-[220px] md:h-full object-cover rounded-t-lg" />
             <div class="p-4 grid gap-4">
                 <h3 class="text-foreground font-medium">Maison à louer</h3>
@@ -64,4 +65,41 @@
         {% endfor %}
         </div>
     </div>
+
+    {# Users #}
+    <div class="flex gap-8 lg:gap-12 flex-col wrapper !max-w-[800px] overflow-hidden mt-8 md:mt-12">
+        <h2 class="text-lg text-center text-foreground font-semibold sm:text-2xl">Ils recherchent un logement</h2>
+        <div
+            data-controller="carousel"
+            data-carousel-options-value='{
+            "slidesPerView": "auto",
+            "spaceBetween": 16,
+            "navigation": {
+                "nextEl": ".swiper-button-next",
+                "prevEl": ".swiper-button-prev"
+            },
+            "pagination": {"clickable": true}
+            }'
+            class="swiper-container relative">
+            <div class="swiper-wrapper ">
+                {# TODO Export card AND get data from controller #}
+                {% for i in 0..4 %}
+                    <div class="swiper-slide max-w-[300px] w-full bg-white rounded-lg border-input border flex flex-col">
+                        <img src="https://placehold.co/400" alt="House" class="w-full h-[250px] object-cover" />
+                        <div class="p-4 grid gap-4">
+                            <h6 class="text-foreground font-medium">John</h6>
+                            <p class="text-foreground text-sm">Étudiant, 22 ans</p>
+                            <p class="text-foreground text-sm">Budget de <span class="font-medium">500€</span></p>
+                            <p class="text-sm text-muted">Lorem ipsum dolor sit amet consectetur. Odio posuere aenean pretium lacus mi volutpat pharetra molestie odio. Ame...</p>
+                            <a href="#" class="btn btn-primary w-full">Envoyer un message</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+
 {% endblock %}

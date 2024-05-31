@@ -53,3 +53,8 @@ body {
     background-position: center center;
     background-size: cover;
 }
+
+/* Hide swiper navigation if disabled */
+.swiper-button-disabled {
+    display: none !important;
+}
