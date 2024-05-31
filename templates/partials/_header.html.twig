@@ -13,10 +13,22 @@
             <li><a href="#">Publier une annonce</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
+        {% if not is_granted("ROLE_USER") %}
         <ul class="hidden lg:flex gap-6 items-center">
             <li><a href="#">Se connecter</a></li>
             <li><a href="#" class="btn btn-primary">S'inscrire</a></li>
         </ul>
+        {% else %}
+        <ul class="hidden lg:flex gap-6 items-center">
+            <li><a href="#">Mes annonces</a></li>
+            <li>
+                <a href="#" class="flex gap-2 items-center">
+                    {# TODO : Afficher le menu d'action#}
+                    <img src="{{ asset('images/avatar.png') }}" alt="Avatar utilisateur" class="rounded-full object-contain w-10">
+                </a>
+            </li>
+        </ul>
+        {% endif %}
         <ul class="lg:hidden my-auto">
             <li>
                 <a href="#" data-action="click->menu#toggleMenu">
