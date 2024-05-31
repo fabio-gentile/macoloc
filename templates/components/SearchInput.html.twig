@@ -1,6 +1,6 @@
 <div{{ attributes.defaults(stimulus_controller('search')) }}>
     <div class="flex flex-col sm:flex-row gap-2 sm:gap-0 justify-center">
-        <div class="min-w-[130px]">
+        <div class="hidden sm:block min-w-[120px]">
             <label for="searchType" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Choisissez le type de recherche</label>
             <select id="searchType" name="searchType" required="required" class="text-foreground bg-white text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent rounded-lg sm:rounded-none sm:rounded-l-lg">
                 <option value="1" selected="selected">Logement</option>
@@ -8,11 +8,18 @@
             </select>
         </div>
         <div class="relative">
-            <div class="relative w-full sm:min-w-[376px]">
+            <div class="relative w-full sm:min-w-[376px] flex">
+                <div class="sm:hidden min-w-[120px]">
+                    <label for="searchType2" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Choisissez le type de recherche</label>
+                    <select id="searchType2" name="searchType2" required="required" class="text-foreground bg-white text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent rounded-l-lg">
+                        <option value="1" selected="selected">Logement</option>
+                        <option value="2">Locataire</option>
+                    </select>
+                </div>
                 <input
                     type="search"
                     id="search-dropdown"
-                    class="text-foreground bg-white rounded-lg sm:rounded-none text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent"
+                    class="text-foreground bg-white rounded-r-lg sm:rounded-none text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent"
                     placeholder="Entrez une ville"
                     data-model="debounce(1000)|query"
                     data-search-target="input"

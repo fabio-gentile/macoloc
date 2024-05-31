@@ -5,8 +5,63 @@
 {% block body %}
     <div class="relative home__search w-full min-h-[400px] grid place-items-center">
         <div class="absolute left-0 top-0 w-full h-full inset-0 z-50 bg-foreground bg-opacity-50"></div>
-{#        <img src="{{ asset('images/authentication-image.webp') }}" alt="" class="min-h-[400px] absolute left-0 top-0 w-full object-cover">#}
-        <h2 class="z-50 text-white font-semibold text-2xl text-center">Trouvez votre colocation idéale, en un instant.</h2>
-        <twig:SearchInput class="z-50 wrapper" />
+        <div class="wrapper z-50 grid gap-8">
+            <h2 class=" text-white font-semibold text-2xl text-center">Trouvez votre colocation idéale, en un instant.</h2>
+            <twig:SearchInput />
+        </div>
+    </div>
+
+    {# About us #}
+    <div class="flex gap-8 lg:gap-12 flex-col wrapper !max-w-[800px] items-center mt-8 md:mt-12">
+        <h2 class="text-lg text-foreground font-semibold sm:text-2xl">Qui sommes-nous ?</h2>
+        <p class="text-sm sm:text-base text-muted text-center">Lorem ipsum dolor sit amet consectetur. Vitae venenatis sociis ornare quis vitae leo. Tincidunt suspendisse nunc tincidunt ultricies nam aliquet nulla ultricies. Magna id tortor donec at. Sed diam odio non lacus id aliquam habitant volutpat.</p>
+        <div class="flex flex-col md:flex-row gap-8 md:gap-12">
+            <div class="flex flex-col gap-4 items-center">
+                <div class="flex flex-col gap-4">
+                    <div class="p-4 bg-ternary rounded-full w-fit mx-auto">
+                        <twig:ux:icon name="lucide:home" class="w-8 object-contain" />
+                    </div>
+                    <h3 class="font-semibold">Logement</h3>
+                </div>
+                <p class="text-sm sm:text-base text-muted text-center">Lorem ipsum dolor sit amet consectetur. Vitae venenatis sociis ornare quis vitae leo. Tincidunt suspendisse nunc tincidunt ultricies nam aliquet nulla ultricies. Magna id tortor donec at. Sed diam odio non lacus id aliquam habitant volutpat.</p>
+                <a href="#" class="btn btn-primary w-full">Trouver un logement</a>
+            </div>
+            <div class="flex flex-col gap-4 items-center">
+                <div class="flex flex-col gap-4">
+                    <div class="p-4 bg-ternary rounded-full w-fit mx-auto">
+                        <twig:ux:icon name="lucide:users" class="w-8 object-contain" />
+                    </div>
+                    <h3 class="font-semibold">Colocataires</h3>
+                </div>
+            <p class="text-sm sm:text-base text-muted text-center">Lorem ipsum dolor sit amet consectetur. Vitae venenatis sociis ornare quis vitae leo. Tincidunt suspendisse nunc tincidunt ultricies nam aliquet nulla ultricies. Magna id tortor donec at. Sed diam odio non lacus id aliquam habitant volutpat.</p>
+            <a href="#" class="btn btn-secondary w-full">Trouver des colocataires</a>
+        </div>
+        </div>
+    </div>
+    {# Latest houses #}
+    <div class="flex gap-8 lg:gap-12 flex-col wrapper !max-w-[800px] mt-8 md:mt-12">
+        <h2 class="text-lg text-center text-foreground font-semibold sm:text-2xl">Les derniers logement publiés</h2>
+        <div class="grid gap-4 lg:gap-6">
+        {% for i in 0..4 %}
+            <div class="bg-white rounded-lg border-input border-1 flex flex-col md:flex-row">
+            <img src="https://placehold.co/400" alt="House" class="w-full md:w-[250px] h-[250px] md:min-h-[220px] md:h-full object-cover rounded-t-lg" />
+            <div class="p-4 grid gap-4">
+                <h3 class="text-foreground font-medium">Maison à louer</h3>
+                <p class="text-sm sm:text-base text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p>
+                <p>
+                    <span class="font-medium text-base">550$</span>
+                    <span class="text-sm">, disponible le 8 avril 2024</span>
+                </p>
+                <div class="flex justify-between items-center text-sm flex-wrap gap-4">
+                    <span class="text-sm sm:text-base text-muted">PARIS, 75011</span>
+                    <a href="#" class="btn btn-ternary">
+                        En savoir plus
+                        <twig:ux:icon name="lucide:arrow-right" class="w-4 object-fit text-foreground" />
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
     </div>
 {% endblock %}
