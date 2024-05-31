@@ -35,6 +35,10 @@
             'app_register_profile'
         ] %}
         <main class="grow mx-auto w-full px-4 md:px-6 lg:px-0">
+        {% elseif app.request.get('_route') in [
+        'app_homepage'
+        ]  %}
+        <main class="grow mx-auto w-full">
         {% else %}
         <main class="grow wrapper">
         {% endif %}

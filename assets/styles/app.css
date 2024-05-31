@@ -47,3 +47,9 @@ body {
 .custom-toggle-password-button {
     @apply flex items-center bg-transparent border-none gap-x-1 flex-row text-sm justify-items-center h-4 leading-5 absolute right-3 top-[14px];
 }
+
+.home__search {
+    background-image: url('../images/authentication-image.webp');
+    background-position: center center;
+    background-size: cover;
+}
