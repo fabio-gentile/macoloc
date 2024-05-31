@@ -37,3 +37,13 @@ body {
 .alert-danger {
     @apply text-destructive bg-destructive/5;
 }
+
+/*Password toggler*/
+
+.custom-toggle-password-icon {
+    @apply w-6 object-contain text-muted;
+}
+
+.custom-toggle-password-button {
+    @apply flex items-center bg-transparent border-none gap-x-1 flex-row text-sm justify-items-center h-4 leading-5 absolute right-3 top-[14px];
+}
