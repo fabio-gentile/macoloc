@@ -58,3 +58,14 @@ body {
 .swiper-button-disabled {
     display: none !important;
 }
+
+.swiper-button-prev, .swiper-button-next {
+    @apply !text-accent;
+}
+
+@media all and (width <= 992px) {
+    .swiper-button-next,
+    .swiper-button-prev {
+        display: none !important;
+    }
+}

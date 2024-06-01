@@ -38,9 +38,9 @@
         {% elseif app.request.get('_route') in [
         'app_homepage'
         ]  %}
-        <main class="grow mx-auto w-full">
+        <main class="grow mx-auto w-full mb-8 md:mb-12">
         {% else %}
-        <main class="grow wrapper">
+        <main class="grow wrapper my-8 my:my-12">
         {% endif %}
             {% block body %}{% endblock %}
         </main>
