@@ -7,7 +7,20 @@
         <div class="absolute left-0 top-0 w-full h-full inset-0 z-50 bg-foreground bg-opacity-50"></div>
         <div class="wrapper z-50 grid gap-8">
             <h2 class=" text-white font-semibold text-2xl text-center">Trouvez votre colocation idéale, en un instant.</h2>
-            <twig:SearchInput />
+            {# TODO Add action="{{ path('app_test') }}" #}
+            <form action="" method="POST" class="flex flex-col sm:flex-row gap-2 sm:gap-0 justify-center">
+                <div class="hidden sm:block min-w-[120px]">
+                    <label for="searchType" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Choisissez le type de recherche</label>
+                    <select id="searchType" name="searchType" required="required" class="text-foreground bg-white text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent rounded-lg sm:rounded-none sm:rounded-l-lg">
+                        <option value="1" selected="selected">Logement</option>
+                        <option value="2">Locataire</option>
+                    </select>
+                </div>
+                <twig:SearchInput />
+                <button type="submit" class="btn btn-primary sm:!rounded-none sm:!rounded-r-lg">
+                    Rechercher
+                </button>
+            </form>
         </div>
     </div>
 

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SearchController!{% endblock %}
+
+{% block body %}
+    <div class="flex flex-col gap-4 items-center">
+        <div class="flex flex-col gap-2 md:gap-0 md:flex-row">
+            <a href="{{ path('app_search_housing') }}" class="btn btn-primary md:rounded-none md:rounded-l-lg">Je recherche un logement</a>
+            <a href="{{ path('app_search_tenant') }}" class="btn btn-secondary md:rounded-none md:rounded-r-lg">Je recherche un colocataire</a>
+        </div>
+        <form action="" method="POST" class="flex flex-col sm:flex-row gap-2 sm:gap-0 justify-center rounded-lg">
+            <twig:SearchInput />
+            <button type="submit" class="btn btn-primary sm:!rounded-none sm:!rounded-r-lg">
+                Rechercher
+            </button>
+        </form>
+    </div>
+{% endblock %}

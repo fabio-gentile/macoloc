@@ -1,47 +1,44 @@
-<div{{ attributes.defaults(stimulus_controller('search')) }}>
-    {# TODO Add action="{{ path('app_test') }}" #}
-    <form action="" method="POST" class="flex flex-col sm:flex-row gap-2 sm:gap-0 justify-center">
-        <div class="hidden sm:block min-w-[120px]">
-            <label for="_searchType" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Choisissez le type de recherche</label>
-            <select id="_searchType" name="_searchType" required="required" class="h-full text-foreground bg-white text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent rounded-lg sm:rounded-none sm:rounded-l-lg">
+<div{{ attributes.defaults(stimulus_controller('search')) }} class="relative">
+    <div class="relative w-full sm:min-w-[376px] flex">
+        {% if app.request.get('_route') in [
+            'app_homepage'
+        ]  %}
+        <div class="sm:hidden min-w-[120px]">
+            <label for="searchType2" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Choisissez le type de recherche</label>
+            <select id="searchType2" name="searchType2" required="required" class="text-foreground bg-white text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent rounded-l-lg">
                 <option value="1" selected="selected">Logement</option>
                 <option value="2">Locataire</option>
             </select>
         </div>
-        <div class="relative">
-            <div class="relative w-full sm:min-w-[376px] flex">
-                <div class="sm:hidden min-w-[120px]">
-                    <label for="_searchType" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Choisissez le type de recherche</label>
-                    <select id="_searchType" name="_searchType" required="required" class="h-full text-foreground bg-white text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent rounded-l-lg">
-                        <option value="1" selected="selected">Logement</option>
-                        <option value="2">Locataire</option>
-                    </select>
+        {% endif %}
+        <label class="sr-only" for="_address">Entrez une adresse</label>
+        <input
+            type="search"
+            id="_address"
+            name="_address"
+            required
+            class="text-foreground bg-white rounded-lg text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent
+            {% if app.request.get('_route') in [
+                'app_homepage'
+            ]  %}
+               rounded-r-lg sm:rounded-none
+            {% else %}
+               sm:rounded-l-lg sm:rounded-none
+            {% endif %}
+            "
+            placeholder="Entrez une ville"
+            data-model="debounce(1000)|query"
+            data-search-target="input"
+        />
+    </div>
+    <ul data-search-target="address" class="absolute z-50 w-full text-sm flex flex-col">
+        {% for address in this.getAddress %}
+            <li data-action="click->search#selectAddress" class="bg-white p-2 py-4 cursor-pointer hover:bg-ternary">
+                <div class="flex justify-between">
+                    <p>{{ address.label }}</p>
                 </div>
-                <label class="sr-only" for="_address">Entrez une adresse</label>
-                <input
-                    type="search"
-                    id="_address"
-                    name="_address"
-                    required
-                    class="text-foreground bg-white rounded-r-lg sm:rounded-none text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent"
-                    placeholder="Entrez une ville"
-                    data-model="debounce(1000)|query"
-                    data-search-target="input"
-                />
-            </div>
-            <ul data-search-target="address" class="absolute z-50 w-full text-sm flex flex-col">
-                {% for address in this.getAddress %}
-                    <li data-action="click->search#selectAddress" class="bg-white p-2 py-4 cursor-pointer hover:bg-ternary">
-                        <div class="flex justify-between">
-                            <p>{{ address.label }}</p>
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-        <button type="submit" class="btn btn-primary sm:!rounded-none sm:!rounded-r-lg">
-            Rechercher
-        </button>
-    </form>
+            </li>
+        {% endfor %}
+    </ul>
 </div>
 
