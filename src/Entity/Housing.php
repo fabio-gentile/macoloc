@@ -48,6 +48,21 @@ class Housing
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $latitude = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $longitude = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $postal_code = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $city = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $street = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -181,6 +196,66 @@ class Housing
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getLatitude(): ?string
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(string $latitude): static
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getLongitude(): ?string
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(string $longitude): static
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getPostalCode(): ?string
+    {
+        return $this->postal_code;
+    }
+
+    public function setPostalCode(string $postal_code): static
+    {
+        $this->postal_code = $postal_code;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getStreet(): ?string
+    {
+        return $this->street;
+    }
+
+    public function setStreet(string $street): static
+    {
+        $this->street = $street;
 
         return $this;
     }
