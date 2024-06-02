@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\HousingRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -62,6 +64,18 @@ class Housing
 
     #[ORM\Column(length: 255)]
     private ?string $street = null;
+
+    /**
+     * @var Collection<int, Chamber>
+     */
+    #[ORM\OneToMany(targetEntity: Chamber::class, mappedBy: 'Housing', orphanRemoval: true)]
+    private Collection $chambers;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->chambers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -256,6 +270,36 @@ class Housing
     public function setStreet(string $street): static
     {
         $this->street = $street;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Chamber>
+     */
+    public function getChambers(): Collection
+    {
+        return $this->chambers;
+    }
+
+    public function addChamber(Chamber $chamber): static
+    {
+        if (!$this->chambers->contains($chamber)) {
+            $this->chambers->add($chamber);
+            $chamber->setHousing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChamber(Chamber $chamber): static
+    {
+        if ($this->chambers->removeElement($chamber)) {
+            // set the owning side to null (unless already changed)
+            if ($chamber->getHousing() === $this) {
+                $chamber->setHousing(null);
+            }
+        }
 
         return $this;
     }
