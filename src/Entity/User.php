@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -73,9 +75,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $gender = null;
 
+    /**
+     * @var Collection<int, Housing>
+     */
+    #[ORM\OneToMany(targetEntity: Housing::class, mappedBy: '`user`', orphanRemoval: true)]
+    private Collection $housings;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->housings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -234,6 +243,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setGender(?string $gender): static
     {
         $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Housing>
+     */
+    public function getHousings(): Collection
+    {
+        return $this->housings;
+    }
+
+    public function addHousing(Housing $housing): static
+    {
+        if (!$this->housings->contains($housing)) {
+            $this->housings->add($housing);
+            $housing->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHousing(Housing $housing): static
+    {
+        if ($this->housings->removeElement($housing)) {
+            // set the owning side to null (unless already changed)
+            if ($housing->getUser() === $this) {
+                $housing->setUser(null);
+            }
+        }
 
         return $this;
     }
