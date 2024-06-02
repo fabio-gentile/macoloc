@@ -71,10 +71,17 @@ class Housing
     #[ORM\OneToMany(targetEntity: Chamber::class, mappedBy: 'Housing', orphanRemoval: true)]
     private Collection $chambers;
 
+    /**
+     * @var Collection<int, HousingImage>
+     */
+    #[ORM\OneToMany(targetEntity: HousingImage::class, mappedBy: 'housing')]
+    private Collection $housingImages;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->chambers = new ArrayCollection();
+        $this->housingImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -298,6 +305,36 @@ class Housing
             // set the owning side to null (unless already changed)
             if ($chamber->getHousing() === $this) {
                 $chamber->setHousing(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HousingImage>
+     */
+    public function getHousingImages(): Collection
+    {
+        return $this->housingImages;
+    }
+
+    public function addHousingImage(HousingImage $housingImage): static
+    {
+        if (!$this->housingImages->contains($housingImage)) {
+            $this->housingImages->add($housingImage);
+            $housingImage->setHousing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHousingImage(HousingImage $housingImage): static
+    {
+        if ($this->housingImages->removeElement($housingImage)) {
+            // set the owning side to null (unless already changed)
+            if ($housingImage->getHousing() === $this) {
+                $housingImage->setHousing(null);
             }
         }
 
