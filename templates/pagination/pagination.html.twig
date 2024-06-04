@@ -1,0 +1,29 @@
+{% if pageCount > 1 %}
+    <div class="inline-block">
+        <div class="flex gap-2 justify-center items-baseline flex-row w-auto">
+            {% if first is defined and current != first %}
+                <a class="font-semibold text-sm rounded-lg text-foreground hover:bg-ternary cursor-pointer px-2.5 py-2" href="{{ path(route, query|merge({(pageParameterName): first})) }}">&lt;&lt;</a>
+            {% endif %}
+
+            {% if previous is defined %}
+                <a class="font-semibold text-sm rounded-lg text-foreground hover:bg-ternary cursor-pointer px-2.5 py-2" rel="prev" href="{{ path(route, query|merge({(pageParameterName): previous})) }}">&lt;</a>
+            {% endif %}
+
+            {% for page in pagesInRange %}
+                {% if page != current %}
+                    <a class="font-semibold text-sm rounded-lg text-foreground hover:bg-ternary  cursor-pointer px-2.5 py-2" href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
+                {% else %}
+                    <span class="font-semibold text-sm rounded-lg text-foreground bg-secondary cursor-pointer px-2.5 py-2">{{ page }}</span>
+                {% endif %}
+            {% endfor %}
+
+            {% if next is defined %}
+                <a class="font-semibold text-sm rounded-lg text-foreground hover:bg-ternary cursor-pointer px-2.5 py-2" rel="next" href="{{ path(route, query|merge({(pageParameterName): next})) }}">&gt;</a>
+            {% endif %}
+
+            {% if last is defined and current != last %}
+                <a class="font-semibold text-sm rounded-lg text-foreground hover:bg-ternary cursor-pointer px-2.5 py-2" href="{{ path(route, query|merge({(pageParameterName): last})) }}">&gt;&gt;</a>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

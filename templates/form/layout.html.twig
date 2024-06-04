@@ -1,7 +1,7 @@
 {% use '@TalesFromADevFlowbite/form/default.html.twig' %}
 
 {% block class_label -%}
-    block mb-2 text-sm text-foreground
+    block mb-2 text-sm text-foreground font-medium
 {%- endblock class_label %}
 
 {% block class_input_text -%}
@@ -9,7 +9,7 @@
 {%- endblock class_input_text %}
 
 {% block class_input_checkbox -%}
-    rounded w-4 h-4 text-accent bg-white border-input focus:ring-accent focus:border-accent
+    rounded w-4 h-4 text-accent bg-white border border-input focus:ring-accent focus:border-accent
 {%- endblock class_input_checkbox %}
 
 {% block class_input_radio_label -%}
@@ -19,6 +19,10 @@
 {% block class_input_radio -%}
     w-4 h-4 text-accent bg-white border-input focus:ring-accent focus:border-accent
 {%- endblock class_input_radio %}
+
+{% block class_addon -%}
+    inline-flex items-center px-3 text-sm text-foreground bg-other border border-input
+{%- endblock class_addon %}
 
 {%- block date_widget -%}
     {%- if widget == 'single_text' -%}

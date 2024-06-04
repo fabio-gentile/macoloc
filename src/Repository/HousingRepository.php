@@ -2,16 +2,19 @@
 
 namespace App\Repository;
 
+use App\Data\SearchHousingData;
 use App\Entity\Housing;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Housing>
  */
 class HousingRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private PaginatorInterface $paginator)
     {
         parent::__construct($registry, Housing::class);
     }
@@ -40,4 +43,77 @@ class HousingRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    /**
+     * Find housings by filters
+     * @param SearchHousingData $data
+     * @param string|null $city
+     * @param int $limit
+     * @return PaginationInterface
+     */
+    public function findSearch(SearchHousingData $data, string $city = null, int $limit = 7): PaginationInterface
+    {
+        $queryBuilder = $this->createQueryBuilder('h');
+
+        if ($data->house_type) {
+            $queryBuilder->andWhere('h.type IN (:house_type)')
+                ->setParameter('house_type', $data->house_type);
+        }
+
+        if ($data->commodity) {
+            $commodities = is_array($data->commodity) ? $data->commodity : [$data->commodity];
+            foreach ($commodities as $index => $commodity) {
+                $paramName = "commodity_$index";
+                $queryBuilder->andWhere("JSONB_CONTAINS(h.commodity, :$paramName) = true")
+                    ->setParameter($paramName, json_encode([$commodity]));
+            }
+        }
+
+        if ($data->numberOfRooms) {
+            if (is_array($data->numberOfRooms) && in_array(5, $data->numberOfRooms)) {
+                $queryBuilder->andWhere('h.numberOfRooms >= :numberOfRooms')
+                    ->setParameter('numberOfRooms', 5);
+            } else {
+                $queryBuilder->andWhere('h.numberOfRooms IN (:numberOfRooms)')
+                    ->setParameter('numberOfRooms', $data->numberOfRooms);
+            }
+        }
+
+        if ($city) {
+            $queryBuilder->andWhere('h.city = :city')
+                ->setParameter('city', $city);
+        }
+
+        if ($data->disponibility) {
+            $queryBuilder->andWhere('h.avaibleAt <= :disponibility')
+                ->setParameter('disponibility', new \DateTime());
+        }
+
+        if ($data->min_price) {
+            $queryBuilder->andWhere('h.price >= :min_price')
+                ->setParameter('min_price', $data->min_price);
+        }
+
+        if ($data->max_price) {
+            $queryBuilder->andWhere('h.price <= :max_price')
+                ->setParameter('max_price', $data->max_price);
+        }
+
+        if ($data->postcode) {
+            $queryBuilder->andWhere('h.postcode = :postcode')
+                ->setParameter('postcode', $data->postcode);
+        }
+
+        if ($data->city) {
+            $queryBuilder->andWhere('h.city = :city')
+                ->setParameter('city', $data->city);
+        }
+
+        return $this->paginator->paginate(
+            $queryBuilder,
+            $data->page,
+            $limit
+        );
+    }
+
 }

@@ -25,3 +25,7 @@ services:
     App\EventListener\RegistrationRedirectListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    App\EventSubscriber\ChamberSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber }

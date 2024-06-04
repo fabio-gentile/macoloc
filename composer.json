@@ -14,7 +14,9 @@
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.2",
         "fakerphp/faker": "^1.23",
+        "knplabs/knp-paginator-bundle": "^6.4",
         "runtime/frankenphp-symfony": "^0.2.0",
+        "scienta/doctrine-json-functions": "^6.1",
         "symfony/asset": "6.4.*",
         "symfony/asset-mapper": "6.4.*",
         "symfony/console": "6.4.*",
@@ -32,13 +34,16 @@
         "symfony/ux-icons": "^2.17",
         "symfony/ux-live-component": "^2.17",
         "symfony/ux-toggle-password": "^2.17",
+        "symfony/ux-turbo": "^2.17",
         "symfony/ux-twig-component": "^2.17",
         "symfony/validator": "6.4.*",
         "symfony/yaml": "6.4.*",
         "symfonycasts/reset-password-bundle": "^1.21",
         "symfonycasts/tailwind-bundle": "^0.5.3",
         "symfonycasts/verify-email-bundle": "^1.17",
-        "tales-from-a-dev/flowbite-bundle": "^0.7.0"
+        "tales-from-a-dev/flowbite-bundle": "^0.7.0",
+        "twig/extra-bundle": "^3.10",
+        "twig/intl-extra": "^3.10"
     },
     "config": {
         "allow-plugins": {

@@ -24,6 +24,11 @@ doctrine:
                 alias: App
         controller_resolver:
             auto_mapping: true
+            
+        # Support JSON for dql queries
+        dql:
+            string_functions:
+                JSONB_CONTAINS: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Postgresql\JsonbContains
 
 when@test:
     doctrine:

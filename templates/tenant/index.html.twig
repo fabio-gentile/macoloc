@@ -9,7 +9,7 @@
             <a href="{{ path('app_search_tenant') }}" class="btn btn-primary md:rounded-none md:rounded-r-lg">Je recherche un colocataire</a>
         </div>
         <form action="" method="POST" class="flex flex-col sm:flex-row gap-2 sm:gap-0 justify-center rounded-lg">
-            <twig:SearchInput />
+            <twig:SearchInput :hasSelectOptions="false" from="tenant" />
             <button type="submit" class="btn btn-primary sm:!rounded-none sm:!rounded-r-lg">
                 Rechercher
             </button>

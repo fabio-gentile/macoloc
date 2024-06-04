@@ -2,11 +2,15 @@
 
 namespace App\Entity;
 
+use App\Form\Type\CommodityType;
+use App\Form\Type\NumberOfRoomsType;
 use App\Repository\HousingRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Form\Type\HousingTypeType;
 
 #[ORM\Entity(repositoryClass: HousingRepository::class)]
 class Housing
@@ -20,15 +24,17 @@ class Housing
     private ?string $price = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Choice(choices: HousingTypeType::HOUSING_TYPE_CHOICES, message: "Type de logement invalide.")]
     private ?string $type = null;
 
     #[ORM\Column]
+    #[Assert\Choice(choices: NumberOfRoomsType::NUMBER_OF_ROOMS_CHOICES, message: "Espaces de disponibles invalides.")]
     private ?int $numberOfRooms = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 6, scale: 2)]
     private ?string $surfaceArea = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $avaibleAt = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -40,7 +46,8 @@ class Housing
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: Types::JSON, nullable: true, options: ['jsonb' => true])]
+    #[Assert\Choice(choices: CommodityType::COMMODITY_CHOICES, message: "Commodités invalides.")]
     private ?array $commodity = null;
 
     #[ORM\Column(nullable: true)]
@@ -76,6 +83,9 @@ class Housing
      */
     #[ORM\OneToMany(targetEntity: HousingImage::class, mappedBy: 'housing')]
     private Collection $housingImages;
+
+    #[ORM\Column(length: 255)]
+    private ?string $title = null;
 
     public function __construct()
     {
@@ -337,6 +347,36 @@ class Housing
                 $housingImage->setHousing(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Update the avaibleAt field with the earliest date of all chambers.
+     * @return $this
+     */
+    public function updateAvaibleAt(): static
+    {
+        $earliestDate = null;
+
+        foreach ($this->getChambers() as $chamber) {
+            if ($earliestDate === null || $chamber->getAvaibleAt() < $earliestDate) {
+                $earliestDate = $chamber->getAvaibleAt();
+            }
+        }
+
+        $this->setAvaibleAt($earliestDate);
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): static
+    {
+        $this->title = $title;
 
         return $this;
     }

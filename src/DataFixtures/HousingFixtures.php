@@ -21,21 +21,21 @@ class HousingFixtures extends Fixture implements DependentFixtureInterface
         $faker->addProvider(new Text($faker));
 
         $housingTypes = ['Maison', 'Appartement', 'Studio', 'Duplex', 'Villa', 'Résidence étudiante'];
-        $commodities = ['Piscine', 'Garage', 'Jardin', 'Balcon', 'Terrasse', 'Cave', 'Ascenseur', 'Parking', 'Meublé', 'Non meublé'];
+        $commodities = ['Wi-Fi', 'Meublé', 'Parking', 'Ascenseur', 'Machine à laver', 'Lave-vaisselle', 'Climatisation', 'Garage', 'Jardin', 'Piscine'];
         $other = ['Fumeurs', 'Animaux'];
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $user = $this->getReference(UserFixtures::USER_REFERENCE . $i);
 
             $housing = new Housing();
             $housing->setStreet($faker->streetAddress())
                 ->setPrice(rand(250, 750))
                 ->setType($faker->randomElement($housingTypes))
+                ->setTitle($faker->realTextBetween(10, 20))
                 ->setNumberOfRooms(rand(1, 10))
                 ->setSurfaceArea(rand(20, 200))
-                ->setAvaibleAt($faker->dateTimeBetween('-3 months', '+3 months'))
                 ->setDescription($faker->realTextBetween(100, 200))
-                ->setCommodity($faker->randomElements($commodities, rand(count($commodities) - 5, count($commodities))))
+                ->setCommodity($faker->randomElements($commodities, rand(0, count($commodities) - 4)))
                 ->setOther($faker->randomElements($other, rand(0, count($other))))
                 ->setLatitude($faker->latitude())
                 ->setLongitude($faker->longitude())

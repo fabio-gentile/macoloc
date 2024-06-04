@@ -38,6 +38,9 @@
             "migrations/.gitignore"
         ]
     },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v6.4.0"
+    },
     "symfony/asset-mapper": {
         "version": "6.4",
         "recipe": {
@@ -210,6 +213,9 @@
     "symfony/ux-toggle-password": {
         "version": "v2.17.0"
     },
+    "symfony/ux-turbo": {
+        "version": "v2.17.0"
+    },
     "symfony/ux-twig-component": {
         "version": "2.17",
         "recipe": {
@@ -282,5 +288,8 @@
             "version": "0.2",
             "ref": "7243ab070ed66198eb82c026684e9b9773e7b64a"
         }
+    },
+    "twig/extra-bundle": {
+        "version": "v3.10.0"
     }
 }

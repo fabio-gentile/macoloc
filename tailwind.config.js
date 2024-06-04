@@ -10,16 +10,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'primary': 'hsl(245, 58%, 54%)',
-        'secondary': 'hsl(246, 67%, 75%)',
-        'accent': 'hsl(246, 77%, 64%)',
-        'ternary': 'hsla(246, 67%, 75%, 0.3)',
-        'destructive': 'hsl(0, 100%, 36%)',
-        'other': 'hsla(240, 36%, 5%, 0.05)',
-        'white': 'hsl(0, 0%, 98%)',
-        'foreground': 'hsl(240, 36%, 5%)',
-        'muted': 'hsl(0, 0%, 38%)',
-        'input': 'hsl(216, 12%, 84%)',
+        'primary': '#5146CE',
+        'secondary': '#9D95EA',
+        'accent': '#6B5DEA',
+        'ternary': 'rgba(158,150,234,0.3)',
+        'destructive': '#B90000',
+        'other': '#0808110C',
+        'white': '#F8F8FC',
+        'foreground': '#080811',
+        'muted': '#616161',
+        'input': '#D1D5DB',
       },
       fontFamily: {
         'sans': ['Inter', ...defaultTheme.fontFamily.sans],

@@ -30,12 +30,12 @@ class ApiAddressService
         );
 
         $responseArray = $response->toArray();
-        $results = array_map(function ($feature) {
+        return array_map(function ($feature) {
             return [
                 'label' => $feature['properties']['label'] ?? null,
+                'postcode' => $feature['properties']['postcode'] ?? null,
+                'city' => $feature['properties']['city'] ?? null,
             ];
         }, $responseArray['features']);
-
-        return $results;
     }
 }

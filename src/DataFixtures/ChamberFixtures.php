@@ -14,7 +14,7 @@ class ChamberFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR');
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $housing = $this->getReference(HousingFixtures::HOUSING_REFERENCE . $i);
 
             for ($j = 0; $j < rand(1, 3); $j++) {

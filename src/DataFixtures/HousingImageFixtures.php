@@ -14,7 +14,7 @@ class HousingImageFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR');
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $housing = $this->getReference(HousingFixtures::HOUSING_REFERENCE . $i);
 
             for ($k = 0; $k < rand(1, 5); $k++) {
