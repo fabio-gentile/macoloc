@@ -2,13 +2,11 @@
 
 namespace App\Command;
 
-use App\Entity\Tenant;
-use App\Repository\TenantRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\UpdateTenantAgeService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -18,38 +16,35 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class UpdateTenantAgeCommand extends Command
 {
-    public function __construct(private readonly TenantRepository $tenantRepository,private readonly EntityManagerInterface $entityManager)
+    public function __construct(private readonly UpdateTenantAgeService $updateTenantAgeService)
     {
         parent::__construct();
+    }
+
+    protected function configure(): void
+    {
+        $this
+            ->addOption(
+                'no-progress',
+                null,
+                InputOption::VALUE_NONE,
+                'If set, the task will not display a progress bar'
+            )
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $noProgress = $input->getOption('no-progress');
 
-        $tenants = $this->tenantRepository->findAll();
-
-        $progressBar = new ProgressBar($output, count($tenants) - 1);
-        $progressBar->start();
-
-        $tenantsUpdated = 0;
-        $i = 0;
-        while ($i++ < count($tenants) - 1) {
-            /** @var Tenant $tenant */
-            $user = $tenants[$i]->getUser();
-            $newAge = $user->getDateOfBirth()->diff(new \DateTime())->y;
-            if ($tenants[$i]->getAge() !== $newAge) {
-                $tenantsUpdated++;
-                $tenants[$i]->setAge($newAge);
-                $this->entityManager->persist($tenants[$i]);
-            }
-
-            $progressBar->advance();
+        if ($noProgress) {
+            $this->updateTenantAgeService->updateTenantAge();
+        } else {
+            $this->updateTenantAgeService->updateTenantAge($output);
         }
 
-        $this->entityManager->flush();
-        $progressBar->finish();
-        $io->success('Tenant ages updated successfully. ' . $tenantsUpdated . ' tenants updated.');
+        $io->success('Tenant ages update process completed.');
 
         return Command::SUCCESS;
     }
