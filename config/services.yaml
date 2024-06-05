@@ -29,3 +29,7 @@ services:
     App\EventSubscriber\ChamberSubscriber:
         tags:
             - { name: doctrine.event_subscriber }
+
+    App\EventSubscriber\TenantAgeSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber }

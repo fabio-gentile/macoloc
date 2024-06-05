@@ -51,6 +51,9 @@ class Tenant
     #[ORM\OneToOne(mappedBy: 'tenant', cascade: ['persist', 'remove'])]
     private ?TenantImage $tenantImage = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $age = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -211,6 +214,18 @@ class Tenant
         }
 
         $this->tenantImage = $tenantImage;
+
+        return $this;
+    }
+
+    public function getAge(): ?int
+    {
+        return $this->age;
+    }
+
+    public function setAge(int $age): static
+    {
+        $this->age = $age;
 
         return $this;
     }
