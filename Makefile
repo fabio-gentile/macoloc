@@ -112,3 +112,6 @@ sf-ml: ## Make Event listener
 	@$(SYMFONY) make:listener
 .PHONY: sf-ml
 
+sf-mcommand: ## Make Command
+	@$(SYMFONY) make:command
+.PHONY: sf-mcommand
