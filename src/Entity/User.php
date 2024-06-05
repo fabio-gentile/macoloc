@@ -81,10 +81,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Housing::class, mappedBy: '`user`', orphanRemoval: true)]
     private Collection $housings;
 
+    /**
+     * @var Collection<int, Tenant>
+     */
+    #[ORM\OneToMany(targetEntity: Tenant::class, mappedBy: 'users', orphanRemoval: true)]
+    private Collection $tenants;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->housings = new ArrayCollection();
+        $this->tenants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -271,6 +278,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($housing->getUser() === $this) {
                 $housing->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tenant>
+     */
+    public function getTenants(): Collection
+    {
+        return $this->tenants;
+    }
+
+    public function addTenant(Tenant $tenant): static
+    {
+        if (!$this->tenants->contains($tenant)) {
+            $this->tenants->add($tenant);
+            $tenant->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTenant(Tenant $tenant): static
+    {
+        if ($this->tenants->removeElement($tenant)) {
+            // set the owning side to null (unless already changed)
+            if ($tenant->getUsers() === $this) {
+                $tenant->setUsers(null);
             }
         }
 
