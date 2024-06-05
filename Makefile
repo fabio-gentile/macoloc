@@ -115,3 +115,12 @@ sf-ml: ## Make Event listener
 sf-mcommand: ## Make Command
 	@$(SYMFONY) make:command
 .PHONY: sf-mcommand
+
+sf-mschedule: ## Make Schedule
+	@$(SYMFONY) make:schedule
+.PHONY: sf-mschedule
+
+sf-mmessage: ## Make Message
+	@$(SYMFONY) make:message
+.PHONY: sf-mmessage
+
