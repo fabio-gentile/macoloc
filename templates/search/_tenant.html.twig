@@ -1,0 +1,10 @@
+<div class="max-w-[300px] w-full bg-white rounded-lg border-input border flex flex-col">
+    <img src="https://placehold.co/400" alt="House" class="w-full h-[250px] object-cover" />
+    <div class="p-4 grid gap-4">
+        <h6 class="text-foreground font-medium">{{ tenant.getUser.firstname }}</h6>
+        <p class="text-foreground text-sm">{{ tenant.activity }}, {{ tenant.age }} ans</p>
+        <p class="text-foreground text-sm">Budget de <span class="font-medium">{{ tenant.budget }}€</span></p>
+        <p class="text-sm text-muted">{{ tenant.description | u.truncate(90, '...') }}</p>
+        <a href="#" class="btn btn-ternary text-center w-full">Envoyer un message</a>
+    </div>
+</div>

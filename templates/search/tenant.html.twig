@@ -4,13 +4,13 @@
 
 {% block body %}
     <div class="flex flex-col gap-4 items-center">
-        <div class="flex flex-col gap-2 sm:gap-0 sm:flex-row w-full justify-center">
-            <a href="{{ path('app_search_housing') }}" class="btn btn-primary w-full sm:w-fit sm:rounded-none sm:rounded-l-lg">Je recherche un logement</a>
-            <a href="{{ path('app_search_tenant') }}" class="btn btn-secondary w-full sm:w-fit sm:rounded-none sm:rounded-r-lg">Je recherche un colocataire</a>
+        <div class="flex flex-col gap-2 md:gap-0 md:flex-row">
+            <a href="{{ path('app_search_housing') }}" class="btn btn-secondary md:rounded-none md:rounded-l-lg">Je recherche un logement</a>
+            <a href="{{ path('app_search_tenant') }}" class="btn btn-primary md:rounded-none md:rounded-r-lg">Je recherche un colocataire</a>
         </div>
-        <twig:SearchInput :hasSelectOptions="false" from="housing" class="w-full" />
-        <div class="lg:flex gap-6">
-            <div data-controller="hide-filter" class="lg:min-w-[250px]">
+        <twig:SearchInput :hasSelectOptions="false" from="tenant" class="w-full" />
+        <div class="lg:flex gap-6 w-full">
+            <div data-controller="hide-filter" class="lg:min-w-[250px] mb-4 lg:mb-0">
                 <button data-action="click->hide-filter#openForm" class="lg:hidden mb-4 btn btn-primary">Filtes</button>
                 <div data-hide-filter-target="form" class="hidden lg:block w-full border border-input rounded-lg p-4">
                     {{ form_start(search_form, { 'attr': { 'data-controller': 'filter', 'data-filter-target' :'form', 'data-turbo-frame': "housings_list_frame" } }) }}
@@ -19,14 +19,12 @@
                 </div>
             </div>
             <div class="flex flex-col gap-8">
-                <turbo-frame id="housings_list_frame" class="flex flex-col gap-4 sm:gap-6">
-                    {% for housing in housings %}
-                        {% include 'search/_housing.html.twig' with {
-                            'today': today,
-                        } %}
+                <turbo-frame id="housings_list_frame" class="grid grid-cols-1 place-items-center sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {% for tenant in tenants %}
+                        {% include 'search/_tenant.html.twig' %}
                     {% endfor %}
-                    {{ knp_pagination_render(housings) }}
                 </turbo-frame>
+                {{ knp_pagination_render(tenants) }}
             </div>
         </div>
     </div>
