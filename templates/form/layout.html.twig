@@ -5,11 +5,11 @@
 {%- endblock class_label %}
 
 {% block class_input_text -%}
-    text-foreground bg-white rounded-lg text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent
+    text-foreground bg-white rounded-lg text-sm block w-full p-2.5 border border-input focus:z-10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring
 {%- endblock class_input_text %}
 
 {% block class_input_checkbox -%}
-    rounded w-4 h-4 text-accent bg-white border border-input focus:ring-accent focus:border-accent
+    rounded w-4 h-4 text-accent bg-white border border-input focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring
 {%- endblock class_input_checkbox %}
 
 {% block class_input_radio_label -%}
@@ -17,7 +17,7 @@
 {%- endblock class_input_radio_label %}
 
 {% block class_input_radio -%}
-    w-4 h-4 text-accent bg-white border-input focus:ring-accent focus:border-accent
+    w-4 h-4 text-accent bg-white border-input focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring
 {%- endblock class_input_radio %}
 
 {% block class_addon -%}
@@ -42,3 +42,18 @@
         </div>
     {%- endif -%}
 {%- endblock date_widget -%}
+
+{%- block collection_widget -%}
+    {% if prototype is defined and not prototype.rendered %}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype), 'data-controller': 'form-collection' }) -%}
+    {% endif %}
+    {{- block('form_widget') -}}
+{%- endblock collection_widget -%}
+
+{% block class_input_file -%}
+    block w-full text-sm text-foreground border border-input rounded-lg cursor-pointer bg-white focus:outline-none file:bg-ternary file:hover:bg-ternary file:border-0 file:text-foreground file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring file:p-2 file:cursor-pointer cursor-pointer
+{%- endblock class_input_file %}
+
+{% block class_help_text -%}
+    my-2 text-sm text-muted
+{%- endblock class_help_text %}

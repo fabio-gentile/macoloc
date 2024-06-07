@@ -4,7 +4,11 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-
+    housings_directory: '%kernel.project_dir%/public/uploads/housings'
+    tenants_directory: '%kernel.project_dir%/public/uploads/tenants'
+    users_directory: '%kernel.project_dir%/public/uploads/users'
+    default_directory: '%kernel.project_dir%/public/uploads/default'
+    
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -33,3 +37,16 @@ services:
     App\EventSubscriber\TenantAgeSubscriber:
         tags:
             - { name: doctrine.event_subscriber }
+    
+    App\Factory\FileUploaderFactory:
+        arguments:
+            $housingsDirectory: '%housings_directory%'
+            $tenantsDirectory: '%tenants_directory%'
+            $usersDirectory: '%users_directory%'
+            $defaultDirectory: '%default_directory%'
+            $slugger: '@slugger'
+
+    App\Service\FileUploader:
+        factory: ['@App\Factory\FileUploaderFactory', 'createUploader']
+        arguments:
+            $directoryType: 'default' 

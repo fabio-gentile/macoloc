@@ -20,7 +20,8 @@ class Housing
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    #[Assert\GreaterThanOrEqual(value: 50, message: "Le prix ne peut pas être inférieur à {{ value }}€.")]
     private ?string $price = null;
 
     #[ORM\Column(length: 255)]
@@ -28,22 +29,32 @@ class Housing
     private ?string $type = null;
 
     #[ORM\Column]
-    #[Assert\Choice(choices: NumberOfRoomsType::NUMBER_OF_ROOMS_CHOICES, message: "Espaces de disponibles invalides.")]
+    #[Assert\Choice(choices: NumberOfRoomsType::TOTAL_NUMBER_OF_ROOMS_CHOICES, message: "Espaces de disponibles invalides.")]
     private ?int $numberOfRooms = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 6, scale: 2)]
+    #[Assert\GreaterThanOrEqual(value: 5, message: "La surface ne peut pas être négative ou inférieure à {{ value }}m².")]
     private ?string $surfaceArea = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\DateTime]
     private ?\DateTimeInterface $avaibleAt = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\Length(
+        min: 50,
+        max: 1000,
+        minMessage: "La description doit contenir au moins {{ limit }} caractères.",
+        maxMessage: "La description doit contenir au maximum {{ limit }} caractères."
+    )]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\DateTime]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\DateTime]
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true, options: ['jsonb' => true])]
@@ -51,6 +62,7 @@ class Housing
     private ?array $commodity = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Choice(choices: ['Animaux', 'Fumeurs'], multiple: true, message: "Autres informations invalides.")]
     private ?array $other = null;
 
     #[ORM\ManyToOne(inversedBy: 'housings')]
@@ -58,33 +70,54 @@ class Housing
     private ?User $user = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Regex(
+        pattern: "/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/",
+        message: "Latitude invalide."
+    )]
     private ?string $latitude = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Regex(
+        pattern: "/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/",
+        message: "Longitude invalide."
+    )]
     private ?string $longitude = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Regex(
+        pattern: "/^\d{5}$/",
+        message: "Code postal invalide."
+    )]
     private ?string $postal_code = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\length(
+        min: 2,
+        max: 255,
+        minMessage: "La ville doit contenir au moins {{ limit }} caractères.",
+        maxMessage: "La ville doit contenir au maximum {{ limit }} caractères."
+    )]
     private ?string $city = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $street = null;
 
     /**
      * @var Collection<int, Chamber>
      */
-    #[ORM\OneToMany(targetEntity: Chamber::class, mappedBy: 'Housing', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Chamber::class, mappedBy: 'Housing', cascade: ['persist'] ,orphanRemoval: true)]
     private Collection $chambers;
 
     /**
      * @var Collection<int, HousingImage>
      */
-    #[ORM\OneToMany(targetEntity: HousingImage::class, mappedBy: 'housing')]
+    #[ORM\OneToMany(targetEntity: HousingImage::class, mappedBy: 'housing', cascade: ['persist'])]
     private Collection $housingImages;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 5,
+        max: 255,
+        minMessage: "Le titre doit contenir au moins {{ limit }} caractères.",
+        maxMessage: "Le titre doit contenir au maximum {{ limit }} caractères."
+    )]
     private ?string $title = null;
 
     public function __construct()
@@ -279,18 +312,6 @@ class Housing
         return $this;
     }
 
-    public function getStreet(): ?string
-    {
-        return $this->street;
-    }
-
-    public function setStreet(string $street): static
-    {
-        $this->street = $street;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Chamber>
      */
@@ -378,6 +399,24 @@ class Housing
     {
         $this->title = $title;
 
+        return $this;
+    }
+
+    /**
+     * Update the price field with the cheapest price of all chambers.
+     * @return $this
+     */
+    public function updatePrice(): static
+    {
+        $cheapestPrice = null;
+
+        foreach ($this->getChambers() as $chamber) {
+            if ($cheapestPrice === null || $chamber->getPrice() < $cheapestPrice) {
+                $cheapestPrice = $chamber->getPrice();
+            }
+        }
+
+        $this->setPrice($cheapestPrice);
         return $this;
     }
 }

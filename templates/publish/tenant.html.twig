@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SearchController!{% endblock %}
+
+{% block body %}
+    <div class="flex flex-col gap-4 items-center">
+        <div class="flex flex-col gap-2 md:gap-0 md:flex-row">
+            <a href="{{ path('app_publish_housing') }}" class="btn btn-secondary md:rounded-none md:rounded-l-lg">Proposer un logement</a>
+            <a href="{{ path('app_publish_tenant') }}" class="btn btn-primary md:rounded-none md:rounded-r-lg">Je recherche un logement</a>
+        </div>
+    </div>
+{% endblock %}

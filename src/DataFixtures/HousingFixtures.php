@@ -28,8 +28,7 @@ class HousingFixtures extends Fixture implements DependentFixtureInterface
             $user = $this->getReference(UserFixtures::USER_REFERENCE . $i);
 
             $housing = new Housing();
-            $housing->setStreet($faker->streetAddress())
-                ->setPrice(rand(250, 750))
+            $housing->setPrice(rand(250, 750))
                 ->setType($faker->randomElement($housingTypes))
                 ->setTitle($faker->realTextBetween(10, 20))
                 ->setNumberOfRooms(rand(1, 10))

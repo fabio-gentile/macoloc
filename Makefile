@@ -124,3 +124,7 @@ sf-mmessage: ## Make Message
 	@$(SYMFONY) make:message
 .PHONY: sf-mmessage
 
+sf-mvalidator: ## Make Validator
+	@$(SYMFONY) make:validator
+.PHONY: sf-mvalidator
+

@@ -33,7 +33,7 @@
                 placeholder="Entrez une ville"
                 data-model="debounce(250)|query"
                 data-search-target="input"
-                data-action="input->search#search | focusout->search#close"
+                data-action="focusout->search#close | focusin->search#open"
             />
         </div>
         <button data-action="click->search#submitForm" class="btn btn-primary sm:!rounded-none sm:!rounded-r-lg">

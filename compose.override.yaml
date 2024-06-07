@@ -11,6 +11,7 @@ services:
       # See https://github.com/dunglas/symfony-docker/blob/main/docs/tls.md
       - ./frankenphp/certs:/etc/caddy/certs:ro
       - ./public:/app/public:ro
+      - ./public/uploads:/app/public/uploads
       # If you develop on Mac or Windows you can remove the vendor/ directory
       #  from the bind-mount for better performance by enabling the next line:
       - /app/vendor

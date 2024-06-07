@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\HousingImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: HousingImageRepository::class)]
 class HousingImage
@@ -14,15 +15,20 @@ class HousingImage
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Choice(choices: ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'], message: 'Le format de l’image doit être {{ choices }}.')]
     private ?string $mimeType = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $filename = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\NotIdenticalTo(propertyPath: 'filename', message: 'Le nom du fichier original doit être différent du nom du fichier.')]
     private ?string $original_filename = null;
 
     #[ORM\Column]
+    #[Assert\DateTime]
     private ?\DateTimeImmutable $uploadedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'housingImages')]

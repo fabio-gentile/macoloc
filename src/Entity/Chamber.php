@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ChamberRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ChamberRepository::class)]
 class Chamber
@@ -15,15 +16,18 @@ class Chamber
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\GreaterThanOrEqual(value: 50, message: "Le prix ne peut pas être inférieur à {{ value }}€.")]
     private ?string $price = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $avaibleAt = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\GreaterThanOrEqual(value: 50, message: "La caution ne peut pas être inférieure à {{ value }}€.")]
     private ?string $caution = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 6, scale: 2)]
+    #[Assert\GreaterThanOrEqual(value: 5, message: "La surface ne peut pas être négative ou inférieure à {{ value }}m².")]
     private ?string $surfaceArea = null;
 
     #[ORM\Column]

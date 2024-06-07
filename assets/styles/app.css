@@ -7,7 +7,7 @@ body {
 }
 
 .btn {
-    @apply inline-flex items-center justify-center rounded-[10px] transition-colors focus-visible:outline-none focus-visible:ring-2 disabled:opacity-50 disabled:pointer-events-none px-4 py-2 gap-3;
+    @apply inline-flex items-center text-center justify-center rounded-[10px] transition-colors focus-visible:outline-none focus-visible:ring-2 disabled:opacity-50 disabled:pointer-events-none px-4 py-2 gap-3;
 }
 
 .btn-primary {
@@ -20,6 +20,10 @@ body {
 
 .btn-ternary {
     @apply bg-ternary text-foreground hover:bg-ternary/80;
+}
+
+.btn-destructive {
+    @apply bg-destructive text-white hover:bg-destructive/80;
 }
 
 .btn-ghost {
@@ -68,4 +72,8 @@ body {
     .swiper-button-prev {
         display: none !important;
     }
+}
+
+.preview-image {
+    @apply w-32 h-32 rounded-lg object-cover bg-white;
 }

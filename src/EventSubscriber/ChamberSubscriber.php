@@ -61,6 +61,7 @@ class ChamberSubscriber implements EventSubscriber
 
         foreach ($this->housingsToUpdate as $housing) {
             $housing->updateAvaibleAt();
+            $housing->updatePrice();
             $uow->computeChangeSet($manager->getClassMetadata(get_class($housing)), $housing);
         }
 
