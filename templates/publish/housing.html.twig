@@ -8,14 +8,14 @@
             <a href="{{ path('app_publish_housing') }}" class="btn btn-primary w-full sm:w-fit sm:rounded-none sm:rounded-l-lg">Proposer un logement</a>
             <a href="{{ path('app_publish_tenant') }}" class="btn btn-secondary w-full sm:w-fit sm:rounded-none sm:rounded-r-lg">Je recherche un logement</a>
         </div>
-{#        {{ dump(form) }}#}
-{#        {{ form_start(form) }}#}
-{#        {{ form_widget(form) }}#}
-{#        <button type="submit" class="btn btn-primary w-full">Valider</button>#}
-{#        {{ form_end(form) }}#}
 
         <div class="md:!max-w-[800px] w-full">
             {{ form_start(form) }}
+            {% if form_errors(form) %}
+            <div class="alert alert-danger">
+                {{ form_errors(form) }}
+            </div>
+            {% endif %}
             <div class="grid gap-4">
                 <div class="bg-other py-4 flex flex-col md:flex-row gap-2 items-center rounded-lg">
                     <div class="min-w-[200px] flex gap-2 flex-col py-4 w-fit items-center">

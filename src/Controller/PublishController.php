@@ -83,15 +83,12 @@ class PublishController extends AbstractController
             $this->entityManager->persist($housing);
             $this->entityManager->flush();
 //            TODO: Redirect to the housing page
-            return $this->redirectToRoute('app_homepage');
-            // $entityManager = $this->getDoctrine()->getManager();
-            // $entityManager->persist($data);
-            // $entityManager->flush();
-            // return $this->redirectToRoute('app_publish_housing');
+
+            return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('publish/housing.html.twig', [
-            'controller_name' => 'PublishController',
-            'form' => $form->createView(),
+            'form' => $form,
+            'errors' => $form->getErrors(),
         ]);
     }
 
