@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\File;
 
 class PublishHousingType extends AbstractType
@@ -51,6 +52,13 @@ class PublishHousingType extends AbstractType
                 'label' => 'Commodités',
                 'expanded' => true,
                 'multiple' => true,
+                'constraints' => [
+                    new Choice([
+                        'choices' => CommodityType::COMMODITY_CHOICES,
+                        'multiple' => true,
+                        'message' => 'Veuillez choisir une ou plusieurs commodités.'
+                    ]),
+                ],
             ])
             ->add('other', ChoiceType::class, [
                 'label' => 'Autre',

@@ -6,8 +6,11 @@ use App\Entity\Chamber;
 use App\Entity\FrenchCity;
 use App\Entity\Housing;
 use App\Entity\HousingImage;
+use App\Entity\Tenant;
+use App\Entity\TenantImage;
 use App\Factory\FileUploaderFactory;
 use App\Form\PublishHousingType;
+use App\Form\PublishTenantType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -82,7 +85,7 @@ class PublishController extends AbstractController
 
             $this->entityManager->persist($housing);
             $this->entityManager->flush();
-//            TODO: Redirect to the housing page
+//            TODO: Redirect to the housing page + flash message
 
             return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
         }
@@ -93,10 +96,54 @@ class PublishController extends AbstractController
     }
 
     #[Route('/tenant', name: 'app_publish_tenant')]
-    public function tenant(): Response
+    public function tenant(Request $request, FileUploaderFactory $fileUploaderFactory): Response
     {
+        $form = $this->createForm(PublishTenantType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $tenant = new Tenant();
+            /** @var FrenchCity $address */
+            $address = $data['address'];
+            $image = $request->files->get('publish_tenant')['image'];
+//            dd($data, $images, $address);
+
+            $tenant
+                ->setUser($this->getUser())
+                ->setCity($address->getCity())
+                ->setLatitude($address->getLatitude())
+                ->setLongitude($address->getLongitude())
+                ->setBudget($data['about']['budget'])
+                ->setDescription($data['description'])
+                ->setActivity($data['about']['activity'])
+                ->setGender($this->getUser()->getGender())
+            ;
+
+            if ($image) {
+                $fileUploader = $fileUploaderFactory->createUploader('tenants');
+                $result = $fileUploader->upload($image);
+                $tenantImage = new TenantImage();
+                $tenantImage
+                    ->setTenant($tenant)
+                    ->setFilename($result['fileName'])
+                    ->setOriginalFilename($result['originalFilename'])
+                    ->setMimeType($result['mimeType'])
+                ;
+
+                $tenant->setTenantImage($tenantImage);
+            }
+
+            $this->entityManager->persist($tenant);
+            $this->entityManager->flush();
+
+//            TODO: Redirect to the housing page + flash message
+            return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('publish/tenant.html.twig', [
-            'controller_name' => 'PublishController',
+            'form' => $form,
+            'errors' => $form->getErrors(),
         ]);
     }
 }

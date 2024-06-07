@@ -4,9 +4,75 @@
 
 {% block body %}
     <div class="flex flex-col gap-4 items-center">
-        <div class="flex flex-col gap-2 md:gap-0 md:flex-row">
-            <a href="{{ path('app_publish_housing') }}" class="btn btn-secondary md:rounded-none md:rounded-l-lg">Proposer un logement</a>
-            <a href="{{ path('app_publish_tenant') }}" class="btn btn-primary md:rounded-none md:rounded-r-lg">Je recherche un logement</a>
+        <div class="flex flex-col gap-2 sm:gap-0 sm:flex-row w-full justify-center">
+            <a href="{{ path('app_publish_housing') }}" class="btn btn-secondary w-full sm:w-fit md:rounded-none md:rounded-l-lg">Proposer un logement</a>
+            <a href="{{ path('app_publish_tenant') }}" class="btn btn-primary w-full sm:w-fit md:rounded-none md:rounded-r-lg">Je recherche un logement</a>
+        </div>
+        <div class="md:!max-w-[800px] w-full">
+            {{ form_start(form) }}
+            {% if form_errors(form) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form) }}
+                </div>
+            {% endif %}
+            <div class="grid gap-4">
+                <div class="bg-other py-4 flex flex-col md:flex-row gap-2 items-center rounded-lg">
+                    <div class="min-w-[200px] flex gap-2 flex-col py-4 w-fit items-center">
+                        <div class=" px-3 py-2.5 bg-secondary rounded-full">
+                            <twig:ux:icon name="lucide:map-pin" class="w-6 object-fit text-foreground" />
+                        </div>
+                        <p class="font-medium">Adresse</p>
+                    </div>
+                    <div class="px-4 w-full">
+                        {{ form_errors(form.address) }}
+                        {{ form_widget(form.address, { 'attr': {'class': 'w-full flex flex-col gap-4 justify-between '} }) }}
+                        {{ form_help(form.address) }}
+                    </div>
+                </div>
+                <div class="bg-other py-4 flex flex-col md:flex-row gap-2 items-center rounded-lg">
+                    <div class="min-w-[200px] flex gap-2 flex-col py-4 w-fit items-center">
+                        <div class=" px-3 py-2.5 bg-secondary rounded-full">
+                            <twig:ux:icon name="lucide:circle-help" class="w-6 object-fit text-foreground" />
+                        </div>
+                        <p class="font-medium">À propos</p>
+                    </div>
+                    <div class="px-4 w-full">
+                        {{ form_errors(form.about) }}
+                        {{ form_widget(form.about, { 'attr': {'class': 'w-full flex flex-col gap-4 justify-between '} }) }}
+                        {{ form_help(form.about) }}
+                    </div>
+                </div>
+                <div class="bg-other flex-col md:flex-row py-4 flex gap-2 items-center rounded-lg">
+                    <div class="min-w-[200px] flex gap-2 flex-col py-4 w-fit items-center">
+                        <div class=" px-3 py-2.5 bg-secondary rounded-full">
+                            <twig:ux:icon name="lucide:notebook-pen" class="w-6 object-fit text-foreground" />
+                        </div>
+                        <p class="font-medium">Description</p>
+                    </div>
+                    <div class="px-4 w-full">
+                        {{ form_errors(form.description) }}
+                        {{ form_widget(form.description, { 'attr': {'class': 'w-full flex flex-col gap-4 justify-between'} }) }}
+                        {{ form_help(form.description) }}
+                    </div>
+                </div>
+                <div class="bg-other flex-col md:flex-row py-4 flex gap-2 items-center rounded-lg">
+                    <div class="min-w-[200px] flex gap-2 flex-col py-4 w-fit items-center">
+                        <div class=" px-3 py-2.5 bg-secondary rounded-full">
+                            <twig:ux:icon name="lucide:camera" class="w-6 object-fit text-foreground" />
+                        </div>
+                        <p class="font-medium">Photos</p>
+                    </div>
+                    <div class="px-4 w-full">
+                        {{ form_help(form.image) }}
+                        {{ form_widget(form.image) }}
+                        {{ form_errors(form.image) }}
+                    </div>
+                </div>
+                {{ form_row(form._token) }}
+                <button type="submit" class="btn btn-primary w-full">Publier l’annonce</button>
+            </div>
+            {{ form_end(form) }}
+
         </div>
     </div>
 {% endblock %}

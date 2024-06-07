@@ -2,9 +2,12 @@
 
 namespace App\Entity;
 
+use App\Form\Type\ActivityType;
+use App\Form\Type\GenderType;
 use App\Repository\TenantRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TenantRepository::class)]
 class Tenant
@@ -15,18 +18,24 @@ class Tenant
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $title = null;
-
-    #[ORM\Column(length: 255)]
+    #[Assert\Choice(choices: GenderType::GENDER_CHOICES, message: "Veuillez choisir un genre.")]
     private ?string $gender = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Choice(choices: ActivityType::ACTIVITY_CHOICES, message: "Veuillez choisir une activité.")]
     private ?string $activity = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\length(
+        min: 2,
+        max: 255,
+        minMessage: "La ville doit contenir au moins {{ limit }} caractères.",
+        maxMessage: "La ville doit contenir au maximum {{ limit }} caractères."
+    )]
     private ?string $city = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2)]
+    #[Assert\GreaterThan(value: 50, message: "Le budget ne peut pas être inférieur à {{ value }}€.")]
     private ?string $budget = null;
 
     #[ORM\Column]
@@ -36,12 +45,26 @@ class Tenant
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Regex(
+        pattern: "/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/",
+        message: "Longitude invalide."
+    )]
     private ?string $longitude = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Regex(
+        pattern: "/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/",
+        message: "Latitude invalide."
+    )]
     private ?string $latitude = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\Length(
+        min: 50,
+        max: 500,
+        minMessage: "La description doit contenir au moins {{ limit }} caractères.",
+        maxMessage: "La description doit contenir au maximum {{ limit }} caractères."
+    )]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'tenants')]
@@ -62,18 +85,6 @@ class Tenant
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): static
-    {
-        $this->title = $title;
-
-        return $this;
     }
 
     public function getGender(): ?string
