@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Entity\UserAccount;
 use App\Form\RegistrationFormType;
 use App\Form\RegistrationProfileType;
-use App\Repository\UserRepository;
+use App\Repository\UserAccountRepository;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -34,7 +34,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_homepage');
         }
 
-        $user = new User();
+        $user = new UserAccount();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
@@ -76,7 +76,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/email', name: 'app_register_verify_email')]
-    public function verifyUserEmail(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager, Security $security): Response
+    public function verifyUserEmail(Request $request, UserAccountRepository $userRepository, EntityManagerInterface $entityManager, Security $security): Response
     {
         $id = $request->query->get('id');
 
@@ -119,7 +119,7 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /* @var $user User */
+            /* @var $user UserAccount */
             $user->setFirstname($form->get('firstname')->getData())
                 ->setLastname($form->get('lastname')->getData())
                 ->setGender($form->get('gender')->getData())

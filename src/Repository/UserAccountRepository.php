@@ -3,16 +3,16 @@
 namespace App\Repository;
 
 use App\Entity\Tenant;
-use App\Entity\User;
+use App\Entity\UserAccount;
 use App\Factory\FileUploaderFactory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<User>
+ * @extends ServiceEntityRepository<UserAccount>
  */
-class UserRepository extends ServiceEntityRepository
+class UserAccountRepository extends ServiceEntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
@@ -20,7 +20,7 @@ class UserRepository extends ServiceEntityRepository
         private FileUploaderFactory $fileUploaderFactory
     )
     {
-        parent::__construct($registry, User::class);
+        parent::__construct($registry, UserAccount::class);
     }
 
     //    /**

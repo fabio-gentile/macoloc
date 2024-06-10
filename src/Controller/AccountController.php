@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Entity\UserAccount;
 use App\Form\AccountType;
 use App\Repository\HousingRepository;
 use App\Repository\TenantRepository;
-use App\Repository\UserRepository;
+use App\Repository\UserAccountRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -34,7 +34,7 @@ class AccountController extends AbstractController
         HousingRepository $housingRepository
     ): Response
     {
-        /* @var User $user */
+        /* @var UserAccount $user */
         $user = $this->getUser();
         $housings = $housingRepository->findBy(['user' => $user]);
         $tenants = $tenantRepository->findBy(['user' => $user]);
@@ -53,7 +53,7 @@ class AccountController extends AbstractController
         EntityManagerInterface $manager
     ): Response
     {
-        /* @var User $user */
+        /* @var UserAccount $user */
         $user = $this->getUser();
         $form = $this->createForm(AccountType::class, $user);
         $form->handleRequest($request);
@@ -106,7 +106,7 @@ class AccountController extends AbstractController
     public function delete(
         EntityManagerInterface $manager,
         Request $request,
-        UserRepository $userRepository
+        UserAccountRepository $userRepository
     ): Response
     {
         if ($request->isMethod('POST')) {

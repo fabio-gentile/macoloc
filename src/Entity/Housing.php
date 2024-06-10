@@ -65,9 +65,9 @@ class Housing
     #[Assert\Choice(choices: ['Animaux', 'Fumeurs'], multiple: true, message: "Autres informations invalides.")]
     private ?array $other = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'housings')]
+    #[ORM\ManyToOne(targetEntity: UserAccount::class, inversedBy: 'housings')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private ?UserAccount $user = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\Regex(
@@ -252,12 +252,12 @@ class Housing
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser(): ?UserAccount
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(?UserAccount $user): static
     {
         $this->user = $user;
 

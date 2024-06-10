@@ -2,7 +2,7 @@
 
 namespace App\EventListener;
 
-use App\Entity\User;
+use App\Entity\UserAccount;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -26,7 +26,7 @@ final class RegistrationRedirectListener
             return;
         }
 
-        /* @var $user User */
+        /* @var $user UserAccount */
         $user = $this->security->getUser();
         if (!$user) {
             return;

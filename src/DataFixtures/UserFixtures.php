@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\User;
+use App\Entity\UserAccount;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -24,7 +24,7 @@ class UserFixtures extends Fixture
 
         $gender = ['Homme', 'Femme', 'Autre'];
 
-        $user = new User();
+        $user = new UserAccount();
         $user->setEmail('admin@macoloc.fr')
             ->setFirstname($faker->firstName())
             ->setLastname($faker->lastName())
@@ -43,7 +43,7 @@ class UserFixtures extends Fixture
         $manager->persist($user);
 
         for ($i = 0; $i < 100; $i++) {
-            $user = new User();
+            $user = new UserAccount();
             $user->setEmail($faker->email())
                 ->setFirstname($faker->firstName())
                 ->setLastname($faker->lastName())

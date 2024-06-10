@@ -67,9 +67,9 @@ class Tenant
     )]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tenants')]
+    #[ORM\ManyToOne(targetEntity: UserAccount::class, inversedBy: 'tenants')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private ?UserAccount $user = null;
 
     #[ORM\OneToOne(mappedBy: 'tenant', cascade: ['persist', 'remove'])]
     private ?TenantImage $tenantImage = null;
@@ -195,12 +195,12 @@ class Tenant
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser(): ?UserAccount
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(?UserAccount $user): static
     {
         $this->user = $user;
 

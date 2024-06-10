@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
+use App\Repository\UserAccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -12,10 +12,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`')]
+#[ORM\Entity(repositoryClass: UserAccountRepository::class)]
+#[ORM\Table(name: 'user_account')]
 #[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cette adresse e-mail.')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class UserAccount implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -78,13 +78,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Housing>
      */
-    #[ORM\OneToMany(targetEntity: Housing::class, mappedBy: '`user`', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Housing::class, mappedBy: 'user_account', orphanRemoval: true)]
     private Collection $housings;
 
     /**
      * @var Collection<int, Tenant>
      */
-    #[ORM\OneToMany(targetEntity: Tenant::class, mappedBy: '`user`', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Tenant::class, mappedBy: 'user_account', orphanRemoval: true)]
     private Collection $tenants;
 
     public function __construct()
