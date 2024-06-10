@@ -18,7 +18,6 @@ class ChamberSubscriber implements EventSubscriber
         return [
             Events::postPersist,
             Events::postUpdate,
-            Events::postRemove,
             Events::postFlush,
         ];
     }

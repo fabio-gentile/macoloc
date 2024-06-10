@@ -62,10 +62,11 @@
                         </div>
                         <p class="font-medium">Photos</p>
                     </div>
-                    <div class="px-4 w-full">
+                    <div class="px-4 w-full" data-controller="image-preview">
                         {{ form_help(form.image) }}
-                        {{ form_widget(form.image) }}
+                        {{ form_widget(form.image, { 'attr': {'class': 'w-full flex flex-col gap-4 justify-between', 'data-image-preview-target': 'input'} }) }}
                         {{ form_errors(form.image) }}
+                        <div data-image-preview-target="preview" class="flex gap-2.5 mt-3 flex-wrap"></div>
                     </div>
                 </div>
                 {{ form_row(form._token) }}

@@ -52,14 +52,13 @@ class UserAccountRepository extends ServiceEntityRepository
         $user
     ) : bool
     {
-//        dd($user->getTenants());
+//        dd($user->getTenants(), $user->getHousings());
         foreach ($user->getTenants() as $tenant) {
             /** @var Tenant $tenant */
-            foreach ($tenant->getTenantImage() as $tenantImage) {
-                $fileUploader = $this->fileUploaderFactory->createUploader('tenants');
-                if ($fileUploader->remove($tenantImage->getFilename()))
-                    $this->manager->remove($tenantImage);
-            }
+            $tenantImage = $tenant->getTenantImage();
+            $fileUploader = $this->fileUploaderFactory->createUploader('tenants');
+            if ($fileUploader->remove($tenantImage->getFilename()))
+                $this->manager->remove($tenantImage);
             $this->manager->remove($tenant);
         }
 
@@ -78,6 +77,7 @@ class UserAccountRepository extends ServiceEntityRepository
         }
 
         $this->manager->remove($user);
+//        dd('ok');
         $this->manager->flush();
         return true;
     }

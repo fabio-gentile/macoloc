@@ -9,6 +9,7 @@ use App\Repository\TenantRepository;
 use App\Repository\UserAccountRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_USER')]
 #[Route('/account')]
 class AccountController extends AbstractController
 {
@@ -106,7 +106,7 @@ class AccountController extends AbstractController
     public function delete(
         EntityManagerInterface $manager,
         Request $request,
-        UserAccountRepository $userRepository
+        UserAccountRepository $userRepository,
     ): Response
     {
         if ($request->isMethod('POST')) {
@@ -114,7 +114,7 @@ class AccountController extends AbstractController
             if ($this->isCsrfTokenValid('delete-account', $submittedToken)) {
                 $userRepository->removeUser($this->getUser());
                 $this->addFlash('success', 'Votre compte a bien été supprimé.');
-                return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
             } else {
                 $this->addFlash('danger', 'Une erreur est survenue. Veuillez réessayer.');
                 return $this->redirectToRoute('app_account_delete', [], Response::HTTP_SEE_OTHER);

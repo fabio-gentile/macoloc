@@ -78,13 +78,13 @@ class UserAccount implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Housing>
      */
-    #[ORM\OneToMany(targetEntity: Housing::class, mappedBy: 'user_account', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Housing::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $housings;
 
     /**
      * @var Collection<int, Tenant>
      */
-    #[ORM\OneToMany(targetEntity: Tenant::class, mappedBy: 'user_account', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Tenant::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $tenants;
 
     public function __construct()
