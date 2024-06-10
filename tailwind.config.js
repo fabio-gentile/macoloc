@@ -20,6 +20,8 @@ module.exports = {
         'foreground': '#080811',
         'muted': '#616161',
         'input': '#D1D5DB',
+        'success': '#00C853',
+        'warning': '#FFA500',
       },
       fontFamily: {
         'sans': ['Inter', ...defaultTheme.fontFamily.sans],

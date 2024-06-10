@@ -67,7 +67,7 @@ class Tenant
     )]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tenants')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tenants')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 

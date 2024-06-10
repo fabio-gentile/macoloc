@@ -28,12 +28,12 @@
         {{ form_row(form._token) }}
         </div>
         <div class="flex flex-col gap-6">
-            <button class="btn btn-ghost text-destructive text-sm w-fit">
+            <a href="{{ path('app_account_delete') }}" type="button" class="btn btn-ghost text-destructive text-sm w-fit">
                 <twig:ux:icon name="lucide:trash-2" class="w-6 object-fit text-destructive" />
                 <span class="text-destructive">
                     Supprimer mon compte
                 </span>
-            </button>
+            </a>
             <button type="submit" class="btn btn-primary w-fit">Confirmer les modifications</button>
         </div>
         {{ form_end(form) }}

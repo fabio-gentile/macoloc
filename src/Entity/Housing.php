@@ -65,7 +65,7 @@ class Housing
     #[Assert\Choice(choices: ['Animaux', 'Fumeurs'], multiple: true, message: "Autres informations invalides.")]
     private ?array $other = null;
 
-    #[ORM\ManyToOne(inversedBy: 'housings')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'housings')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 

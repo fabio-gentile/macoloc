@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AccountController!{% endblock %}
+
+{% import 'partials/_breadcrumbs.html.twig' as breadcrumbs %}
+
+{% block body %}
+    <div class="flex flex-col gap-8">
+        {{ breadcrumbs.render([
+            {'url': url('app_account'), 'text': 'Mon compte'},
+            {'url': url('app_account_settings'), 'text': 'Paramètres'},
+            {'url': url('app_account_delete'), 'text': 'Supprimer mon compte'},
+        ]) }}
+        <h1 class="font-semibold text-2xl font-foreground">Supprimer mon compte</h1>
+        <p class="text-sm md:text-base text-muted">Veuillez noter que la suppression de votre compte entraînera la suppression de toutes vos annonces, de vos messages, ainsi que de toutes les informations stockées dans notre base de données. Cette action est irréversible et toutes les données seront définitivement perdues.</p>
+        <form action="{{ path('app_account_delete') }}" method="post" data-controller="dialog" data-action="click->dialog#backdropClose">
+            <dialog data-dialog-target="dialog">
+                <div class="p-6 flex flex-col gap-6 items-center min-w-[300px]">
+                    <div class="rounded-full bg-destructive/40 p-4 w-fit">
+                        <twig:ux:icon name="lucide:triangle-alert" class="w-12 object-fit text-destructive" />
+                    </div>
+                    <p class="text-muted">Etes-vous sûr de vouloir supprimer votre compte de Macoloc ?</p>
+                    <div class="alert alert-danger">Cette action est irréversible et toutes les données seront définitivement perdues.</div>
+                    <div class="flex gap-4">
+                        <button class="btn btn-secondary" type="button" data-action="dialog#close" autofocus>Annuler</button>
+                        <button class="btn btn-destructive sm:w-fit" type="submit">Supprimer</button>
+                    </div>
+                </div>
+            </dialog>
+
+            <input type="hidden" name="token" value="{{ csrf_token('delete-account') }}">
+            <button class="btn btn-destructive sm:w-fit" type="button" data-action="dialog#open">Supprimer mon compte</button>
+        </form>
+    </div>
+{% endblock %}

@@ -2,8 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Tenant;
 use App\Entity\User;
+use App\Factory\FileUploaderFactory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -11,7 +14,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UserRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry,
+        private EntityManagerInterface $manager,
+        private FileUploaderFactory $fileUploaderFactory
+    )
     {
         parent::__construct($registry, User::class);
     }
@@ -40,4 +47,38 @@ class UserRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function removeUser(
+        $user
+    ) : bool
+    {
+//        dd($user->getTenants());
+        foreach ($user->getTenants() as $tenant) {
+            /** @var Tenant $tenant */
+            foreach ($tenant->getTenantImage() as $tenantImage) {
+                $fileUploader = $this->fileUploaderFactory->createUploader('tenants');
+                if ($fileUploader->remove($tenantImage->getFilename()))
+                    $this->manager->remove($tenantImage);
+            }
+            $this->manager->remove($tenant);
+        }
+
+        foreach ($user->getHousings() as $housing) {
+            foreach ($housing->getHousingImages() as $housingImage) {
+                $fileUploader = $this->fileUploaderFactory->createUploader('housings');
+                if ($fileUploader->remove($housingImage->getFilename()))
+                    $this->manager->remove($housingImage);
+            }
+
+            foreach ($housing->getChambers() as $chamber) {
+                $this->manager->remove($chamber);
+            }
+
+            $this->manager->remove($housing);
+        }
+
+        $this->manager->remove($user);
+        $this->manager->flush();
+        return true;
+    }
 }

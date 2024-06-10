@@ -45,6 +45,26 @@ readonly class FileUploader
         ];
     }
 
+    /**
+     * Remove a file
+     * @param string $filename
+     * @return bool
+     */
+    public function remove(string $filename): bool
+    {
+        $filePath = $this->getTargetDirectory() . '/' . $filename;
+        if (file_exists($filePath)) {
+            try {
+                unlink($filePath);
+                return true;
+            } catch (\Exception $e) {
+                throw new \RuntimeException(sprintf('Could not delete the file "%s" from the directory "%s"', $fileName, $this->getTargetDirectory()));
+            }
+        } else {
+            throw new \RuntimeException(sprintf('File "%s" does not exist in the directory "%s"', $filename, $this->getTargetDirectory()));
+        }
+    }
+
     public function getTargetDirectory(): string
     {
         return $this->targetDirectory;

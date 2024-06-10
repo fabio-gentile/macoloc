@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\AccountType;
 use App\Repository\HousingRepository;
 use App\Repository\TenantRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -98,6 +99,30 @@ class AccountController extends AbstractController
         }
         return $this->render('account/settings.html.twig', [
             'form' => $form
+        ]);
+    }
+
+    #[Route('/delete', name: 'app_account_delete')]
+    public function delete(
+        EntityManagerInterface $manager,
+        Request $request,
+        UserRepository $userRepository
+    ): Response
+    {
+        if ($request->isMethod('POST')) {
+            $submittedToken = $request->getPayload()->get('token');
+            if ($this->isCsrfTokenValid('delete-account', $submittedToken)) {
+                $userRepository->removeUser($this->getUser());
+                $this->addFlash('success', 'Votre compte a bien été supprimé.');
+                return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+            } else {
+                $this->addFlash('danger', 'Une erreur est survenue. Veuillez réessayer.');
+                return $this->redirectToRoute('app_account_delete', [], Response::HTTP_SEE_OTHER);
+            }
+        }
+
+        return $this->render('account/delete.html.twig', [
+
         ]);
     }
 }
