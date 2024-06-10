@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AccountController!{% endblock %}
+
+{% block body %}
+    <div class="flex flex-col gap-8">
+        <div class="flex gap-6 md:gap-8 flex-col md:flex-row">
+        <div class="px-4 py-6 border border-input rounded-lg md:grow">
+            <div class="flex flex-col gap-6 md:flex-row md:justify-between md:items-center">
+                <div class="flex flex-row gap-4 items-center">
+                    <img src="{{ asset('images/avatar.png') }}" alt="Avatar utilisateur" class="rounded-full object-contain w-16 h-16">
+                    <div class="flex justify-center flex-col gap-3">
+                        <button class="btn btn-secondary text-sm">Ajouter une photo</button>
+                        <button class="btn btn-ghost text-destructive text-sm">
+                            <twig:ux:icon name="lucide:trash-2" class="w-6 object-fit text-destructive" />
+                            <span class="text-destructive">
+                                Supprimer la photo
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <a class="text-sm font-medium underline" href="#">Voir mon profil public</a>
+            </div>
+        </div>
+        <div class="flex px-4 py-6 flex-col gap-4 bg-other rounded-lg md:w-fit w-full">
+            <p class="text-sm font-medium text-foreground">Vous n’avez toujours pas publié d’annonce.</p>
+            <a href="{{ path('app_publish_housing') }}" type="button" class="btn btn-primary w-fit text-sm">Publier une annonce</a>
+        </div>
+    </div>
+        <div class="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <a href="{{ path('app_account_ads') }}" class="px-4 py-6 bg-other flex flex-col gap-4 items-center md:items-start rounded-lg">
+                <div class="p-4 bg-ternary w-fit rounded-full">
+                    <twig:ux:icon name="lucide:sticky-note" class="w-8 object-fit text-foreground" />
+                </div>
+                <h2 class="font-medium text-lg text-foreground">Annonces</h2>
+                <p class="text-sm text-muted lg:text-base">Gérer mes annonces</p>
+            </a>
+            <a href="#" class="px-4 py-6 bg-other flex flex-col gap-4 items-center md:items-start rounded-lg">
+                <div class="p-4 bg-ternary w-fit rounded-full">
+                    <twig:ux:icon name="lucide:message-square" class="w-8 object-fit text-foreground" />
+                </div>
+                <h2 class="font-medium text-lg text-foreground">Messagerie</h2>
+                <p class="text-sm text-muted lg:text-base">Gérer mes messages</p>
+            </a>
+            <a href="#" class="px-4 py-6 bg-other flex flex-col gap-4 items-center md:items-start rounded-lg">
+                <div class="p-4 bg-ternary w-fit rounded-full">
+                    <twig:ux:icon name="lucide:settings" class="w-8 object-fit text-foreground" />
+                </div>
+                <h2 class="font-medium text-lg text-foreground">Paramètres</h2>
+                <p class="text-sm text-muted lg:text-base">Gérer les paramètres de mon compte</p>
+            </a>
+        </div>
+        <div class="max-w-[800px] flex flex-col gap-4 mx-auto">
+            {% include 'partials/_newsletter.html.twig' %}
+        </div>
+    </div>
+
+{% endblock %}
