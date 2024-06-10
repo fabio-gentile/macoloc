@@ -35,9 +35,9 @@ class RegistrationProfileType extends AbstractType
             ->add('gender', ChoiceType::class, [
                 'label' => 'Genre',
                 'choices'  => [
-                    'Homme' => 'Male',
-                    'Femme' => 'Female',
-                    'Autre' => 'Other',
+                    'Homme' => 'Homme',
+                    'Femme' => 'Femme',
+                    'Autre' => 'Autre',
                 ],
                 'expanded' => true,
                 'invalid_message' => 'Veuillez renseigner une langue valide.',

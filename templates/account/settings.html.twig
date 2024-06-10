@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AccountController!{% endblock %}
+
+{% import 'partials/_breadcrumbs.html.twig' as breadcrumbs %}
+
+{% block body %}
+<div class="flex flex-col gap-8">
+    {{ breadcrumbs.render([
+        {'url': url('app_account'), 'text': 'Mon compte'},
+        {'url': url('app_account_settings'), 'text': 'Paramètres'},
+    ]) }}
+    <h1 class="font-semibold text-2xl font-foreground">Paramètres</h1>
+    <div>
+        <h2 class="text-xl font-medium font-foreground mb-6">Informations de compte</h2>
+        {{ form_start(form) }}
+        <div class="md:flex md:gap-4 md:flex-row">
+            {{ form_row(form.firstname) }}
+            {{ form_row(form.lastname) }}
+        </div>
+        <div class="w-full md:max-w-[450px]">
+
+        {{ form_row(form.gender) }}
+        {{ form_row(form.dateOfBirth) }}
+        <h2 class="text-xl font-medium font-foreground mb-6">Mot de passe</h2>
+        {{ form_row(form.currentPassword) }}
+        {{ form_row(form.newPassword) }}
+        {{ form_row(form._token) }}
+        </div>
+        <div class="flex flex-col gap-6">
+            <button class="btn btn-ghost text-destructive text-sm w-fit">
+                <twig:ux:icon name="lucide:trash-2" class="w-6 object-fit text-destructive" />
+                <span class="text-destructive">
+                    Supprimer mon compte
+                </span>
+            </button>
+            <button type="submit" class="btn btn-primary w-fit">Confirmer les modifications</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

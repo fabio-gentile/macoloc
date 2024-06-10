@@ -64,7 +64,7 @@ class TenantAgeSubscriber implements EventSubscriber
             $now = new \DateTime();
             $age = $now->diff($user->getDateOfBirth())->y;
             $tenant->setAge($age);
-            
+
             $uow->computeChangeSet($manager->getClassMetadata(get_class($tenant)), $tenant);
         }
 
