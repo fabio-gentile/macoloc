@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello{% endblock %}
+
+{% import 'partials/_breadcrumbs.html.twig' as breadcrumbs %}
+
+{% block body %}
+    <div class="flex flex-col gap-8">
+        {{ breadcrumbs.render([
+            {'url': url('app_account'), 'text': 'Mon compte'},
+            {'url': url('app_account_ads'), 'text': 'Mes annonces'},
+        ]) }}
+        <h1 class="font-semibold text-2xl">Mes annonces ({{ totalAds }})</h1>
+
+        <div class="flex flex-col gap-4">
+            {#housing#}
+            {% for housing in housings %}
+                {% set image = housing.getHousingImages %}
+                <div class="border border-input rounded-lg lg:flex-row lg:flex">
+                    <div class="md:flex">
+{#                        TODO: Afficher l'image de l'annonce#}
+{#                        {{ image[0].filename }}#}
+                        <img src="https://placehold.co/400" alt="Image de l'annonce de John Doe" class="max-h-[280px] md:max-h-[200px] md:w-[250px] object-cover w-full">
+                        <div class="p-4 flex flex-col gap-4 md:justify-between">
+                            <h2 class="font-semibold text-foreground">{{ housing.title }}</h2>
+                            <p class="text-muted text-sm">{{ housing.description | u.truncate(150, '...') }}</p>
+                            <p>
+                                <span class="font-medium text-base">{{ housing.price }}€</span>
+                                {% if housing.avaibleAt > today %}
+                                    <span class="text-sm">, disponible le {{ housing.avaibleAt | format_datetime(locale='fr', pattern="EEEE dd MMMM YYYY") }}</span>
+                                {% else %}
+                                    <span class="text-sm">, disponible immédiatement</span>
+                                {% endif %}
+                            </p>
+                            <p class="text-sm sm:text-base text-muted">{{ housing.city | upper }}, {{ housing.postalCode }}</p>
+                        </div>
+                    </div>
+                    {#                action#}
+                    <div class="bg-other flex flex-col gap-2 p-4 md:flex-row justify-center lg:flex-col lg:min-w-[250px]">
+{#                        TODO: Ajouter redirections#}
+                        <a href="#" type="button" class="btn btn-ghost text-sm w-fit">
+                            <twig:ux:icon name="lucide:eye" class="w-6 object-fit text-muted" />
+                            <span class="text-muted">
+                            Voir l'annonce
+                        </span>
+                        </a>
+                        <a href="#" type="button" class="btn btn-ghost text-sm w-fit">
+                            <twig:ux:icon name="lucide:pencil" class="w-6 object-fit text-muted" />
+                            <span class="text-muted">
+                            Modifier l'annonce
+                        </span>
+                        </a>
+                        <a href="#" type="button" class="btn btn-ghost text-sm w-fit">
+                            <twig:ux:icon name="lucide:trash-2" class="w-6 object-fit text-destructive" />
+                            <span class="text-destructive">
+                            Supprimer l'annonce
+                        </span>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+
+{#            tenant#}
+            {% for tenant in tenants %}
+                <div class="border border-input rounded-lg lg:flex-row lg:flex">
+                    <div class="md:flex">
+                        <img src="https://placehold.co/400" alt="Image de l'annonce de John Doe" class="max-h-[280px] md:max-h-[200px] md:w-[250px] object-cover w-full">
+                        <div class="p-4 flex flex-col gap-4 md:justify-between">
+                            <h2 class="font-semibold text-foreground">{{ tenant.getUser.firstname }}</h2>
+                            <p class="text-foreground">{{ tenant.activity }}, {{ tenant.age }} ans</p>
+                            <p class="text-foreground text-sm">Budget de <span class="font-medium">{{ tenant.budget }}€</span></p>
+                            <p class="text-muted text-sm">{{ tenant.description | u.truncate(150, '...') }}</p>
+                        </div>
+                    </div>
+                    {#                action#}
+                    <div class="bg-other flex flex-col gap-2 p-4 md:flex-row justify-center lg:flex-col lg:min-w-[250px]">
+                        <a href="#" type="button" class="btn btn-ghost text-sm w-fit">
+                            <twig:ux:icon name="lucide:eye" class="w-6 object-fit text-muted" />
+                            <span class="text-muted">
+                            Voir l'annonce
+                        </span>
+                        </a>
+                        <a href="#" type="button" class="btn btn-ghost text-sm w-fit">
+                            <twig:ux:icon name="lucide:pencil" class="w-6 object-fit text-muted" />
+                            <span class="text-muted">
+                            Modifier l'annonce
+                        </span>
+                        </a>
+                        <a href="#" type="button" class="btn btn-ghost text-sm w-fit">
+                            <twig:ux:icon name="lucide:trash-2" class="w-6 object-fit text-destructive" />
+                            <span class="text-destructive">
+                            Supprimer l'annonce
+                        </span>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

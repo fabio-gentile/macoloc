@@ -27,7 +27,7 @@ body {
 }
 
 .btn-ghost {
-    @apply text-foreground bg-white hover:bg-white/80;
+    @apply text-foreground hover:bg-opacity-80;
 }
 
 .wrapper {

@@ -29,7 +29,6 @@ class TenantFixtures extends Fixture implements DependentFixtureInterface
             $tenant = new Tenant();
             $tenant->setCity($faker->city)
                 ->setBudget(rand(250, 750))
-                ->setTitle($faker->realTextBetween(10, 20))
                 ->setDescription($faker->realTextBetween(150, 300))
                 ->setGender($faker->randomElement($gender))
                 ->setLatitude($faker->latitude())

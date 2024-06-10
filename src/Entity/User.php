@@ -84,7 +84,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Tenant>
      */
-    #[ORM\OneToMany(targetEntity: Tenant::class, mappedBy: 'users', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Tenant::class, mappedBy: '`user`', orphanRemoval: true)]
     private Collection $tenants;
 
     public function __construct()
@@ -296,7 +296,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->tenants->contains($tenant)) {
             $this->tenants->add($tenant);
-            $tenant->setUsers($this);
+            $tenant->setUser($this);
         }
 
         return $this;
@@ -306,8 +306,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->tenants->removeElement($tenant)) {
             // set the owning side to null (unless already changed)
-            if ($tenant->getUsers() === $this) {
-                $tenant->setUsers(null);
+            if ($tenant->getUser() === $this) {
+                $tenant->setUser(null);
             }
         }
 
