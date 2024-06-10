@@ -58,6 +58,10 @@ class UserAccount implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\LessThan(
+        value: '-18 years',
+        message: 'Vous devez avoir au moins 18 ans pour vous inscrire.'
+    )]
     private ?\DateTimeInterface $dateOfBirth = null;
 
     #[ORM\Column(length: 255)]

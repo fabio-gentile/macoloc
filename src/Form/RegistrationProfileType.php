@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationProfileType extends AbstractType
@@ -64,6 +65,10 @@ class RegistrationProfileType extends AbstractType
                     new NotBlank([
                         'message' => 'Veuillez renseigner votre date de naissance',
                     ]),
+                    new LessThan([
+                        'value' => -18 . ' years',
+                        'message' => 'Vous devez avoir au moins 18 ans pour vous inscrire.'
+                    ])
                 ],
             ]);
         ;
