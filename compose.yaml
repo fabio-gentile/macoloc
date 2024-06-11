@@ -35,8 +35,6 @@ services:
         protocol: udp
 
 # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
-###> symfony/mercure-bundle ###
-###< symfony/mercure-bundle ###
 
 ###> doctrine/doctrine-bundle ###
   database:
@@ -64,13 +62,40 @@ services:
       - "8081:8080"
     depends_on:
       - database
+
+###> symfony/mercure-bundle ###
+  mercure:
+    image: dunglas/mercure
+    restart: unless-stopped
+    environment:
+      # Uncomment the following line to disable HTTPS,
+      #SERVER_NAME: ':80'
+      MERCURE_PUBLISHER_JWT_KEY: 'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiUHVibGlzaGVyIiwiSXNzdWVyIjoiTWFjb2xvYyIsImV4cCI6MTc0OTY1Njg4NiwiaWF0IjoxNzE4MTIwODg2fQ.8_0KFSfaFQ09qSn-B8_zP7c7gIzFwO8k1p7c6IukkQQ'
+      MERCURE_SUBSCRIBER_JWT_KEY: 'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiU3Vic2NyaWJlciIsIklzc3VlciI6Ik1hY29sb2MiLCJleHAiOjE3NDk2NTY4ODYsImlhdCI6MTcxODEyMDg4Nn0.OSvrgFrJo6xJEiz1Meop2Yz_fQ4zIdV6t5ycoAxmagQ'
+      # Set the URL of your Symfony project (without trailing slash!) as value of the cors_origins directive
+      MERCURE_EXTRA_DIRECTIVES: |
+        cors_origins http://127.0.0.1:8000
+    # Comment the following line to disable the development mode
+    #command: /usr/bin/caddy run --config /etc/caddy/Caddyfile.dev
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://localhost/healthz"]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    volumes:
+      - mercure_data:/data
+      - mercure_config:/config
+###< symfony/mercure-bundle ###
     
 volumes:
   caddy_data:
   caddy_config:
-###> symfony/mercure-bundle ###
-###< symfony/mercure-bundle ###
 
 ###> doctrine/doctrine-bundle ###
   database_data:
 ###< doctrine/doctrine-bundle ###
+
+###> symfony/mercure-bundle ###
+  mercure_data:
+  mercure_config:
+###< symfony/mercure-bundle ###
