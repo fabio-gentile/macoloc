@@ -5,6 +5,7 @@ namespace App\Service;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Uid\Uuid;
 
 readonly class FileUploader
 {
@@ -29,8 +30,8 @@ readonly class FileUploader
     public function upload(UploadedFile $file): array
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = $this->slugger->slug($originalFilename);
-        $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+        $safeFilename = Uuid::v4();
+        $fileName = $safeFilename.'.'.$file->guessExtension();
 
         try {
             $file->move($this->getTargetDirectory(), $fileName);
