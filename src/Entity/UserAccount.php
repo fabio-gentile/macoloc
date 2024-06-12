@@ -94,11 +94,25 @@ class UserAccount implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Tenant::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $tenants;
 
+    /**
+     * @var Collection<int, Conversation>
+     */
+    #[ORM\OneToMany(targetEntity: Conversation::class, mappedBy: 'userOne')]
+    private Collection $conversationsAsUserOne;
+
+    /**
+     * @var Collection<int, Conversation>
+     */
+    #[ORM\OneToMany(targetEntity: Conversation::class, mappedBy: 'userTwo')]
+    private Collection $conversationsAsUserTwo;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->housings = new ArrayCollection();
         $this->tenants = new ArrayCollection();
+        $this->conversationsAsUserOne = new ArrayCollection();
+        $this->conversationsAsUserTwo = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -315,6 +329,66 @@ class UserAccount implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($tenant->getUser() === $this) {
                 $tenant->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Conversation>
+     */
+    public function getConversationsOne(): Collection
+    {
+        return $this->conversationsAsUserTwo;
+    }
+
+    public function addConversationOne(Conversation $conversation): static
+    {
+        if (!$this->conversationsAsUserTwo->contains($conversation)) {
+            $this->conversationsAsUserTwo->add($conversation);
+            $conversation->setUserOne($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConversationOne(Conversation $conversation): static
+    {
+        if ($this->conversationsAsUserOne->removeElement($conversation)) {
+            // set the owning side to null (unless already changed)
+            if ($conversation->getUserOne() === $this) {
+                $conversation->setUserOne(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Conversation>
+     */
+    public function getConversationsTwo(): Collection
+    {
+        return $this->conversationsAsUserTwo;
+    }
+
+    public function addConversationTwo(Conversation $conversation): static
+    {
+        if (!$this->conversationsAsUserTwo->contains($conversation)) {
+            $this->conversationsAsUserTwo->add($conversation);
+            $conversation->setUserTwo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConversationTwo(Conversation $conversation): static
+    {
+        if ($this->conversationsAsUserTwo->removeElement($conversation)) {
+            // set the owning side to null (unless already changed)
+            if ($conversation->getUserTwo() === $this) {
+                $conversation->setUserTwo(null);
             }
         }
 
