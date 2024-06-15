@@ -3,7 +3,7 @@ services:
     image: ${IMAGES_PREFIX:-}app-php
     restart: unless-stopped
     environment:
-      SERVER_NAME: ${SERVER_NAME:-localhost}, php:443
+      SERVER_NAME: ${SERVER_NAME:-localhost}, php:80
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
       MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
       TRUSTED_PROXIES: ${TRUSTED_PROXIES:-127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
@@ -63,15 +63,16 @@ services:
     depends_on:
       - database
 
+
 ###> symfony/mercure-bundle ###
   mercure:
     image: dunglas/mercure
     restart: unless-stopped
     environment:
       # Uncomment the following line to disable HTTPS,
-      #SERVER_NAME: ':80'
-      MERCURE_PUBLISHER_JWT_KEY: 'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiUHVibGlzaGVyIiwiSXNzdWVyIjoiTWFjb2xvYyIsImV4cCI6MTc0OTY1Njg4NiwiaWF0IjoxNzE4MTIwODg2fQ.8_0KFSfaFQ09qSn-B8_zP7c7gIzFwO8k1p7c6IukkQQ'
-      MERCURE_SUBSCRIBER_JWT_KEY: 'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiU3Vic2NyaWJlciIsIklzc3VlciI6Ik1hY29sb2MiLCJleHAiOjE3NDk2NTY4ODYsImlhdCI6MTcxODEyMDg4Nn0.OSvrgFrJo6xJEiz1Meop2Yz_fQ4zIdV6t5ycoAxmagQ'
+      SERVER_NAME: ':80'
+      MERCURE_PUBLISHER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
+      MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
       # Set the URL of your Symfony project (without trailing slash!) as value of the cors_origins directive
       MERCURE_EXTRA_DIRECTIVES: |
         cors_origins http://127.0.0.1:8000
@@ -94,6 +95,7 @@ volumes:
 ###> doctrine/doctrine-bundle ###
   database_data:
 ###< doctrine/doctrine-bundle ###
+
 
 ###> symfony/mercure-bundle ###
   mercure_data:

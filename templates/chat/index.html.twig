@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ChatController!{% endblock %}
+
+{% import 'partials/_breadcrumbs.html.twig' as breadcrumbs %}
+
+{% block body %}
+    <div class="flex flex-col gap-8">
+        {{ breadcrumbs.render([
+            {'url': url('app_account'), 'text': 'Mon compte'},
+            {'url': url('app_account_chat'), 'text': 'Mes messages'},
+        ]) }}
+        <h1 class="font-semibold text-2xl font-foreground">Mes messages</h1>
+
+        <div class="flex flex-col gap-4">
+            <div id="messages" {{ turbo_stream_listen('chat') }}>
+                {#
+                The messages will be displayed here.
+                "turbo_stream_listen()" automatically registers a Stimulus controller that subscribes to the "chat" topic as managed by the transport.
+                All connected users will receive the new messages!
+                #}
+            </div>
+
+            <turbo-frame id="message_form">
+                {{ form(form) }}
+
+                {#
+                The form is displayed in a Turbo Frame, with this trick a new empty form is displayed after every post,
+                but the rest of the page will not change.
+                #}
+            </turbo-frame>
+        </div>
+    </div>
+{% endblock %}
