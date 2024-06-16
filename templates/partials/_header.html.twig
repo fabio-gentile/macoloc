@@ -24,7 +24,11 @@
             <li>
                 <a href="#" class="flex gap-2 items-center">
                     {# TODO : Afficher le menu d'action#}
-                    <img src="{{ asset('images/avatar.png') }}" alt="Avatar utilisateur" class="rounded-full object-contain w-10">
+                    {% if app.user.userImage %}
+                        <img src="{{ asset('uploads/users/' ~ app.user.userImage.filename) }}" alt="Avatar de {{ app.user.getFullname }}" class="rounded-full object-contain w-10">
+                    {% else %}
+                        <img src="https://ui-avatars.com/api/?name={{ app.user.firstName }}+{{ app.user.lastName }}" alt="Avatar de {{ app.user.getFullname }}" class="rounded-full object-contain w-10">
+                    {% endif %}
                 </a>
             </li>
         </ul>

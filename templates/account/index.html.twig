@@ -11,7 +11,7 @@
                     {% if app.user.userImage %}
                     <img src="{{ asset('uploads/users/' ~ app.user.userImage.filename) }}" alt="Avatar de {{ app.user.getFullname }}" class="rounded-full object-contain w-16 h-16">
                     {% else %}
-                    <img src="{{ asset('images/avatar.png') }}" alt="Avatar de {{ app.user.getFullname }}" class="rounded-full object-contain w-16 h-16">
+                    <img src="https://ui-avatars.com/api/?name={{ app.user.firstName }}+{{ app.user.lastName }}" alt="Avatar de {{ app.user.getFullname }}" class="rounded-full object-contain w-16 h-16">
                     {% endif %}
                     <div class="flex justify-center flex-col gap-3">
                         {% if app.user.userImage %}
