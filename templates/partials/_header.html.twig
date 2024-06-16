@@ -2,27 +2,26 @@
     <nav class="flex justify-between wrapper">
         <ul>
             <li>
-                <a href="#" class="flex gap-2 items-center">
+                <a href="{{ path('app_homepage') }}" class="flex gap-2 items-center">
                     <img src="{{ asset('images/logo.png') }}" alt="Macoloc" class="object-contain w-9 sm:w-12 lg:w-16 my-2">
                     <h1 class="text-primary font-semibold text-xl sm:text-2xl lg:text-3xl">Macoloc</h1>
                 </a>
             </li>
         </ul>
         <ul class="hidden lg:flex gap-6 items-center">
-            <li><a href="#">Rechercher</a></li>
-            <li><a href="#">Publier une annonce</a></li>
+            <li><a href="{{ path('app_search_housing') }}">Rechercher</a></li>
+            <li><a href="{{ path('app_publish_housing') }}">Publier une annonce</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
         {% if not is_granted("ROLE_USER") %}
         <ul class="hidden lg:flex gap-6 items-center">
-            <li><a href="#">Se connecter</a></li>
-            <li><a href="#" class="btn btn-primary">S'inscrire</a></li>
+            <li><a href="{{ path('app_login') }}">Se connecter</a></li>
+            <li><a href="{{ path('app_register') }}" class="btn btn-primary">S'inscrire</a></li>
         </ul>
         {% else %}
         <ul class="hidden lg:flex gap-6 items-center">
-            <li><a href="#">Mes annonces</a></li>
+            <li><a href="{{ path('app_account_ads') }}">Mes annonces</a></li>
             <li>
-                {# TODO : Afficher le menu d'action#}
                 <div data-controller="dropdown" class="relative">
                     <button type="button" data-action="dropdown#toggle click@window->dropdown#hide">
                         {% if app.user.userImage %}
@@ -62,7 +61,7 @@
     {# Mobile menu #}
     <nav data-menu-target="mobile" class="fixed top-0 left-0 z-[99999] flex w-96 max-w-full w-fit flex-col bg-white text-white transition-transform transform -translate-x-full h-full">
         <div class="flex justify-between items-center px-4">
-            <a href="#" class="flex gap-2 items-center">
+            <a href="{{ path('app_homepage') }}" class="flex gap-2 items-center">
                 <img src="{{ asset('images/logo.png') }}" alt="Macoloc" class="object-contain w-9 md:w-12 lg:w-16 my-2 md:my-4 lg:my-6">
                 <h1 class="text-primary font-semibold text-xl lg:text-3xl">Macoloc</h1>
             </a>
@@ -72,19 +71,19 @@
         </div>
         <ul class="flex flex-col gap-4 px-4 py-2 text-foreground mt-8">
             <li>
-                <a href="#" class="flex items-center gap-3">
+                <a href="{{ path('app_homepage') }}" class="flex items-center gap-3">
                     <twig:ux:icon name="lucide:home" class="object-contain h-6" />
                     Accueil
                 </a>
             </li>
             <li>
-                <a href="#" class="flex items-center gap-3">
+                <a href="{{ path('app_search_housing') }}" class="flex items-center gap-3">
                     <twig:ux:icon name="lucide:search" class="object-contain h-6" />
                     Rechercher
                 </a>
             </li>
             <li>
-                <a href="#" class="flex items-center gap-3">
+                <a href="{{ path('app_publish_housing') }}" class="flex items-center gap-3">
                     <twig:ux:icon name="lucide:book-plus" class="object-contain h-6" />
                     Publier une annonce
                 </a>
@@ -98,44 +97,44 @@
             <hr class="h-px my-1 bg-input border-0">
             {% if not is_granted("ROLE_USER") %}
             <li>
-                <a href="#" class="flex items-center gap-3">
+                <a href="{{ path('app_login') }}" class="flex items-center gap-3">
                     <twig:ux:icon name="lucide:log-in" class="object-contain h-6" />
                     Se connecter
                 </a>
             </li>
             <li>
-                <a href="#" class="btn btn-primary">
+                <a href="{{ path('app_register') }}" class="btn btn-primary">
                     <twig:ux:icon name="lucide:user-round-plus" class="object-contain h-6" />
                     S'inscrire
                 </a>
             </li>
             {% else %}
                 <li>
-                    <a href="#" class="flex items-center gap-3">
+                    <a href="{{ path('app_account') }}" class="flex items-center gap-3">
                         <twig:ux:icon name="lucide:user" class="object-contain h-6" />
                         Mon compte
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center gap-3">
+                    <a href="{{ path('app_account_chat') }}" class="flex items-center gap-3">
                         <twig:ux:icon name="lucide:message-square" class="object-contain h-6" />
                         Messagerie
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center gap-3">
+                    <a href="{{ path('app_account_ads') }}" class="flex items-center gap-3">
                         <twig:ux:icon name="lucide:sticky-note" class="object-contain h-6" />
                         Mes annonces
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center gap-3">
+                    <a href="{{ path('app_account_settings') }}" class="flex items-center gap-3">
                         <twig:ux:icon name="lucide:settings" class="object-contain h-6" />
                         Paramètres
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center gap-3">
+                    <a href="{{ path('app_logout') }}" class="flex items-center gap-3">
                         <twig:ux:icon name="lucide:log-out" class="object-contain h-6" />
                         Se déconnecter
                     </a>

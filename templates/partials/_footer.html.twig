@@ -3,20 +3,18 @@
         <nav class="md:flex flex-row justify-between items-start">
             <div class="hidden md:block">
                 <ul>
-                    <li>
-                        <a href="#" class="flex flex-col gap-1 items-center">
-                            <img src="{{ asset('images/logo.png') }}" alt="Macoloc" class="object-contain w-24">
-                            <h1 class="text-primary font-semibold">Macoloc</h1>
-                        </a>
+                    <li class="flex flex-col gap-1 items-center">
+                        <img src="{{ asset('images/logo.png') }}" alt="Macoloc" class="object-contain w-24">
+                        <h1 class="text-primary font-semibold">Macoloc</h1>
                     </li>
                 </ul>
             </div>
             <div>
                 <p class="uppercase text-muted mb-4">Explorer</p>
                 <ul class="flex gap-4 flex-col">
-                    <li><a href="#">Accueil</a></li>
-                    <li><a href="#">Rechercher</a></li>
-                    <li><a href="#">Publier une annonce</a></li>
+                    <li><a href="{{ path('app_homepage') }}">Accueil</a></li>
+                    <li><a href="{{ path('app_search_housing') }}">Rechercher</a></li>
+                    <li><a href="{{ path('app_publish_housing') }}">Publier une annonce</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>
             </div>
