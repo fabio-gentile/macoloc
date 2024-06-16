@@ -1,0 +1,32 @@
+<div{{ attributes }}>
+    <div class="max-w-[800px] mx-auto">
+        <div class="flex flex-col gap-4">
+            {% if isSubmittedSuccessfully %}
+            {% block newsletter_subscribed %}
+                <div class="bg-other p-4 rounded-lg">
+                    <p>
+                        Un e-mail de confirmation a été envoyé à <span class="font-semibold">{{ registeredEmail }}</span>. Veuillez vérifier votre boîte de réception. Si vous ne le trouvez pas, vérifiez votre dossier de courrier indésirable.
+                    </p>
+                    <p class="mt-4">Le lien de confirmation est valide pendant <span class="font-semibold">24 heures</span>.</p>
+                </div>
+            {% endblock %}
+            {% else %}
+            <p class="text-sm sm:text-base text-muted text-center">Inscrivez-vous à pour être informé quotidiennement des nouvelles annonces publiées.</p>
+            {{ form_start(form,
+                {
+                    'attr': {
+                        'class': 'flex flex-col sm:flex-row gap-2 sm:gap-0 justify-center h-full',
+                        'data-action': 'live#action:prevent',
+                        'data-live-action-param': 'save'
+                    }
+                }
+            ) }}
+            {{ form_widget(form.email, {'attr': {'class': 'class="text-foreground bg-white text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent rounded-lg sm:rounded-r-none sm:rounded-l-lg"'}}) }}
+            <button type="submit" class="btn btn-primary sm:!rounded-none sm:!rounded-r-lg">S'inscrire</button>
+        </div>
+        {{ form_errors(form.email) }}
+        {{ form_end(form) }}
+        {% endif %}
+    </div>
+</div>
+

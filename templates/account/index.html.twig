@@ -63,9 +63,7 @@
                 <p class="text-sm text-muted lg:text-base">Gérer les paramètres de mon compte</p>
             </a>
         </div>
-        <div class="max-w-[800px] flex flex-col gap-4 mx-auto">
-            {% include 'partials/_newsletter.html.twig' %}
-        </div>
+        {{ component('NewsletterSubscribe') }}
     </div>
 
 {% endblock %}
