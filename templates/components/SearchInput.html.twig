@@ -24,7 +24,9 @@
                 required
                 class="
                 {% if hasSelectOptions %}
-                rounded-r-lg
+                    {% if app.request.get('_route') != 'app_homepage' %}
+                    rounded-r-lg
+                    {% endif %}
                 {% else %}
                 sm:rounded-l-lg rounded-lg sm:rounded-none
                 {% endif %}
