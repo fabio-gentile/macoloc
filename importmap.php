@@ -58,4 +58,10 @@ return [
     '@stimulus-components/dialog' => [
         'version' => '1.0.1',
     ],
+    '@stimulus-components/dropdown' => [
+        'version' => '3.0.0',
+    ],
+    'stimulus-use' => [
+        'version' => '0.52.2',
+    ],
 ];
