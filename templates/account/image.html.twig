@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AccountController!{% endblock %}
+
+{% import 'partials/_breadcrumbs.html.twig' as breadcrumbs %}
+
+{% block body %}
+    <div class="flex flex-col gap-8">
+        {{ breadcrumbs.render([
+            {'url': url('app_account'), 'text': 'Mon compte'},
+            {'url': url('app_account_image'), 'text': 'Photo de profil'},
+        ]) }}
+        {% if app.user.userImage %}
+        <h1 class="font-semibold text-2xl font-foreground">Modifier ma photo de profil</h1>
+        {% else %}
+        <h1 class="font-semibold text-2xl font-foreground">Ajouter une photo de profil</h1>
+        {% endif %}
+        {{ form_start(userImageForm) }}
+        <div data-controller="image-preview">
+            <div data-image-preview-target="preview" class="mb-4">
+                {% if app.user.userImage %}
+                <img src="{{ asset('uploads/users/' ~ app.user.userImage.filename) }}" alt="Avatar de {{ app.user.getFullname }}" class="preview-image !rounded-full">
+                {% endif %}
+            </div>
+            {{ form_help(userImageForm.image) }}
+            {{ form_widget(userImageForm.image, { 'attr': {'data-image-preview-target': 'input'} }) }}
+            {{ form_errors(userImageForm.image) }}
+        </div>
+        {% if app.user.userImage %}
+            <button class="btn btn-primary mt-4" type="submit">Modifier</button>
+        {% else %}
+            <button class="btn btn-primary mt-4" type="submit">Enregistrer</button>
+        {% endif %}
+        {{ form_end(userImageForm) }}
+    </div>
+{% endblock %}

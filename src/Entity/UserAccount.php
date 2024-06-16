@@ -106,6 +106,9 @@ class UserAccount implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Conversation::class, mappedBy: 'userTwo')]
     private Collection $conversationsAsUserTwo;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?UserImage $userImage = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -393,5 +396,30 @@ class UserAccount implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function getUserImage(): ?UserImage
+    {
+        return $this->userImage;
+    }
+
+    public function setUserImage(?UserImage $userImage): static
+    {
+        // set the owning side of the relation if necessary
+        if (
+            $userImage !== null &&
+            $userImage->getUser() !== $this
+        ) {
+            $userImage->setUser($this);
+        }
+
+        $this->userImage = $userImage;
+
+        return $this;
+    }
+
+    public function getFullname(): string
+    {
+        return $this->firstname . ' ' . $this->lastname;
     }
 }

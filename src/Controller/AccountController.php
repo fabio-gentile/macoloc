@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\UserAccount;
+use App\Entity\UserImage;
+use App\Factory\FileUploaderFactory;
 use App\Form\AccountType;
+use App\Form\UserImageType;
 use App\Repository\HousingRepository;
 use App\Repository\TenantRepository;
 use App\Repository\UserAccountRepository;
@@ -20,6 +23,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/account')]
 class AccountController extends AbstractController
 {
+    public function __construct(
+        private readonly EntityManagerInterface $manager,
+    )
+    {}
+
     #[Route('/', name: 'app_account')]
     public function index(): Response
     {
@@ -50,7 +58,6 @@ class AccountController extends AbstractController
     public function settings(
         Request $request,
         UserPasswordHasherInterface $passwordHasher,
-        EntityManagerInterface $manager
     ): Response
     {
         /* @var UserAccount $user */
@@ -90,8 +97,8 @@ class AccountController extends AbstractController
 
             $user->setUpdatedAt(new \DateTime());
 
-            $manager->persist($user);
-            $manager->flush();
+            $this->manager->persist($user);
+            $this->manager->flush();
 
 //            TODO: optionnellement, envoyer un email de confirmation de changement de mot de passe
             $this->addFlash('success', 'Vos informations ont bien été mises à jour');
@@ -104,7 +111,6 @@ class AccountController extends AbstractController
 
     #[Route('/delete', name: 'app_account_delete')]
     public function delete(
-        EntityManagerInterface $manager,
         Request $request,
         UserAccountRepository $userRepository,
     ): Response
@@ -113,6 +119,8 @@ class AccountController extends AbstractController
             $submittedToken = $request->getPayload()->get('token');
             if ($this->isCsrfTokenValid('delete-account', $submittedToken)) {
                 $userRepository->removeUser($this->getUser());
+                $request->getSession()->invalidate();
+                $this->container->get('security.token_storage')->setToken(null);
                 $this->addFlash('success', 'Votre compte a bien été supprimé.');
                 return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
             } else {
@@ -124,5 +132,83 @@ class AccountController extends AbstractController
         return $this->render('account/delete.html.twig', [
 
         ]);
+    }
+
+    #[Route('/image', name: 'app_account_image')]
+    public function image(
+        Request $request,
+        FileUploaderFactory $fileUploaderFactory,
+    ): Response {
+        $form = $this->createForm(UserImageType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /* @var UserAccount $user */
+            $user = $this->getUser();
+            $fileUploader = $fileUploaderFactory->createUploader('users');
+            $hasChanged = false;
+
+            $existingUserImage = $user->getUserImage();
+            if ($existingUserImage) {
+                $fileUploader->remove($existingUserImage->getFilename());
+
+                $this->manager->remove($existingUserImage);
+                $this->manager->flush();
+                $hasChanged = true;
+            }
+
+            // Create a new UserImage entity
+            $image = $form->get('image')->getData();
+            if ($image) {
+                $imageEntity = new UserImage();
+                $result = $fileUploader->upload($image);
+                $imageEntity
+                    ->setUser($user)
+                    ->setFilename($result['fileName'])
+                    ->setOriginalFilename($result['originalFilename'])
+                    ->setMimeType($result['mimeType']);
+
+                $user->setUserImage($imageEntity);
+
+                $this->manager->persist($imageEntity);
+                $this->manager->flush();
+            }
+
+            $this->addFlash('success', $hasChanged ? 'Votre photo de profil a bien été modifiée.' : 'Votre photo de profil a bien été ajoutée.');
+
+            return $this->redirectToRoute('app_account', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('account/image.html.twig', [
+            'userImageForm' => $form->createView()
+        ]);
+    }
+
+    #[Route('/image/delete', name: 'app_account_image_delete', methods: ['POST'])]
+    public function deleteImage(
+        Request $request,
+        FileUploaderFactory $fileUploaderFactory,
+    ) {
+        $submittedToken = $request->getPayload()->get('token');
+
+        if (!$this->isCsrfTokenValid('delete-image', $submittedToken)) {
+            return $this->redirectToRoute('app_account', [], Response::HTTP_SEE_OTHER);
+        }
+
+        /* @var UserAccount $user */
+        $user = $this->getUser();
+        $userImage = $user->getUserImage();
+        if ($userImage) {
+            $fileUploader = $fileUploaderFactory->createUploader('users');
+            $fileUploader->remove($userImage->getFilename());
+
+            $this->manager->remove($userImage);
+            $user->setUserImage(null);
+
+            $this->manager->persist($user);
+            $this->manager->flush();
+        }
+
+        return $this->redirectToRoute('app_account', [], Response::HTTP_SEE_OTHER);
     }
 }

@@ -62,7 +62,7 @@ class PublishTenantType extends AbstractType
                     'accept' => 'image/jpeg, image/png, image/jpg, image/webp',
                     'multiple' => false,
                 ],
-                'help' => 'Optionnel. Dimensions recommandées: 800x600 pixels. Taille maximale: 2 mégabytes.',
+                'help' => 'Optionnel. Dimensions recommandées: 800x600 pixels. Taille maximale: 2,5 mégabytes.',
             ])
         ;
     }

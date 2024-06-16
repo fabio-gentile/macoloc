@@ -102,7 +102,7 @@ class PublishHousingType extends AbstractType
                     'accept' => 'image/jpeg, image/png, image/jpg, image/webp',
                     'multiple' => 'multiple',
                 ],
-                'help' => 'Dimensions recommandées: 800x600 pixels. Taille maximale: 2 mégabytes',
+                'help' => 'Dimensions recommandées: 800x600 pixels. Taille maximale: 2,5 mégabytes',
             ])
         ;
     }

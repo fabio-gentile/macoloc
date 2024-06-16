@@ -8,15 +8,28 @@
         <div class="px-4 py-6 border border-input rounded-lg md:grow">
             <div class="flex flex-col gap-6 md:flex-row md:justify-between md:items-center">
                 <div class="flex flex-row gap-4 items-center">
-                    <img src="{{ asset('images/avatar.png') }}" alt="Avatar utilisateur" class="rounded-full object-contain w-16 h-16">
+                    {% if app.user.userImage %}
+                    <img src="{{ asset('uploads/users/' ~ app.user.userImage.filename) }}" alt="Avatar de {{ app.user.getFullname }}" class="rounded-full object-contain w-16 h-16">
+                    {% else %}
+                    <img src="{{ asset('images/avatar.png') }}" alt="Avatar de {{ app.user.getFullname }}" class="rounded-full object-contain w-16 h-16">
+                    {% endif %}
                     <div class="flex justify-center flex-col gap-3">
-                        <button class="btn btn-secondary text-sm">Ajouter une photo</button>
-                        <button class="btn btn-ghost text-destructive text-sm">
-                            <twig:ux:icon name="lucide:trash-2" class="w-6 object-fit text-destructive" />
-                            <span class="text-destructive">
+                        {% if app.user.userImage %}
+                        <a href="{{ path('app_account_image') }}" class="btn btn-secondary text-sm">Modifier ma photo</a>
+                        {% else %}
+                        <a href="{{ path('app_account_image') }}" class="btn btn-secondary text-sm">Ajouter une photo</a>
+                        {% endif %}
+                        {% if app.user.userImage %}
+                        <form action="{{ path('app_account_image_delete') }}" method="post">
+                            <input type="hidden" name="token" value="{{ csrf_token('delete-image') }}">
+                            <button type="submit" class="btn btn-ghost text-destructive text-sm">
+                                <twig:ux:icon name="lucide:trash-2" class="w-6 object-fit text-destructive" />
+                                <span class="text-destructive">
                                 Supprimer la photo
                             </span>
-                        </button>
+                            </button>
+                        </form>
+                        {% endif %}
                     </div>
                 </div>
                 <a class="text-sm font-medium underline" href="#">Voir mon profil public</a>
