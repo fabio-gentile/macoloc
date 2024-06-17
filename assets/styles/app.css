@@ -75,6 +75,10 @@ body {
     @apply !text-accent;
 }
 
+.swiper-pagination-bullet-active {
+    @apply !bg-accent;
+}
+
 @media all and (width <= 992px) {
     .swiper-button-next,
     .swiper-button-prev {

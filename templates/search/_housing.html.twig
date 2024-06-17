@@ -15,7 +15,7 @@
         <div class="flex justify-between items-center text-sm flex-wrap gap-4">
             <span class="text-sm sm:text-base text-muted">{{ housing.city | upper }}, {{ housing.postalCode }}</span>
             {# TODO Add path #}
-            <a href="#" class="btn btn-ternary">
+            <a href="{{ path('app_housing', {'id': housing.id}) }}" class="btn btn-ternary">
                 En savoir plus
                 <twig:ux:icon name="lucide:arrow-right" class="w-4 object-fit text-foreground" />
             </a>

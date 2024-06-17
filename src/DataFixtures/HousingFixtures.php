@@ -33,7 +33,7 @@ class HousingFixtures extends Fixture implements DependentFixtureInterface
                 ->setTitle($faker->realTextBetween(10, 20))
                 ->setNumberOfRooms(rand(1, 10))
                 ->setSurfaceArea(rand(20, 200))
-                ->setDescription($faker->realTextBetween(100, 200))
+                ->setDescription($faker->paragraphs(rand(5, 10), true))
                 ->setCommodity($faker->randomElements($commodities, rand(0, count($commodities) - 4)))
                 ->setOther($faker->randomElements($other, rand(0, count($other))))
                 ->setLatitude($faker->latitude())

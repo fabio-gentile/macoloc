@@ -1,0 +1,262 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HousingController!{% endblock %}
+
+{% block body %}
+    {{ dump(housing) }}
+<div class="flex flex-col gap-8">
+    <div>
+        <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-4 md:gap-8">
+            <div class="flex flex-col gap-4">
+            <h1 class="font-semibold text-xl md:text-2xl font-foreground">{{ housing.title }}</h1>
+            <div class="flex gap-6">
+                <div class="flex gap-2 items-center">
+                    <twig:ux:icon name="lucide:bed" class="w-6 object-fit text-foreground" />
+                    <p class="text-foreground">{{ housing.chambers |length  }}</p>
+                </div>
+                <div class="flex gap-2 items-center">
+                    <twig:ux:icon name="lucide:maximize-2" class="w-6 object-fit text-foreground" />
+                    <p class="text-foreground">{{ housing.surfaceArea }}</p>
+                </div>
+                <div class="flex gap-2 items-center">
+                    <twig:ux:icon name="lucide:home" class="w-6 object-fit text-foreground" />
+                    <p class="text-foreground">{{ housing.type }}</p>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <twig:ux:icon name="lucide:map-pin" class="w-6 object-fit text-muted" />
+                <p class="text-muted text-sm md:text-base">{{ housing.city }}</p>
+            </div>
+        </div>
+            <div class="flex flex-col gap-4">
+                <div class="flex flex-col gap-2">
+                    <p class="text-primary font-semibold text-lg md:text-xl">{{ housing.price }}€/mois</p>
+                    <p class="text-muted text-sm md:text-base">Toutes charges comprises</p>
+                </div>
+                <div class="flex gap-4 items-center">
+    {#                TODO: share link#}
+                    <div class="p-3 bg-ternary w-fit rounded-full cursor-pointer">
+                        <twig:ux:icon name="lucide:share-2" class="w-6 object-fit text-foreground" />
+                    </div>
+                    <p class="text-muted text-sm md:text-base">Posté il y a {{ housing.createdAt | ago(locale='fr')  }}</p>
+                </div>
+            </div>
+        </div>
+        <hr class="h-px bg-input mt-4 border-0">
+    </div>
+
+    {# Carousel #}
+    <div>
+        <div
+            data-controller="carousel"
+            data-carousel-options-value='{
+                "slidesPerView": "auto",
+                "spaceBetween": 16,
+                "initialSlide": 0,
+                "navigation": {
+                    "nextEl": ".swiper-button-next",
+                    "prevEl": ".swiper-button-prev"
+                },
+                "pagination": {
+                    "clickable": true,
+                    "el": ".swiper-pagination"
+                },
+                "autoplay": {
+                    "delay": 5000,
+                    "disableOnInteraction": false
+                }
+            }'
+            class="swiper-container relative overflow-hidden">
+            <div class="swiper-wrapper ">
+                {% for image in housing.housingImages %}
+                    <div class="swiper-slide">
+                        <img src="{{ asset('uploads/housings/' ~ image.filename) }}" alt="Image du logement {{ housing.title }}" class="w-full min-h-[360px] md:min-h-[440px] object-cover rounded-lg">
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+
+    </div>
+
+    {# Informations #}
+    <div class="flex flex-col lg:flex-row gap-8">
+        {# Main #}
+        <div  class="flex flex-col gap-8 w-full">
+            {# Description #}
+            <div class="flex flex-col gap-4">
+                <div class="flex flex-row gap-4 items-center justify-between">
+                    <h2 class="font-medium text-xl text-foreground">Description</h2>
+                    <hr class="h-[2px] bg-foreground grow">
+                </div>
+                <p class="text-muted text-sm md:text-base">
+                    {{ housing.description | nl2br }}
+                </p>
+            </div>
+
+            {# Commodites #}
+            {% if housing.commodity | length > 0 %}
+            <div class="flex flex-col gap-4">
+                <div class="flex flex-row gap-4 items-center justify-between">
+                    <h2 class="font-medium text-xl text-foreground">Commodités</h2>
+                    <hr class="h-[2px] bg-foreground grow">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-y-6 md:gap-y-8">
+                    {% for commodity in housing.commodity %}
+                        <div class="flex gap-3 items-center">
+                            <div class="p-3 bg-ternary w-fit rounded-full">
+                            {% if commodity == 'Wi-Fi' %}
+                                <twig:ux:icon name="lucide:wifi" class="w-6 object-fit text-foreground" />
+                            {% elseif commodity == 'Meublé' %}
+                                <twig:ux:icon name="lucide:armchair" class="w-6 object-fit text-foreground" />
+                            {% elseif commodity == 'Parking' %}
+                                <twig:ux:icon name="lucide:circle-parking" class="w-6 object-fit text-foreground" />
+                            {% elseif commodity == 'Ascenseur' %}
+                                <twig:ux:icon name="mdi:elevator" class="w-6 object-fit text-foreground" />
+                            {% elseif commodity == 'Machine à laver' %}
+                                <twig:ux:icon name="lucide:washing-machine" class="w-6 object-fit text-foreground" />
+                            {% elseif commodity == 'Lave-vaisselle' %}
+                                <twig:ux:icon name="mdi:dishwasher" class="w-6 object-fit text-foreground" />
+                            {% elseif commodity == 'Climatisation' %}
+                                <twig:ux:icon name="lucide:air-vent" class="w-6 object-fit text-foreground" />
+                            {% elseif commodity == 'Jardin' %}
+                                <twig:ux:icon name="lucide:fence" class="w-6 object-fit text-foreground" />
+                            {% elseif commodity == 'Piscine' %}
+                                <twig:ux:icon name="cil:pool" class="w-6 object-fit text-foreground" />
+                            {% elseif commodity == 'Garage' %}
+                                <twig:ux:icon name="material-symbols-light:garage-outline" class="w-6 object-fit text-foreground" />
+                            {% endif %}
+                            </div>
+                            <p class="text-foreground">{{ commodity }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            {# Logement #}
+            <div class="flex flex-col gap-4">
+                <div class="flex flex-row gap-4 items-center justify-between">
+                    <h2 class="font-medium text-xl text-foreground">Logement</h2>
+                    <hr class="h-[2px] bg-foreground grow">
+                </div>
+                <div>
+                    <div class="flex justify-between flex-wrap text-sm md:text-base text-muted px-2 py-4 border-b border-input">
+                        <p>Type de logement</p>
+                        <p>{{ housing.type }}</p>
+                    </div>
+                    <div class="flex justify-between flex-wrap text-sm md:text-base text-muted px-2 py-4 border-b border-input">
+                        <p>Chambres disponibles</p>
+                        <p>{{ housing.chambers | length }}</p>
+                    </div>
+                    <div class="flex justify-between flex-wrap text-sm md:text-base text-muted px-2 py-4 border-b border-input">
+                        <p>Disponibilité</p>
+                        <p>
+                            {% set today = date() %}
+                            {% if housing.avaibleAt > today %}
+                                <span class="text-sm">{{ housing.avaibleAt | format_datetime(locale='fr', pattern="dd MMMM YYYY") }}</span>
+                            {% else %}
+                                <span class="text-sm">Immédiat</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="flex justify-between flex-wrap text-sm md:text-base text-muted px-2 py-4 border-b border-input">
+                        <p>Pièces disponibles</p>
+                        <p>{{ housing.numberOfRooms }}</p>
+                    </div>
+                    <div class="flex justify-between flex-wrap text-sm md:text-base text-muted px-2 py-4 border-b border-input">
+                        <p>Surface</p>
+                        <p>{{ housing.surfaceArea | number_format }}m²</p>
+                    </div>
+                    <div class="flex justify-between flex-wrap text-sm md:text-base text-muted px-2 py-4 border-b border-input">
+                        <p>Fumeurs acceptés</p>
+                        <p>
+                            {% if 'Fumeurs' in housing.other %}
+                                Oui
+                            {% else %}
+                                Non
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="flex justify-between flex-wrap text-sm md:text-base text-muted px-2 py-4">
+                        <p>Animaux acceptés</p>
+                        <p>
+                            {% if 'Animaux' in housing.other %}
+                                Oui
+                            {% else %}
+                                Non
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {# Chamber #}
+            {% for chamber in housing.chambers %}
+                <div class="flex flex-col gap-4">
+                    <div class="flex flex-row gap-4 items-center justify-between">
+                        <h2 class="font-medium text-xl text-foreground">Chamber {{ loop.index }}</h2>
+                        <hr class="h-[2px] bg-foreground grow">
+                    </div>
+                    <div>
+                        <div class="flex justify-between flex-wrap text-sm md:text-base text-muted px-2 py-4 border-b border-input">
+                            <p>Disponibilité</p>
+                            <p>
+                                {% set today = date() %}
+                                {% if chamber.avaibleAt > today %}
+                                    <span class="text-sm">{{ chamber.avaibleAt | format_datetime(locale='fr', pattern="dd MMMM YYYY") }}</span>
+                                {% else %}
+                                    <span class="text-sm">Immédiat</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="flex justify-between flex-wrap text-sm md:text-base text-muted px-2 py-4 border-b border-input">
+                            <p>Meublé</p>
+                            <p>
+                                {% if chamber.furnished %}
+                                    Oui
+                                {% else %}
+                                    Non
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="flex justify-between flex-wrap text-sm md:text-base text-muted px-2 py-4 border-b border-input">
+                            <p>Surface</p>
+                            <p>{{ chamber.surfaceArea | number_format }}m²</p>
+                        </div>
+                        <div class="flex justify-between flex-wrap text-sm md:text-base text-muted px-2 py-4">
+                            <p>Caution</p>
+                            <p>{{ chamber.caution | format_currency('EUR', locale='fr') }}</p>
+                        </div>
+                        <div class="flex justify-between flex-wrap text-sm md:text-base bg-ternary text-foreground font-semibold px-2 py-4">
+                            <p>Prix</p>
+                            <p>{{ chamber.price | format_currency('EUR', locale='fr') }}/mois</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            {# Map #}
+        </div>
+
+        <aside>
+            <div class="sticky top-4 flex flex-col gap-8 items-center justify-center bg-ternary rounded-lg p-6 min-w-max">
+                <h2 class="font-semibold text-xl text-foreground break-words text-center">Cette annonce vous intéresse ?</h2>
+                {% if housing.user.userImage %}
+                    <img src="{{ asset('uploads/users/' ~ housing.user.userImage.filename) }}" alt="Avatar de {{ housing.user.getFullname }}" class="rounded-full object-contain w-[150px] h-[150px]">
+                {% else %}
+                    <img src="https://ui-avatars.com/api/?name={{ housing.user.firstName }}+{{ housing.user.lastName }}" alt="Avatar de {{ housing.user.getFullname }}" class="rounded-full object-contain w-[150px] h-[150px]">
+                {% endif %}
+                <p class="font-semibold text-xl text-foreground">{{ housing.user.firstname }}</p>
+{#                TODO: Add redirection#}
+                <button class="btn btn-primary w-fit">
+                    Envoyer un message
+                    <twig:ux:icon name="lucide:chevron-right" class="w-6 object-fit text-white" />
+                </button>
+            </div>
+        </aside>
+    </div>
+</div>
+{% endblock %}

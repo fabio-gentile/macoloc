@@ -21,8 +21,10 @@ class HousingImageFixtures extends Fixture implements DependentFixtureInterface
                 $housingImage = new HousingImage();
 
                 $housingImage->setMimeType('image/jpeg')
-                    ->setFilename($faker->sha256() . '.jpeg')
-                    ->setOriginalFilename($faker->sha256() . '.jpeg')
+//                    ->setFilename($faker->sha256() . '.jpeg')
+//                    ->setOriginalFilename($faker->sha256() . '.jpeg')
+                    ->setFilename('bedroom.jpg')
+                    ->setOriginalFilename('bedroom.jpg')
                     ->setHousing($housing);
 
                 $manager->persist($housingImage);

@@ -16,6 +16,7 @@
         "dragonmantank/cron-expression": "*",
         "fakerphp/faker": "^1.23",
         "knplabs/knp-paginator-bundle": "^6.4",
+        "knplabs/knp-time-bundle": "^2.4",
         "league/csv": "^9.0",
         "runtime/frankenphp-symfony": "^0.2.0",
         "scienta/doctrine-json-functions": "^6.1",
