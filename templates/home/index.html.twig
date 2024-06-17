@@ -24,7 +24,7 @@
                     <h3 class="font-semibold">Logement</h3>
                 </div>
                 <p class="text-sm sm:text-base text-muted text-center">Lorem ipsum dolor sit amet consectetur. Vitae venenatis sociis ornare quis vitae leo. Tincidunt suspendisse nunc tincidunt ultricies nam aliquet nulla ultricies. Magna id tortor donec at. Sed diam odio non lacus id aliquam habitant volutpat.</p>
-                <a href="#" class="btn btn-primary w-full">Trouver un logement</a>
+                <a href="{{ path('app_search_housing') }}" class="btn btn-primary w-full">Trouver un logement</a>
             </div>
             <div class="flex flex-col gap-4 items-center">
                 <div class="flex flex-col gap-4">
@@ -34,7 +34,7 @@
                     <h3 class="font-semibold">Colocataires</h3>
                 </div>
             <p class="text-sm sm:text-base text-muted text-center">Lorem ipsum dolor sit amet consectetur. Vitae venenatis sociis ornare quis vitae leo. Tincidunt suspendisse nunc tincidunt ultricies nam aliquet nulla ultricies. Magna id tortor donec at. Sed diam odio non lacus id aliquam habitant volutpat.</p>
-            <a href="#" class="btn btn-secondary w-full">Trouver des colocataires</a>
+            <a href="{{ path('app_search_tenant') }}" class="btn btn-secondary w-full">Trouver des colocataires</a>
         </div>
         </div>
     </div>
@@ -74,7 +74,10 @@
                             <p class="text-foreground text-sm">{{ tenant.activity }}, {{ tenant.age }} ans</p>
                             <p class="text-foreground text-sm">Budget de <span class="font-medium">{{ tenant.budget }}€</span></p>
                             <p class="text-sm text-muted">{{ tenant.description | u.truncate(90, '...') }}</p>
-                            <a href="#" class="btn btn-primary w-full">Envoyer un message</a>
+                            <a href="{{ path('app_tenant', {'id': tenant.id}) }}" data-turbo="false" class="btn btn-ternary">
+                                En savoir plus
+                                <twig:ux:icon name="lucide:arrow-right" class="w-4 object-fit text-foreground" />
+                            </a>
                         </div>
                     </div>
                 {% endfor %}
@@ -85,7 +88,7 @@
     </div>
 
     {# Newsletter #}
-    <div class="flex gap-6 md:gap-8 flex-col wrapper !max-w-[800px] overflow-hidden mt-8 my:mt-12">
+    <div class="flex gap-6 md:gap-8 flex-col wrapper !pr-0 !max-w-[800px] overflow-hidden mt-8 my:mt-12">
         {{ component('NewsletterSubscribe') }}
     </div>
 {% endblock %}
