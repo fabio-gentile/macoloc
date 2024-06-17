@@ -1,0 +1,13 @@
+{# templates/emails/signup.html.twig #}
+<h1>Welcome {{ unsubscribe_token }}!</h1>
+
+<p><code>test</code></p>
+
+<p>{{ newsletter_token }}</p>
+<p>Thanks for signing up to our newsletter. You can unsubscribe at any time by clicking the link below:</p>
+<a href="{{ url('app_newsletter_unsubscribe', {
+    'ut': unsubscribe_token,
+    'nt': newsletter_token
+    }
+) }}">Unsubscribe</a>
+

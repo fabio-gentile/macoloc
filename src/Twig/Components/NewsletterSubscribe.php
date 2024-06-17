@@ -3,6 +3,7 @@
 namespace App\Twig\Components;
 
 use App\Entity\NewsletterSubscriber;
+use App\Service\NewsletterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -34,7 +35,7 @@ final class NewsletterSubscribe extends AbstractController
     }
 
     #[LiveAction]
-    public function save(EntityManagerInterface $entityManager)
+    public function save(EntityManagerInterface $entityManager, NewsletterService $service): void
     {
         // Submit the form! If validation fails, an exception is thrown
         // and the component is automatically re-rendered with the errors
@@ -52,5 +53,6 @@ final class NewsletterSubscribe extends AbstractController
         $this->isSubmittedSuccessfully = true;
         $this->registeredEmail = $email;
 //        TODO: Send confirmation link to the email address 24 hours validity
+        $service->sendNewsletter();
     }
 }

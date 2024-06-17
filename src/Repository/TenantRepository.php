@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Data\SearchHousingData;
 use App\Data\SearchTenantData;
 use App\Entity\Tenant;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -44,6 +45,22 @@ class TenantRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * Find latest tenants
+     * @param DateTime $yesterday
+     * @return Tenant[]|null
+     */
+    public function findLatest(DateTime $yesterday = new DateTime('-1 day')): ?array
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.createdAt', 'DESC')
+            ->where('t.createdAt BETWEEN :yesterday AND :today')
+            ->setParameter('yesterday', $yesterday)
+            ->setParameter('today', new DateTime())
+            ->getQuery()
+            ->getResult();
+    }
 
     /**
      * Find tenants by filters

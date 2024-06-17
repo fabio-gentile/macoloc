@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Data\SearchHousingData;
 use App\Entity\Housing;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -43,6 +44,22 @@ class HousingRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    /**
+     * Find latest housings
+     * @param DateTime $yesterday
+     * @return Housing[]|null
+     */
+    public function findLatest(DateTime $yesterday = new DateTime('-1 day')): ?array
+    {
+        return $this->createQueryBuilder('h')
+            ->orderBy('h.createdAt', 'DESC')
+            ->where('h.createdAt BETWEEN :yesterday AND :today')
+            ->setParameter('yesterday', $yesterday)
+            ->setParameter('today', new DateTime())
+            ->getQuery()
+            ->getResult();
+    }
 
     /**
      * Find housings by filters
@@ -86,7 +103,7 @@ class HousingRepository extends ServiceEntityRepository
 
         if ($data->disponibility) {
             $queryBuilder->andWhere('h.avaibleAt <= :disponibility')
-                ->setParameter('disponibility', new \DateTime());
+                ->setParameter('disponibility', new DateTime());
         }
 
         if ($data->min_price) {
