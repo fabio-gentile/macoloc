@@ -21,8 +21,14 @@ class HousingController extends AbstractController
     #[Route('/{id}', name: 'app_housing', requirements: ['id' => Requirement::UUID_V4])]
     public function index(UuidV4 $id): Response
     {
+        $housing = $this->housingRepository->find($id);
+
+        if (!$housing) {
+            throw $this->createNotFoundException('Logement non trouvé.');
+        }
+
         return $this->render('housing/index.html.twig', [
-            'housing' => $this->housingRepository->find($id),
+            'housing' => $housing
         ]);
     }
 }
