@@ -3,7 +3,6 @@
 {% block title %}Hello HousingController!{% endblock %}
 
 {% block body %}
-    {{ dump(housing) }}
 <div class="flex flex-col gap-8">
     <div>
         <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-4 md:gap-8">
@@ -30,8 +29,8 @@
         </div>
             <div class="flex flex-col gap-4">
                 <div class="flex flex-col gap-2">
-                    <p class="text-primary font-semibold text-lg md:text-xl">{{ housing.price }}€/mois</p>
-                    <p class="text-muted text-sm md:text-base">Toutes charges comprises</p>
+                    <p class="text-primary font-semibold text-lg md:text-xl md:text-right">{{ housing.price }}€/mois</p>
+                    <p class="text-muted text-sm md:text-base md:text-right">Toutes charges comprises</p>
                 </div>
                 <div class="flex gap-4 items-center">
     {#                TODO: share link#}
@@ -197,7 +196,7 @@
             {% for chamber in housing.chambers %}
                 <div class="flex flex-col gap-4">
                     <div class="flex flex-row gap-4 items-center justify-between">
-                        <h2 class="font-medium text-xl text-foreground">Chamber {{ loop.index }}</h2>
+                        <h2 class="font-medium text-xl text-foreground">Chambre {{ loop.index }}</h2>
                         <hr class="h-[2px] bg-foreground grow">
                     </div>
                     <div>
@@ -237,8 +236,6 @@
                     </div>
                 </div>
             {% endfor %}
-
-            {# Map #}
         </div>
 
         <aside>
@@ -257,6 +254,14 @@
                 </button>
             </div>
         </aside>
+    </div>
+
+    {# Map #}
+    <div class="flex flex-col gap-4">
+        <div class="map-container" data-controller="map" data-map-lat-value="{{ housing.latitude }}" data-map-lon-value="{{ housing.longitude }}">
+            <div data-map-target="container" class="h-[450px] lg:h-[550px]"></div>
+        </div>
+        <p class="text-muted text-sm md:text-base">Numéro de l'annonce: {{ housing.id }}</p>
     </div>
 </div>
 {% endblock %}
