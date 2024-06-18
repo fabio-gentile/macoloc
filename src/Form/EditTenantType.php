@@ -33,7 +33,7 @@ class EditTenantType extends AbstractType
                 'constraints' => [
                     new Length([
                         'min' => 50,
-                        'max' => 500,
+                        'max' => 1500,
                         'minMessage' => 'La description doit contenir au moins {{ limit }} caractères.',
                         'maxMessage' => 'La description doit contenir au maximum {{ limit }} caractères.',
                     ]),

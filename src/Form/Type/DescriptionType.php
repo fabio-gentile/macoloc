@@ -36,7 +36,7 @@ class DescriptionType extends AbstractType
                 'constraints' => [
                     new Length([
                         'min' => 50,
-                        'max' => 1000,
+                        'max' => 2000,
                         'minMessage' => 'La description doit contenir au moins {{ limit }} caractères.',
                         'maxMessage' => 'La description doit contenir au maximum {{ limit }} caractères.'
                     ])
