@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\NewsletterSubscriber;
+use App\Validator\NewsletterEmailSameAsUser;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,6 +29,7 @@ class NewsletterType extends AbstractType
                         'max' => 180,
                         'maxMessage' => 'Votre adresse email doit contenir au maximum {{ limit }} caractères',
                     ]),
+                    new NewsletterEmailSameAsUser(),
                 ],
             ])
         ;

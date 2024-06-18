@@ -63,7 +63,9 @@
                 <p class="text-sm text-muted lg:text-base">Gérer les paramètres de mon compte</p>
             </a>
         </div>
-        {{ component('NewsletterSubscribe') }}
+        {% if isSubscribedNewsletter %}
+            {{ component('NewsletterSubscribe') }}
+        {% endif %}
     </div>
 
 {% endblock %}

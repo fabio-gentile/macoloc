@@ -88,7 +88,9 @@
     </div>
 
     {# Newsletter #}
+    {% if isSubscribedNewsletter %}
     <div class="flex gap-6 md:gap-8 flex-col wrapper !pr-0 !max-w-[800px] overflow-hidden mt-8 my:mt-12">
         {{ component('NewsletterSubscribe') }}
     </div>
+    {% endif %}
 {% endblock %}

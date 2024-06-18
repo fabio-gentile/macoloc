@@ -3,11 +3,9 @@
         <div class="flex flex-col gap-4">
             {% if isSubmittedSuccessfully %}
             {% block newsletter_subscribed %}
-                <div class="bg-other p-4 rounded-lg">
-                    <p>
-                        Un e-mail de confirmation a été envoyé à <span class="font-semibold">{{ registeredEmail }}</span>. Veuillez vérifier votre boîte de réception. Si vous ne le trouvez pas, vérifiez votre dossier de courrier indésirable.
-                    </p>
-                    <p class="mt-4">Le lien de confirmation est valide pendant <span class="font-semibold">24 heures</span>.</p>
+                <div class="bg-success/30 p-4 rounded-lg">
+                    <p>Vous venez de vous inscrire à notre newsletter avec l'adresse <span class="font-semibold">{{ registeredEmail }}</span>.</p>
+                    <p class="mt-4">À partir de maintenant, vous recevrez chaque jour à 9h du matin un email récapitulant les dernières annonces postées au cours des dernières 24 heures.</p>
                 </div>
             {% endblock %}
             {% else %}

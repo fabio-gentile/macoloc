@@ -8,6 +8,7 @@ use App\Factory\FileUploaderFactory;
 use App\Form\AccountType;
 use App\Form\UserImageType;
 use App\Repository\HousingRepository;
+use App\Repository\NewsletterSubscriberRepository;
 use App\Repository\TenantRepository;
 use App\Repository\UserAccountRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,10 +30,14 @@ class AccountController extends AbstractController
     {}
 
     #[Route('/', name: 'app_account')]
-    public function index(): Response
+    public function index(NewsletterSubscriberRepository $newsletterSubscriberRepository): Response
     {
-        return $this->render('account/index.html.twig', [
+        $user = $this->getUser();
+        $isSubscribedNewsletter =
+            $user && boolval($newsletterSubscriberRepository->findOneBy(['email' => $user->getEmail()]));
 
+        return $this->render('account/index.html.twig', [
+            'isSubscribedNewsletter' => !$isSubscribedNewsletter,
         ]);
     }
 
