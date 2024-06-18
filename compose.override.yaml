@@ -12,6 +12,7 @@ services:
       #- ./frankenphp/certs:/etc/caddy/certs:ro
       - ./public:/app/public:ro
       - ./public/uploads:/app/public/uploads
+      - ./public:/app/public
       # If you develop on Mac or Windows you can remove the vendor/ directory
       #  from the bind-mount for better performance by enabling the next line:
       - /app/vendor

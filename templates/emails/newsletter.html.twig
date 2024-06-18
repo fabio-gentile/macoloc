@@ -1,13 +1,84 @@
-{# templates/emails/signup.html.twig #}
-<h1>Welcome {{ unsubscribe_token }}!</h1>
+{% extends 'emails/base.html.twig' %}
 
-<p><code>test</code></p>
+{% block title %}Newsletter du {{ date() | format_datetime(locale='fr', pattern="dd MMMM YYYY") }}{% endblock %}
 
-<p>{{ newsletter_token }}</p>
-<p>Thanks for signing up to our newsletter. You can unsubscribe at any time by clicking the link below:</p>
-<a href="{{ url('app_newsletter_unsubscribe', {
-    'ut': unsubscribe_token,
-    'nt': newsletter_token
-    }
-) }}">Unsubscribe</a>
+{% block body %}
+    <div class="flex flex-col gap-8">
+        <a href="{{ url('app_homepage') }}" class="flex flex-col gap-2 justify-center items-center">
+            <img src="{{ email.image('@images/logo.png') }}" class="object-fit w-28 md:w-40" alt="Logo Macoloc">
+            <h1 class="text-primary font-semibold text-xl sm:text-2xl lg:text-3xl">Macoloc</h1>
+        </a>
+        <h1 class="font-semibold text-2xl font-foreground">Newsletter du {{ date() | format_datetime(locale='fr', pattern="dd MMMM YYYY") }}</h1>
+        {% set singularMessageHousing = ' Logement a été mis en annonce.' %}
+        {% set pluralMessageHousing = ' Logements ont été mis en annonce.' %}
+        {% set singularMessageTenant = ' Annonces de recherche de logement a été publiée.' %}
+        {% set pluralMessageTenant = ' Annonces de recherche de logement ont été publiées.' %}
+        <div class="flex flex-col gap-8">
+            <p class="text-sm md:text-base text-muted">
+                {% if housings | length > 0 %}
+                    {% if housings | length == 1 %}
+                        {{ housings | length }}{{ singularMessageHousing }}
+                    {% else %}
+                        {{ housings | length }}{{ pluralMessageHousing }}
+                    {% endif %}
+                {% endif %}
+            </p>
+            <div class="flex flex-col lg:flex-row gap-4 sm:gap-6">
+                {% for housing in housings | slice(0, 3) %}
+                    <div class="bg-white rounded-lg border-input border flex flex-col md:flex-row">
+                        <img src="https://placehold.co/400" alt="House" class="w-full md:w-[250px] h-[250px] md:min-h-[220px] md:h-full object-cover rounded-t-lg" />
+                        <div class="p-4 grid gap-4 grow">
+                            <h3 class="text-foreground font-medium">{{ housing.title }}</h3>
+                            <p class="text-sm sm:text-base text-muted break-all">{{ housing.description | u.truncate(100, '...') }}</p>
+                            <p>
+                                <span class="font-medium text-base">{{ housing.price }}€</span>
+                                {% if housing.avaibleAt > date() %}
+                                    <span class="text-sm">, disponible le {{ housing.avaibleAt | format_datetime(locale='fr', pattern="EEEE dd MMMM YYYY") }}</span>
+                                {% else %}
+                                    <span class="text-sm">, disponible immédiatement</span>
+                                {% endif %}
+
+                            </p>
+                            <div class="flex justify-between items-center text-sm flex-wrap gap-4">
+                                <span class="text-sm sm:text-base text-muted">{{ housing.city | upper }}, {{ housing.postalCode }}</span>
+                                <a href="{{ url('app_housing', {'id': housing.id}) }}" data-turbo="false" class="btn btn-ternary">
+                                    En savoir plus
+                                    <twig:ux:icon name="lucide:arrow-right" class="w-4 object-fit text-foreground" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="flex flex-col gap-8">
+            <p class="text-sm md:text-base text-muted">
+                {% if tenants | length > 0 %}
+                    {% if tenants | length == 1 %}
+                        {{ tenants | length }}{{ singularMessageTenant }}
+                    {% else %}
+                        {{ tenants | length }}{{ pluralMessageTenant }}
+                    {% endif %}
+                {% endif %}
+            </p>
+            <div class="grid grid-cols-1 place-items-center sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {% for tenant in tenants | slice(0, 3) %}
+                    <div class="max-w-[300px] w-full bg-white rounded-lg border-input border flex flex-col">
+                        <img src="https://placehold.co/400" alt="House" class="w-full h-[250px] object-cover" />
+                        <div class="p-4 grid gap-4 grow">
+                            <h6 class="text-foreground font-medium">{{ tenant.getUser.firstname }}</h6>
+                            <p class="text-foreground text-sm">{{ tenant.activity }}, {{ tenant.age }} ans</p>
+                            <p class="text-foreground text-sm">Budget de <span class="font-medium">{{ tenant.budget }}€</span></p>
+                            <p class="text-sm text-muted">{{ tenant.description | u.truncate(90, '...') }}</p>
+                            <a href="{{ url('app_tenant', {'id': tenant.id}) }}" data-turbo="false" class="btn btn-ternary">
+                                En savoir plus
+                                <twig:ux:icon name="lucide:arrow-right" class="w-4 object-fit text-foreground" />
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
 

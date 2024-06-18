@@ -1,0 +1,15 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+{% apply inline_css(source('@styles/email.css')) %}
+<body class="overflow-x-hidden mx-auto flex flex-col justify-center">
+    <main class="grow wrapper my-8 my:my-12">
+    {% block body %}{% endblock %}
+    </main>
+    {% include 'emails/_footer.html.twig' with {
+        'unsubscribe_token': unsubscribe_token,
+        'newsletter_token': newsletter_token
+    } %}
+</body>
+{% endapply %}
