@@ -42,18 +42,17 @@
         {% else %}
         <main class="grow wrapper my-8 my:my-12">
         {% endif %}
-            {% block body %}
-                {{ dump(app.flashes) }}
-                {% for label, messages in app.flashes %}
-                    <div class="mt-6 md:mt-8">
-                        <div class='alert alert-{{ label }}'>
-                            {% for message in messages %}
-                                <p>{{ message | raw }}</p>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endfor %}
-            {% endblock %}
+        {% for label, messages in app.flashes %}
+            <div class="mb-6 md:mb-8">
+                <div class='alert alert-{{ label }}'>
+                    {% for message in messages %}
+                        <p>{{ message | raw }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        {% block body %}
+        {% endblock %}
         </main>
         {% include 'partials/_footer.html.twig' %}
     </body>
