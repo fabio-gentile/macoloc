@@ -66,7 +66,14 @@
                         {{ form_help(form.image) }}
                         {{ form_widget(form.image, { 'attr': {'class': 'w-full flex flex-col gap-4 justify-between', 'data-image-preview-target': 'input'} }) }}
                         {{ form_errors(form.image) }}
-                        <div data-image-preview-target="preview" class="flex gap-2.5 mt-3 flex-wrap"></div>
+                        <div data-image-preview-target="preview" class="flex gap-2.5 mt-3 flex-wrap">
+                            {% set current_path = app.request.get('_route') %}
+                            {% if current_path == 'app_tenant_edit' %}
+                                {% if tenant.tenantImage %}
+                                    <img src="{{ asset('uploads/tenants/' ~ tenant.tenantImage.filename) }}" alt="Avatar de {{ tenant.user.getFullname }}" class="preview-image !rounded-full">
+                                {% endif %}
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
                 {{ form_row(form._token) }}

@@ -128,3 +128,7 @@ sf-mvalidator: ## Make Validator
 	@$(SYMFONY) make:validator
 .PHONY: sf-mvalidator
 
+sf-mv: ## Make Voter
+	@$(SYMFONY) make:voter
+.PHONY: sf-mv
+

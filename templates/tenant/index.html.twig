@@ -72,9 +72,13 @@
                             <p>Activité</p>
                             <p>{{ tenant.activity }}</p>
                         </div>
+                        <div class="flex justify-between flex-wrap text-sm md:text-base text-muted px-2 py-4 border-b border-input">
+                            <p>Âge</p>
+                            <p>{{ tenant.age }} ans</p>
+                        </div>
                         <div class="flex justify-between flex-wrap text-sm md:text-base text-muted px-2 py-4">
                             <p>Genre</p>
-                            <p>{{ tenant.gender }}</p>
+                            <p>{{ tenant.user.getGender }}</p>
                         </div>
                         <div class="flex justify-between flex-wrap text-sm md:text-base bg-ternary text-foreground font-semibold px-2 py-4">
                             <p>Budget (TTC)</p>
@@ -107,7 +111,7 @@
         {# Map #}
         <div class="flex flex-col gap-4">
             <div class="map-container" data-controller="map" data-map-lat-value="{{ tenant.latitude }}" data-map-lon-value="{{ tenant.longitude }}">
-                <div data-map-target="container" class="h-[450px] lg:h-[550px]"></div>
+                <div data-map-target="container" class="h-[450px] bg-input lg:h-[550px]"></div>
             </div>
             <p class="text-muted text-sm md:text-base">Numéro de l'annonce: {{ tenant.id }}</p>
         </div>
