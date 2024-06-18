@@ -5,8 +5,13 @@
 {% block body %}
     <div class="flex flex-col gap-4 items-center">
         <div class="flex flex-col gap-2 sm:gap-0 sm:flex-row w-full justify-center">
+            {% set current_path = app.request.get('_route') %}
+            {% if current_path == 'app_tenant_edit' %}
+            <h1 class="font-semibold text-2xl font-foreground">Modification de l'annonce de {{ tenant.user.getFullname }}</h1>
+            {% else %}
             <a href="{{ path('app_publish_housing') }}" class="btn btn-secondary w-full sm:w-fit md:rounded-none md:rounded-l-lg">Proposer un logement</a>
             <a href="{{ path('app_publish_tenant') }}" class="btn btn-primary w-full sm:w-fit md:rounded-none md:rounded-r-lg">Je recherche un logement</a>
+            {% endif %}
         </div>
         <div class="md:!max-w-[800px] w-full">
             {{ form_start(form) }}
