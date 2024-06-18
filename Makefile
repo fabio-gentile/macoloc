@@ -132,3 +132,7 @@ sf-mv: ## Make Voter
 	@$(SYMFONY) make:voter
 .PHONY: sf-mv
 
+sf-msc: ## Make Stimulus Controller
+	@$(SYMFONY) make:stimulus-controller
+.PHONY: sf-msc
+

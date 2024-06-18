@@ -30,10 +30,9 @@
                     </div>
                 </div>
                 <div class="flex flex-col gap-4">
-                    <div class="flex gap-4 items-center">
-                        {#                TODO: share link#}
-                        <div class="p-3 bg-ternary w-fit rounded-full cursor-pointer">
-                            <twig:ux:icon name="lucide:share-2" class="w-6 object-fit text-foreground" />
+                    <div data-controller="clipboard" data-clipboard-link-value="{{ url('app_tenant', { 'id': tenant.id }) }}" class="flex gap-4 items-center">
+                        <div data-clipboard-target="button" data-action="click->clipboard#copy" class="p-3 bg-ternary w-fit rounded-full cursor-pointer">
+                            <twig:ux:icon name="lucide:share-2" class="w-6 object-fit text-foreground pointer-events-none" data-clipboard-target="svg" />
                         </div>
                         <p class="text-muted text-sm md:text-base">Posté il y a {{ tenant.createdAt | ago(locale='fr')  }}</p>
                     </div>
