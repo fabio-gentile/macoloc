@@ -32,7 +32,6 @@ class Housing
     private ?string $type = null;
 
     #[ORM\Column]
-    #[Assert\Choice(choices: NumberOfRoomsType::TOTAL_NUMBER_OF_ROOMS_CHOICES, message: "Espaces de disponibles invalides.")]
     private ?int $numberOfRooms = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 6, scale: 2)]
@@ -40,7 +39,6 @@ class Housing
     private ?string $surfaceArea = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Assert\DateTime]
     private ?\DateTimeInterface $avaibleAt = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -53,15 +51,12 @@ class Housing
     private ?string $description = null;
 
     #[ORM\Column]
-    #[Assert\DateTime]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Assert\DateTime]
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true, options: ['jsonb' => true])]
-    #[Assert\Choice(choices: CommodityType::COMMODITY_CHOICES, message: "Commodités invalides.")]
     private ?array $commodity = null;
 
     #[ORM\Column(nullable: true)]

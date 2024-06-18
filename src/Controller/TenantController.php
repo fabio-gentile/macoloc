@@ -59,6 +59,7 @@ class TenantController extends AbstractController
                 ->setDescription($form->get('description')->getData())
                 ->setActivity($about['activity'])
                 ->setGender($tenant->getUser()->getGender())
+                ->setUpdatedAt(new \DateTime())
             ;
 
             if ($image) {

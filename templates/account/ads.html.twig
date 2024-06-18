@@ -38,13 +38,13 @@
                     {#                action#}
                     <div class="bg-other flex flex-col gap-2 p-4 md:flex-row justify-center lg:flex-col lg:min-w-[250px]">
 {#                        TODO: Ajouter redirections#}
-                        <a href="#" type="button" class="btn btn-ghost text-sm w-fit">
+                        <a href="{{ path('app_housing', {'id': housing.id}) }}" type="button" class="btn btn-ghost text-sm w-fit">
                             <twig:ux:icon name="lucide:eye" class="w-6 object-fit text-muted" />
                             <span class="text-muted">
                             Voir l'annonce
                         </span>
                         </a>
-                        <a href="#" type="button" class="btn btn-ghost text-sm w-fit">
+                        <a href="{{ path('app_housing_edit', {'id': housing.id}) }}" type="button" class="btn btn-ghost text-sm w-fit">
                             <twig:ux:icon name="lucide:pencil" class="w-6 object-fit text-muted" />
                             <span class="text-muted">
                             Modifier l'annonce

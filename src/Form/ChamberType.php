@@ -21,7 +21,7 @@ class ChamberType extends AbstractType
                 'widget' => 'single_text',
                 'required' => true,
                 'label' => 'Date de disponibilité',
-                'data' => new \DateTime(),
+                'empty_data' => new \DateTime(),
             ])
             ->add('price', MoneyType::class, [
                 'required' => true,

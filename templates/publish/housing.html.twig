@@ -105,7 +105,17 @@
                     {{ form_help(form.images) }}
                     {{ form_widget(form.images, { 'attr': {'class': 'w-full flex flex-col gap-4 justify-between', 'data-image-preview-target': 'input'} }) }}
                     {{ form_errors(form.images) }}
-                    <div data-image-preview-target="preview" class="flex gap-2.5 mt-3 flex-wrap"></div>
+                    <div class="flex gap-2.5 mt-3 flex-wrap">
+                        {% set current_path = app.request.get('_route') %}
+                        {% if current_path == 'app_housing_edit' %}
+                            {% if housing.housingImages %}
+                                {% for image in housing.housingImages %}
+                                    <img src="{{ asset('uploads/housings/' ~ image.filename) }}" alt="Logement de {{ housing.user.getFullname }}" class="preview-image">
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+                        <div data-image-preview-target="preview" class="flex gap-2.5 mt-3 flex-wrap"></div>
+                    </div>
                 </div>
             </div>
             {{ form_row(form._token) }}

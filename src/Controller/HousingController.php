@@ -2,33 +2,120 @@
 
 namespace App\Controller;
 
-use App\Repository\HousingRepository;
+use App\Entity\FrenchCity;
+use App\Entity\Housing;
+use App\Entity\HousingImage;
+use App\Factory\FileUploaderFactory;
+use App\Form\EditHousingType;
+use App\Repository\ChamberRepository;
+use App\Repository\FrenchCityRepository;
+use App\Security\Voter\HousingVoter;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
-use Symfony\Component\Uid\UuidV4;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/housing')]
+#[Route('/housing/{id}', requirements: ['id' => Requirement::UUID_V4])]
 class HousingController extends AbstractController
 {
     public function __construct(
-        private HousingRepository $housingRepository
+        private readonly EntityManagerInterface $entityManager,
+        private readonly FrenchCityRepository $frenchCityRepository,
+        private readonly ChamberRepository $chamberRepository
     )
     {
     }
 
-    #[Route('/{id}', name: 'app_housing', requirements: ['id' => Requirement::UUID_V4])]
-    public function index(UuidV4 $id): Response
+    #[Route('/', name: 'app_housing')]
+    public function index(Housing $housing): Response
     {
-        $housing = $this->housingRepository->find($id);
+        return $this->render('housing/index.html.twig', [
+            'housing' => $housing,
+            'chambers' => $this->chamberRepository->findBy(['Housing' => $housing], ['avaibleAt' => 'ASC'])
+        ]);
+    }
 
-        if (!$housing) {
-            throw $this->createNotFoundException('Logement non trouvé.');
+    #[Route('/edit', name: 'app_housing_edit')]
+    #[isGranted(HousingVoter::EDIT, subject: 'housing')]
+    public function edit(
+        Housing $housing,
+        FileUploaderFactory $fileUploaderFactory,
+        Request $request
+    ): Response
+    {
+        $form = $this->createForm(EditHousingType::class, [$housing, $this->frenchCityRepository->findOneBy(['city' => $housing->getCity()])]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var FrenchCity $address */
+            $address = $form->get('address')->getData();
+            $housingType = $form->get('housing')->getData();
+            $chambers = $form->get('chambers')->getData();
+            $commodity = $form->get('commodity')->getData();
+            $other = $form->get('other')->getData();
+            $description = $form->get('description')->getData();
+            $images = $form->get('images')->getData();
+
+            $housing
+                ->setCommodity($commodity)
+                ->setOther($other)
+                ->setCity($address->getCity())
+                ->setPostalCode($address->getPostalCode())
+                ->setLatitude($address->getLatitude())
+                ->setLongitude($address->getLongitude())
+                ->setType($housingType['type_housing'])
+                ->setSurfaceArea($housingType['surface_area'])
+                ->setNumberOfRooms($housingType['number_of_rooms'])
+                ->setTitle($description['title'])
+                ->setDescription($description['description'])
+                ->setUpdatedAt(new \DateTime())
+            ;
+
+            // Add chambers
+            foreach ($chambers as $chamber) {
+                if (null === $chamber->getId()) {
+                    // New chamber
+                    $housing->addChamber($chamber);
+                }
+            }
+
+            // Remove chambers
+            $originalChambers = $this->chamberRepository->findBy(['Housing' => $housing]);
+            foreach ($originalChambers as $originalChamber) {
+                if (!$chambers->contains($originalChamber)) {
+                    $housing->removeChamber($originalChamber);
+                    $this->entityManager->remove($originalChamber);
+                }
+            }
+
+            // Add images
+            foreach ($images as $image) {
+                $imageEntity = new HousingImage();
+                $fileUploader = $fileUploaderFactory->createUploader('housings'); // or 'housings'
+                $result = $fileUploader->upload($image);
+                $imageEntity
+                    ->setHousing($housing)
+                    ->setFilename($result['fileName'])
+                    ->setOriginalFilename($result['originalFilename'])
+                    ->setMimeType($result['mimeType'])
+                ;
+
+                $housing->addHousingImage($imageEntity);
+            }
+
+            $this->entityManager->persist($housing);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_housing', ['id' => $housing->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('housing/index.html.twig', [
-            'housing' => $housing
+        return $this->render('publish/housing.html.twig', [
+            'housing' => $housing,
+            'form' => $form,
+            'errors' => $form->getErrors()
         ]);
     }
 }
