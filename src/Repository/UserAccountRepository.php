@@ -52,14 +52,18 @@ class UserAccountRepository extends ServiceEntityRepository
         $user
     ) : bool
     {
-        dd('removeUser');
+//        dd('removeUser');
         // remove all related entities
         foreach ($user->getTenants() as $tenant) {
             /** @var Tenant $tenant */
             $tenantImage = $tenant->getTenantImage();
-            $fileUploader = $this->fileUploaderFactory->createUploader('tenants');
-            if ($fileUploader->remove($tenantImage->getFilename()))
-                $this->manager->remove($tenantImage);
+
+            if ($tenantImage) {
+                $fileUploader = $this->fileUploaderFactory->createUploader('tenants');
+                if ($fileUploader->remove($tenantImage->getFilename()))
+                    $this->manager->remove($tenantImage);
+            }
+
             $this->manager->remove($tenant);
         }
 

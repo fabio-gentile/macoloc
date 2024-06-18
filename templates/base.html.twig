@@ -43,7 +43,7 @@
         <main class="grow wrapper my-8 my:my-12">
         {% endif %}
         {% for label, messages in app.flashes %}
-            <div class="mb-6 md:mb-8">
+            <div class="my-6 md:my-8 w-fit mx-auto">
                 <div class='alert alert-{{ label }}'>
                     {% for message in messages %}
                         <p>{{ message | raw }}</p>

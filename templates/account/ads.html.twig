@@ -36,26 +36,39 @@
                         </div>
                     </div>
                     {#                action#}
-                    <div class="bg-other flex flex-col gap-2 p-4 md:flex-row justify-center lg:flex-col lg:min-w-[250px]">
+                    <div data-controller="dialog" data-action="click->dialog#backdropClose" class="bg-other flex flex-col gap-2 p-4 md:flex-row justify-center lg:flex-col lg:min-w-[250px]">
 {#                        TODO: Ajouter redirections#}
                         <a href="{{ path('app_housing', {'id': housing.id}) }}" type="button" class="btn btn-ghost text-sm w-fit">
                             <twig:ux:icon name="lucide:eye" class="w-6 object-fit text-muted" />
                             <span class="text-muted">
-                            Voir l'annonce
-                        </span>
+                                Voir l'annonce
+                            </span>
                         </a>
                         <a href="{{ path('app_housing_edit', {'id': housing.id}) }}" type="button" class="btn btn-ghost text-sm w-fit">
                             <twig:ux:icon name="lucide:pencil" class="w-6 object-fit text-muted" />
                             <span class="text-muted">
-                            Modifier l'annonce
-                        </span>
+                                Modifier l'annonce
+                            </span>
                         </a>
-                        <a href="#" type="button" class="btn btn-ghost text-sm w-fit">
+                        <dialog data-dialog-target="dialog">
+                            <div class="p-6 flex flex-col gap-6 items-center min-w-[300px]">
+                                <div class="rounded-full bg-destructive/40 p-4 w-fit">
+                                    <twig:ux:icon name="lucide:triangle-alert" class="w-12 object-fit text-destructive" />
+                                </div>
+                                <p class="text-muted">Etes-vous sûr de vouloir cette annonce ?</p>
+                                <div class="alert bg-other text-foreground w-full text-center font-medium">{{ housing.title }}</div>
+                                <div class="flex gap-4">
+                                    <button class="btn btn-secondary" type="button" data-action="dialog#close" autofocus>Annuler</button>
+                                    <a href="{{ path('app_housing_delete', {'id': housing.id}) }}" class="btn btn-destructive sm:w-fit" type="button">Supprimer</a>
+                                </div>
+                            </div>
+                        </dialog>
+                        <button data-action="dialog#open" type="button" class="btn btn-ghost text-sm w-fit">
                             <twig:ux:icon name="lucide:trash-2" class="w-6 object-fit text-destructive" />
                             <span class="text-destructive">
-                            Supprimer l'annonce
-                        </span>
-                        </a>
+                                Supprimer l'annonce
+                            </span>
+                        </button>
                     </div>
                 </div>
             {% endfor %}
@@ -73,25 +86,38 @@
                         </div>
                     </div>
                     {#                action#}
-                    <div class="bg-other flex flex-col gap-2 p-4 md:flex-row justify-center lg:flex-col lg:min-w-[250px]">
+                    <div data-controller="dialog" data-action="click->dialog#backdropClose" class="bg-other flex flex-col gap-2 p-4 md:flex-row justify-center lg:flex-col lg:min-w-[250px]">
                         <a href="{{ path('app_tenant', {'id': tenant.id}) }}" type="button" class="btn btn-ghost text-sm w-fit">
                             <twig:ux:icon name="lucide:eye" class="w-6 object-fit text-muted" />
                             <span class="text-muted">
-                            Voir l'annonce
-                        </span>
+                                Voir l'annonce
+                            </span>
                         </a>
                         <a href="{{ path('app_tenant_edit', {'id': tenant.id}) }}" type="button" class="btn btn-ghost text-sm w-fit">
                             <twig:ux:icon name="lucide:pencil" class="w-6 object-fit text-muted" />
                             <span class="text-muted">
-                            Modifier l'annonce
-                        </span>
+                                Modifier l'annonce
+                            </span>
                         </a>
-                        <a href="{{ path('app_tenant_delete', {'id': tenant.id}) }}" type="button" class="btn btn-ghost text-sm w-fit">
+                        <dialog data-dialog-target="dialog">
+                            <div class="p-6 flex flex-col gap-6 items-center min-w-[300px]">
+                                <div class="rounded-full bg-destructive/40 p-4 w-fit">
+                                    <twig:ux:icon name="lucide:triangle-alert" class="w-12 object-fit text-destructive" />
+                                </div>
+                                <p class="text-muted">Etes-vous sûr de vouloir cette annonce ?</p>
+                                <div class="alert bg-other text-foreground w-full text-center font-medium">Recherche de logement {{ tenant.user.firstname }}</div>
+                                <div class="flex gap-4">
+                                    <button class="btn btn-secondary" type="button" data-action="dialog#close" autofocus>Annuler</button>
+                                    <a href="{{ path('app_tenant_delete', {'id': tenant.id}) }}" class="btn btn-destructive sm:w-fit" type="button">Supprimer</a>
+                                </div>
+                            </div>
+                        </dialog>
+                        <button data-action="dialog#open" type="button" class="btn btn-ghost text-sm w-fit">
                             <twig:ux:icon name="lucide:trash-2" class="w-6 object-fit text-destructive" />
                             <span class="text-destructive">
-                            Supprimer l'annonce
-                        </span>
-                        </a>
+                                Supprimer l'annonce
+                            </span>
+                        </button>
                     </div>
                 </div>
             {% endfor %}

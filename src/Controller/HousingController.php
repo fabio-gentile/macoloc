@@ -118,4 +118,29 @@ class HousingController extends AbstractController
             'errors' => $form->getErrors()
         ]);
     }
+
+    #[Route('/delete', name: 'app_housing_delete')]
+    #[isGranted(HousingVoter::DELETE, subject: 'housing')]
+    public function delete(
+        Housing $housing,
+        FileUploaderFactory $fileUploaderFactory
+    ): Response
+    {
+        $fileUploader = $fileUploaderFactory->createUploader('housings');
+
+        foreach ($housing->getHousingImages() as $housingImage) {
+            if ($fileUploader->remove($housingImage->getFilename()))
+                $this->entityManager->remove($housingImage);
+        }
+
+        foreach ($housing->getChambers() as $chamber) {
+            $this->entityManager->remove($chamber);
+        }
+
+        $this->entityManager->remove($housing);
+        $this->entityManager->flush();
+
+        $this->addFlash('success', 'Votre annonce a bien été supprimée.');
+        return $this->redirectToRoute('app_account', [], Response::HTTP_SEE_OTHER);
+    }
 }

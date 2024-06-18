@@ -11,6 +11,7 @@ class HousingVoter extends Voter
 {
     public const EDIT = 'HOUSING_EDIT';
     public const VIEW = 'HOUSING_VIEW';
+    public const DELETE = 'HOUSING_DELETE';
 
     public function __construct(
         private readonly Security $security,
@@ -20,7 +21,7 @@ class HousingVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::EDIT, self::VIEW])
+        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])
             && $subject instanceof \App\Entity\Housing;
     }
 
@@ -39,9 +40,9 @@ class HousingVoter extends Voter
 
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
+            case self::DELETE:
             case self::EDIT:
                 return $subject->getUser() === $user;
-                break;
 
             case self::VIEW:
                 // logic to determine if the user can VIEW
