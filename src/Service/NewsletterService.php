@@ -8,10 +8,11 @@ use App\Repository\NewsletterSubscriberRepository;
 use App\Repository\TenantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\MailerInterface;
 
 
-readonly class NewsletterService {
+class NewsletterService extends AbstractController {
     public function __construct(
         private NewsletterSubscriberRepository $newsletterSubscriberRepository,
         private MailerInterface $mailer,
@@ -37,7 +38,7 @@ readonly class NewsletterService {
             $this->entityManager->flush();
 //            TODO: mettre en page
             $email = (new TemplatedEmail())
-                ->from('newsletter@macoloc.fr')
+                ->from($this->getParameter('no_reply_email'), 'Newsletter')
                 ->to($subscriber->getEmail())
                 ->subject('Dernières annonces de Macoloc')
                 ->htmlTemplate('emails/newsletter.html.twig')
