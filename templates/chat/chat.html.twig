@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+{% form_theme form with ['foundation_5_layout.html.twig'] only %}
+
+{% block title %}Hello ChatController!{% endblock %}
+
+{% import 'partials/_breadcrumbs.html.twig' as breadcrumbs %}
+
+{% block body %}
+    <div class="flex flex-col gap-8">
+        {{ breadcrumbs.render([
+            {'url': url('app_account'), 'text': 'Mon compte'},
+            {'url': url('app_account_chat'), 'text': 'Mes messages'},
+            {'url': url('app_account_chat_conversation', { 'id': conversation.id }), 'text': userTo.getFullname},
+        ]) }}
+        <h1 class="font-semibold text-2xl font-foreground">Mes messages</h1>
+
+        {# Conversation #}
+        <div class="flex">
+            <div class="hidden lg:flex flex-col grow rounded-l-lg border border-input w-full self-stretch lg:max-w-[400px] max-h-[calc(60dvh+82px)] md:max-h-[calc(50dvh+82px)] lg:max-h-[calc(80dvh+82px)] overflow-y-auto">
+                {% for conversation in conversations %}
+                    {% if conversation.userOne.id == app.user.id %}
+                        {% set user = conversation.userTwo %}
+                    {% else %}
+                        {% set user = conversation.userTwo %}
+                    {% endif %}
+                    <a href="{{ path('app_account_chat_conversation', { 'id': conversation.id }) }}" class="w-full hover:bg-secondary/10 p-3 flex items-center flex-row gap-4 border-b border-input">
+                        {% if user.userImage %}
+                            <img src="{{ asset('uploads/tenants/' ~ user.userImage.filename) }}" alt="Avatar de {{ user.getFullname }}" class="rounded-full object-cover max-w-12 max-h-12">
+                        {% else %}
+                            <img src="https://ui-avatars.com/api/?name={{ user.firstName }}+{{ user.lastName }}" alt="Avatar de {{ user.getFullname }}" class="rounded-full object-cover max-w-12 max-h-12">
+                        {% endif %}
+                        <div class="flex grow flex-col gap-4">
+                            <h3 class="font-semibold text-foreground">{{ user.getFullname }}</h3>
+                            {% if conversation.messages is not empty %}
+                                {% set latestMessage = conversation.messages.last %}
+                                <div class="flex justify-between gap-4">
+                                    <p class="text-sm text-muted truncate">{{ latestMessage.content | u.truncate(30, '...') }}</p>
+                                    <span class="text-xs text-muted">{{ latestMessage.createdAt | date('H:i') }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+
+            {% if app.request.get('_route') == 'app_account_chat_conversation' %}
+                <div class="flex relative flex-col justify-between grow rounded-r-lg border border-input w-full">
+                    {# chat #}
+                    <a href="{{ path('app_account_chat') }}" class="flex lg:hidden gap-3 items-center px-4 py-2 bg-other text-foreground">
+                        <twig:ux:icon name="lucide:arrow-left" class="w-4 object-fit text-foreground" />
+                        <span class="font-medium">Revenir en arrière</span>
+                    </a>
+                    <div data-controller="chat" data-chat-target="container" class="p-4 h-[60dvh] md:h-[50dvh] lg:h-[80dvh] overflow-y-auto">
+                        <ul id="messages" class="messages" {{ turbo_stream_listen('chat') }}>
+                            {% for message in conversation.messages %}
+                                {% if message.sender == userTo %}
+                                    <li class="message">
+                                        <div class="user-message">
+                                            <p>{{ message.content }}</p>
+                                            <span class="text-right text-xs">{{ message.createdAt | date('H:i') }}</span>
+                                        </div>
+                                    </li>
+                                {% else %}
+                                    <li class="message">
+                                        <div class="not-user-message">
+                                            <p>{{ message.content }}</p>
+                                            <span class="text-xs">{{ message.createdAt | date('H:i') }}</span>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="bg-white p-4">
+                        <turbo-frame id="message_form" class="sticky bottom-0">
+                            {{ form_start(form, { 'attr': { 'class': 'flex bg-other rounded-full justify-between items-center py-1' } }) }}
+                            {{ form_widget(form.content, { 'attr': { 'class': 'w-full bg-transparent border-none outline-none p-2 ml-2' } }) }}
+                            <button type="submit" class="mr-4">
+                                <twig:ux:icon name="lucide:send-horizontal" class="w-6 object-contain text-muted" />
+                            </button>
+                            {{ form_end(form) }}
+                        </turbo-frame>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

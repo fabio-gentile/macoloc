@@ -1,7 +1,20 @@
-{# chat/message.stream.html.twig #}
 {# New messages received through the Mercure connection are appended to the div with the "messages" ID. #}
 <turbo-stream action="append" targets="#messages">
     <template>
-        <div>{{ message }}</div>
+        {% if message.sender == userTo %}
+            <li class="message">
+                <div class="user-message">
+                    <p>{{ message.content }}</p>
+                    <span class="text-right text-xs">{{ message.createdAt | date('H:i') }}</span>
+                </div>
+            </li>
+        {% else %}
+            <li class="message">
+                <div class="not-user-message">
+                    <p>{{ message.content }}</p>
+                    <span class="text-xs">{{ message.createdAt | date('H:i') }}</span>
+                </div>
+            </li>
+        {% endif %}
     </template>
 </turbo-stream>

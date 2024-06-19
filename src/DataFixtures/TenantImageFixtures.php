@@ -19,8 +19,10 @@ class TenantImageFixtures extends Fixture implements DependentFixtureInterface
 
             $tenantImage = new TenantImage();
             $tenantImage->setMimeType('image/jpeg')
-                ->setFilename($faker->sha256() . '.jpeg')
-                ->setOriginalFilename($faker->sha256() . '.jpeg')
+//                ->setFilename($faker->sha256() . '.jpeg')
+//                ->setOriginalFilename($faker->sha256() . '.jpeg')
+                ->setFilename('john-doe.jpg')
+                ->setOriginalFilename('john-doe.jpg')
                 ->setTenant($tenant)
             ;
 

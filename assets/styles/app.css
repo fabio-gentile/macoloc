@@ -133,3 +133,67 @@ dialog[data-dialog-target='dialog'][open] {
 dialog[data-dialog-target='dialog'][closing] {
     animation: fade-out 75ms forwards;
 }
+
+/**
+ * Css volée à Jordan
+ */
+
+.messages {
+    flex: 1 1 100%;
+    box-sizing: border-box;
+    align-self: flex-end;
+
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.message > * {
+    padding: 5px 10px;
+    max-width: 75%;
+    margin: 10px 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    @apply rounded-lg;
+}
+
+.not-user-message {
+    background-color: #0808110C;
+    align-self: flex-start;
+    position: relative;
+    @apply flex flex-col gap-2;
+}
+
+.not-user-message:after {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 10px;
+    width: 0;
+    border-width: 0 10px 7px 0;
+    border-style: solid;
+    border-color: #0808110C transparent;
+}
+
+.user-message {
+    background-color: #5146CE;
+    color: #fff;
+    align-self: flex-end;
+    position: relative;
+    @apply bg-primary text-white flex flex-col gap-2;
+}
+
+.user-message:after {
+    content: '';
+    position: absolute;
+    bottom: -7px;
+    right: 10px;
+    width: 0;
+    border-width: 7px 0 0 10px;
+    border-style: solid;
+    border-color: #5146CE transparent;
+}

@@ -1,5 +1,11 @@
 <div class="max-w-[300px] w-full bg-white rounded-lg border-input border flex flex-col">
-    <img src="https://placehold.co/400" alt="House" class="w-full h-[250px] object-cover" />
+    {% if tenant.tenantImage %}
+        <img src="{{ asset('uploads/tenants/' ~ tenant.tenantImage.filename) }}" alt="Avatar de {{ tenant.user.getFullname }}" class="w-full h-[250px] object-cover">
+    {% elseif tenant.user.userImage %}
+        <img src="{{ asset('uploads/users/' ~ tenant.user.userImage.filename) }}" alt="Avatar de {{ tenant.user.getFullname }}" class="w-full h-[250px] object-cover">
+    {% else %}
+        <img src="https://ui-avatars.com/api/?name={{ tenant.user.firstName }}+{{ tenant.user.lastName }}" alt="Avatar de {{ tenant.user.getFullname }}" class="w-full h-[250px] object-cover">
+    {% endif %}
     <div class="p-4 grid gap-4 grow">
         <h6 class="text-foreground font-medium">{{ tenant.getUser.firstname }}</h6>
         <p class="text-foreground text-sm">{{ tenant.activity }}, {{ tenant.age }} ans</p>
