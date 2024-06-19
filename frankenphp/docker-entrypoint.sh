@@ -57,6 +57,12 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 	setfacl -dR -m u:www-data:rwX -m u:"$(whoami)":rwX var
 fi
 
+# Execute both commands simultaneously
+php bin/console app:load-french-cities &
+
+wait # Wait for the cities to be loaded
+
 php bin/console messenger:consume -vv &
+
 
 exec docker-php-entrypoint "$@"
