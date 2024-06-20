@@ -106,7 +106,7 @@ class RegistrationController extends AbstractController
 
         $this->addFlash('success', 'Votre adresse email a bien été vérifiée. Vous pouvez maintenant compléter votre profil.');
 
-        return $security->login($user, 'form_login');
+        return $security->login($user, 'form_login', 'main');
     }
 
     #[Route('/profile', name: 'app_register_profile')]
@@ -127,7 +127,7 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $security->login($user, 'form_login');
+            $security->login($user, 'form_login', 'main');
 
             return $this->redirectToRoute('app_account');
         }

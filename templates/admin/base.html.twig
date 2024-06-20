@@ -20,12 +20,25 @@
         {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
 </head>
-{#<body class="overflow-x-hidden mx-auto flex min-h-[100dvh] flex-col justify-center">#}
-<body class="bg-white">
-    {% include 'admin/partials/_header.html.twig' %}
-    <main class="p-4 sm:p-8 md:px-12 lg:px-16 lg:ml-64">
-        {% block body %}{% endblock %}
+{% set route = app.request.get('_route') %}
+<body class="{% if route == 'admin_login' %}overflow-x-hidden mx-auto flex min-h-[100dvh] flex-col justify-center {% endif %}bg-white">
+    {% if route == 'admin_login' %}
+        <main class="grow mx-auto w-full px-4 md:px-6 lg:px-0">
+    {% else %}
+        {% include 'admin/partials/_header.html.twig' %}
+        <main class="p-4 sm:p-8 md:px-12 lg:px-16 lg:ml-64">
+    {% endif %}
+    {% for label, messages in app.flashes %}
+        <div class="my-6 md:my-8 w-fit mx-auto">
+            <div class='alert alert-{{ label }}'>
+                {% for message in messages %}
+                    <p>{{ message | raw }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+    {% block body %}{% endblock %}
     </main>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 </body>
 </html>

@@ -12,6 +12,17 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        admin:
+            pattern: ^/admin
+            provider: app_user_provider
+            form_login:
+                default_target_path: admin_dashboard
+                login_path: admin_login
+                check_path: admin_login
+                enable_csrf: true
+            logout:
+                path: admin_logout
+                target: admin_login
         main:
             lazy: true
             provider: app_user_provider
@@ -41,7 +52,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/admin, roles: ROLE_ADMIN, allow_if: "request.get('_route') == 'admin_login'" }
          - { path: ^/account, roles: ROLE_USER }
 
 when@test:

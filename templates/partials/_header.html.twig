@@ -43,7 +43,7 @@
                         <a href="{{ path('app_account_ads') }}" class="px-4 py-2 block hover:bg-other" data-action="dropdown#toggle">Mes annonces</a>
                         <a href="{{ path('app_account_settings') }}" class="px-4 py-2 block hover:bg-other" data-action="dropdown#toggle">Paramètres</a>
                         {% if 'ROLE_ADMIN' in app.user.getRoles %}
-                        <a href="{{ path('app_admin') }}" class="px-4 py-2 block hover:bg-other" data-action="dropdown#toggle">Administration</a>
+                        <a href="{{ path('admin_dashboard') }}" class="px-4 py-2 block hover:bg-other" data-action="dropdown#toggle">Administration</a>
                         {% endif %}
                         <a href="{{ path('app_logout') }}" class="px-4 py-2 border-t border-input block hover:bg-other" data-action="dropdown#toggle">Se déconnecter</a>
                     </div>
