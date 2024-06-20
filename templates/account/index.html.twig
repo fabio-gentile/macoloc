@@ -32,7 +32,7 @@
                         {% endif %}
                     </div>
                 </div>
-                <a class="text-sm font-medium underline" href="#">Voir mon profil public</a>
+                <a class="text-sm font-medium underline" href="{{ path('app_user_profile', { 'id': app.user.id }) }}">Voir mon profil public</a>
             </div>
         </div>
         {% if totalAds == 0 %}

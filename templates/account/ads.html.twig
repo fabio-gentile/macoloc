@@ -20,12 +20,10 @@
         <div class="flex flex-col gap-4">
             {#housing#}
             {% for housing in housings %}
-                {% set image = housing.getHousingImages %}
                 <div class="border border-input rounded-lg lg:flex-row lg:flex">
                     <div class="md:flex">
-{#                        TODO: Afficher l'image de l'annonce#}
-{#                        {{ image[0].filename }}#}
-                        <img src="https://placehold.co/400" alt="Image de l'annonce de John Doe" class="max-h-[280px] md:max-h-[200px] md:w-[250px] object-cover w-full">
+                        {% set image = housing.housingImages.first %}
+                        <img src="{{ asset('uploads/housings/' ~ image.filename) }}" alt="Logement de {{ housing.user.getFullname }}" class="max-h-[280px] md:max-h-[200px] md:w-[250px] object-cover w-full">
                         <div class="p-4 flex flex-col gap-4 md:justify-between">
                             <h2 class="font-semibold text-foreground">{{ housing.title }}</h2>
                             <p class="text-muted text-sm">{{ housing.description | u.truncate(150, '...') }}</p>
@@ -42,7 +40,6 @@
                     </div>
                     {#                action#}
                     <div data-controller="dialog" data-action="click->dialog#backdropClose" class="bg-other flex flex-col gap-2 p-4 md:flex-row justify-center lg:flex-col lg:min-w-[250px]">
-{#                        TODO: Ajouter redirections#}
                         <a href="{{ path('app_housing', {'id': housing.id}) }}" type="button" class="btn btn-ghost text-sm w-fit">
                             <twig:ux:icon name="lucide:eye" class="w-6 object-fit text-muted" />
                             <span class="text-muted">
@@ -82,7 +79,13 @@
             {% for tenant in tenants %}
                 <div class="border border-input rounded-lg lg:flex-row lg:flex">
                     <div class="md:flex">
-                        <img src="https://placehold.co/400" alt="Image de l'annonce de John Doe" class="max-h-[280px] md:max-h-[200px] md:w-[250px] object-cover w-full">
+                        {% if tenant.tenantImage %}
+                            <img src="{{ asset('uploads/tenants/' ~ tenant.tenantImage.filename) }}" alt="Avatar de {{ tenant.user.getFullname }}" class="max-h-[280px] md:max-h-[200px] md:w-[250px] object-cover w-full">
+                        {% elseif tenant.user.userImage %}
+                            <img src="{{ asset('uploads/users/' ~ tenant.user.userImage.filename) }}" alt="Avatar de {{ tenant.user.getFullname }}" class="max-h-[280px] md:max-h-[200px] md:w-[250px] object-cover w-full">
+                        {% else %}
+                            <img src="https://ui-avatars.com/api/?name={{ tenant.user.firstName }}+{{ tenant.user.lastName }}" alt="Avatar de {{ tenant.user.getFullname }}" class="max-h-[280px] md:max-h-[200px] md:w-[250px] object-cover w-full">
+                        {% endif %}
                         <div class="p-4 flex flex-col gap-4 md:justify-between">
                             <h2 class="font-semibold text-foreground">{{ tenant.getUser.firstname }}</h2>
                             <p class="text-foreground">{{ tenant.activity }}, {{ tenant.age }} ans</p>
