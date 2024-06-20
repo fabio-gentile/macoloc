@@ -26,6 +26,8 @@ class AccountController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $manager,
+        private readonly HousingRepository $housingRepository,
+        private readonly TenantRepository $tenantRepository,
     )
     {}
 
@@ -36,21 +38,23 @@ class AccountController extends AbstractController
         $isSubscribedNewsletter =
             $user && boolval($newsletterSubscriberRepository->findOneBy(['email' => $user->getEmail()]));
 
+        $housings = $this->housingRepository->findBy(['user' => $user]);
+        $tenants = $this->tenantRepository->findBy(['user' => $user]);
+
         return $this->render('account/index.html.twig', [
             'isSubscribedNewsletter' => !$isSubscribedNewsletter,
+            'totalAds' => count($housings) + count($tenants)
         ]);
     }
 
     #[Route('/ads', name: 'app_account_ads')]
-    public function ads(
-        TenantRepository $tenantRepository,
-        HousingRepository $housingRepository
-    ): Response
+    public function ads(): Response
     {
         /* @var UserAccount $user */
         $user = $this->getUser();
-        $housings = $housingRepository->findBy(['user' => $user]);
-        $tenants = $tenantRepository->findBy(['user' => $user]);
+        $housings = $this->housingRepository->findBy(['user' => $user]);
+        $tenants = $this->tenantRepository->findBy(['user' => $user]);
+
         return $this->render('account/ads.html.twig', [
             'housings' => $housings,
             'tenants' => $tenants,
@@ -203,6 +207,7 @@ class AccountController extends AbstractController
         /* @var UserAccount $user */
         $user = $this->getUser();
         $userImage = $user->getUserImage();
+
         if ($userImage) {
             $fileUploader = $fileUploaderFactory->createUploader('users');
             $fileUploader->remove($userImage->getFilename());

@@ -106,7 +106,7 @@ class UserAccount implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Conversation::class, mappedBy: 'userTwo')]
     private Collection $conversationsAsUserTwo;
 
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: UserImage::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserImage $userImage = null;
 
     public function __construct()
@@ -417,6 +417,18 @@ class UserAccount implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+//    public function removeUserImage(UserImage $userImage): static
+//    {
+//        if ($this->userImage->removeElement($housing)) {
+//            // set the owning side to null (unless already changed)
+//            if ($housing->getUser() === $this) {
+//                $housing->setUser(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
 
     public function getFullname(): string
     {
