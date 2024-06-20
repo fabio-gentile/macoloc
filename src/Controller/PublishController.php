@@ -85,9 +85,8 @@ class PublishController extends AbstractController
 
             $this->entityManager->persist($housing);
             $this->entityManager->flush();
-//            TODO: Redirect to the housing page + flash message
 
-            return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_housing', ['id' => $housing->getId(),], Response::HTTP_SEE_OTHER);
         }
         return $this->render('publish/housing.html.twig', [
             'form' => $form,
@@ -137,8 +136,7 @@ class PublishController extends AbstractController
             $this->entityManager->persist($tenant);
             $this->entityManager->flush();
 
-//            TODO: Redirect to the housing page + flash message
-            return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_tenant', ['id' => $tenant->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('publish/tenant.html.twig', [

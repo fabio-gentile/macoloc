@@ -32,17 +32,4 @@ class HomeController extends AbstractController
             'isSubscribedNewsletter' => !$isSubscribedNewsletter,
         ]);
     }
-
-//    TODO: TMP remove
-    #[Route('/about', name: 'app_about')]
-    public function about(HousingRepository $housingRepository, TenantRepository $tenantRepository, NewsletterService $service): Response
-    {
-        $service->sendNewsletter();
-        return $this->render('emails/newsletter.html.twig', [
-            'unsubscribe_token' => Uuid::v4(),
-            'newsletter_token' => Uuid::v4(),
-            'housings' => $housingRepository->findLatest(),
-            'tenants' => $tenantRepository->findLatest()
-        ]);
-    }
 }

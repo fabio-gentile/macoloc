@@ -90,7 +90,6 @@ class TenantController extends AbstractController
             $this->entityManager->persist($tenant);
             $this->entityManager->flush();
 
-//            TODO: Redirect to the housing page + flash message
             return $this->redirectToRoute('app_tenant', ['id' => $tenant->getId()], Response::HTTP_SEE_OTHER);
         }
 

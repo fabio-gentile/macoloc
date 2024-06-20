@@ -77,8 +77,6 @@ class PublishHousingType extends AbstractType
                 'label' => 'Images',
                 'multiple' => true,
                 'mapped' => false,
-                // TODO: rendre optionnel pour l'édition
-//                'required' => true,
                 'constraints' => [
                     new All([
                         'constraints' => [

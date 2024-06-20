@@ -51,6 +51,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
+            //TODO: mettre en page
             $this->emailVerifier->sendEmailConfirmation('app_register_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address($this->getParameter('no_reply_email'), 'No Reply'))
@@ -103,17 +104,14 @@ class RegistrationController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
+        $this->addFlash('success', 'Votre adresse email a bien été vérifiée. Vous pouvez maintenant compléter votre profil.');
+
         return $security->login($user, 'form_login');
-
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
-
-        return $this->redirectToRoute('app_register_profile');
     }
 
     #[Route('/profile', name: 'app_register_profile')]
     #[IsGranted('ROLE_REGISTRATION_WAITING')]
-    public function profile(Request $request, EntityManagerInterface $entityManager, UserInterface $user): Response
+    public function profile(Request $request, EntityManagerInterface $entityManager, UserInterface $user, Security $security): Response
     {
         $form = $this->createForm(RegistrationProfileType::class, $user);
         $form->handleRequest($request);
@@ -129,7 +127,9 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_login');
+            $security->login($user, 'form_login');
+
+            return $this->redirectToRoute('app_account');
         }
 
         return $this->render('registration/profile.html.twig', [

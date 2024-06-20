@@ -17,7 +17,6 @@ class ChamberType extends AbstractType
     {
         $builder
             ->add('avaible_at', DateType::class, [
-//                TODO: Ajouter un date picker
                 'widget' => 'single_text',
                 'required' => true,
                 'label' => 'Date de disponibilité',

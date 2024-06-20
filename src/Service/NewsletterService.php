@@ -36,7 +36,7 @@ class NewsletterService extends AbstractController {
             $newsletterReference->setSentAt(new \DateTime());
             $subscriber->addNewsletterReference($newsletterReference);
             $this->entityManager->flush();
-//            TODO: mettre en page
+            //TODO: mettre en page
             $email = (new TemplatedEmail())
                 ->from($this->getParameter('no_reply_email'), 'Newsletter')
                 ->to($subscriber->getEmail())

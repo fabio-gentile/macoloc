@@ -104,7 +104,6 @@
                         </a>
                     {% endif %}
                     <p class="font-semibold text-xl text-foreground">{{ tenant.user.firstname }}</p>
-                    {#                TODO: Add redirection#}
                     <a href="{{ path('app_account_chat_new', { 'id': tenant.user.id }) }}" type="button" class="btn btn-primary w-fit">
                         Envoyer un message
                         <twig:ux:icon name="lucide:chevron-right" class="w-6 object-fit text-white" />
