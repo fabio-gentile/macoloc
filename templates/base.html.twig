@@ -36,7 +36,8 @@
         ] %}
         <main class="grow mx-auto w-full px-4 md:px-6 lg:px-0">
         {% elseif app.request.get('_route') in [
-        'app_homepage'
+            'app_homepage',
+            'app_user_profile'
         ]  %}
         <main class="grow mx-auto w-full mb-8 md:mb-12">
         {% else %}

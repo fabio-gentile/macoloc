@@ -10,9 +10,9 @@
         {'url': url('app_account'), 'text': 'Mon compte'},
         {'url': url('app_account_settings'), 'text': 'Paramètres'},
     ]) }}
-    <h1 class="font-semibold text-2xl font-foreground">Paramètres</h1>
+    <h1 class="font-semibold text-2xl text-foreground">Paramètres</h1>
     <div>
-        <h2 class="text-xl font-medium font-foreground mb-6">Informations de compte</h2>
+        <h2 class="text-xl font-medium text-foreground mb-6">Informations de compte</h2>
         {{ form_start(form) }}
         <div class="md:flex md:gap-4 md:flex-row">
             {{ form_row(form.firstname) }}
@@ -22,7 +22,7 @@
 
         {{ form_row(form.gender) }}
         {{ form_row(form.dateOfBirth) }}
-        <h2 class="text-xl font-medium font-foreground mb-6">Mot de passe</h2>
+        <h2 class="text-xl font-medium text-foreground mb-6">Mot de passe</h2>
         {{ form_row(form.currentPassword) }}
         {{ form_row(form.newPassword) }}
         {{ form_row(form._token) }}

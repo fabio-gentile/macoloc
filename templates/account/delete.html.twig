@@ -11,7 +11,7 @@
             {'url': url('app_account_settings'), 'text': 'Paramètres'},
             {'url': url('app_account_delete'), 'text': 'Supprimer mon compte'},
         ]) }}
-        <h1 class="font-semibold text-2xl font-foreground">Supprimer mon compte</h1>
+        <h1 class="font-semibold text-2xl text-foreground">Supprimer mon compte</h1>
         <p class="text-sm md:text-base text-muted">Veuillez noter que la suppression de votre compte entraînera la suppression de toutes vos annonces, de vos messages, ainsi que de toutes les informations stockées dans notre base de données. Cette action est irréversible et toutes les données seront définitivement perdues.</p>
         <form action="{{ path('app_account_delete') }}" method="post" data-controller="dialog" data-action="click->dialog#backdropClose">
             <dialog data-dialog-target="dialog">

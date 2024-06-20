@@ -11,9 +11,9 @@
             {'url': url('app_account_image'), 'text': 'Photo de profil'},
         ]) }}
         {% if app.user.userImage %}
-        <h1 class="font-semibold text-2xl font-foreground">Modifier ma photo de profil</h1>
+        <h1 class="font-semibold text-2xl text-foreground">Modifier ma photo de profil</h1>
         {% else %}
-        <h1 class="font-semibold text-2xl font-foreground">Ajouter une photo de profil</h1>
+        <h1 class="font-semibold text-2xl text-foreground">Ajouter une photo de profil</h1>
         {% endif %}
         {{ form_start(userImageForm) }}
         <div data-controller="image-preview">
