@@ -12,6 +12,11 @@
         ]) }}
         <h1 class="font-semibold text-2xl font-foreground">Mes annonces ({{ totalAds }})</h1>
 
+        {% if totalAds == 0 %}
+        <div>
+            <p class="text-muted">Vous n'avez aucune annonce.</p>
+        </div>
+        {% else %}
         <div class="flex flex-col gap-4">
             {#housing#}
             {% for housing in housings %}
@@ -122,5 +127,6 @@
                 </div>
             {% endfor %}
         </div>
+        {% endif %}
     </div>
 {% endblock %}

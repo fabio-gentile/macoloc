@@ -12,6 +12,12 @@
         ]) }}
         <h1 class="font-semibold text-2xl font-foreground">Mes messages</h1>
 
+        {% if conversations is empty %}
+            <div>
+                <p class="text-muted">Vous n'avez aucun message.</p>
+                <p class="text-muted mt-2">Pour contacter un utilisateur, rendez-vous sur la page de l'annonce et contactez le propriétaire.</p>
+            </div>
+        {% else %}
         {# Conversation #}
         <div class="flex flex-col grow rounded-lg border border-input lg:max-w-[400px] h-[60dvh] md:h-[50dvh] lg:h-[80dvh] overflow-y-auto">
                 {% for conversation in conversations %}
@@ -39,5 +45,6 @@
                     </a>
                 {% endfor %}
             </div>
+        {% endif %}
     </div>
 {% endblock %}

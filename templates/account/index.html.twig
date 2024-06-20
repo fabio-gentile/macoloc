@@ -35,10 +35,12 @@
                 <a class="text-sm font-medium underline" href="#">Voir mon profil public</a>
             </div>
         </div>
+        {% if totalAds == 0 %}
         <div class="flex px-4 py-6 flex-col gap-4 bg-other rounded-lg md:w-fit w-full">
             <p class="text-sm font-medium text-foreground">Vous n’avez toujours pas publié d’annonce.</p>
             <a href="{{ path('app_publish_housing') }}" type="button" class="btn btn-primary w-fit text-sm">Publier une annonce</a>
         </div>
+        {% endif %}
     </div>
         <div class="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             <a href="{{ path('app_account_ads') }}" class="px-4 py-6 bg-other flex flex-col gap-4 items-center md:items-start rounded-lg">
