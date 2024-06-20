@@ -1,0 +1,40 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+    <div class="flex flex-col gap-8">
+        <h1 class="font-semibold text-2xl text-foreground">Tableau de bord</h1>
+        {# stats #}
+        <div class="flex flex-wrap gap-4 sm:gap-6">
+            <div class="rounded-lg bg-ternary grow p-4 flex flex-row gap-4 items-center">
+                <twig:ux:icon name="lucide:users-round" class="w-8 object-contain text-foreground" />
+                <div class="flex flex-col gap-2">
+                    <p class="font-bold">{{ users | length > 0 ? users | length : 0 }} Utilisateur{{ users | length > 0 ? 's' : '' }}</p>
+                    <p class="text-muted text-sm">{{ lastUsers | length > 0 ? lastUsers | length : 0 }} les dernières 24h.</p>
+                </div>
+            </div>
+            <div class="rounded-lg bg-ternary grow p-4 flex flex-row gap-4 items-center">
+                <twig:ux:icon name="lucide:home" class="w-8 object-contain text-foreground" />
+                <div class="flex flex-col gap-2">
+                    <p class="font-bold">{{ housings | length > 0 ? housings | length : 0 }} Logement{{ housings | length > 0 ? 's' : '' }}</p>
+                    <p class="text-muted text-sm">{{ lastHousings | length > 0 ? lastHousings | length : 0 }} les dernières 24h.</p>
+                </div>
+            </div>
+            <div class="rounded-lg bg-ternary grow p-4 flex flex-row gap-4 items-center">
+                <twig:ux:icon name="lucide:user" class="w-8 object-contain text-foreground" />
+                <div class="flex flex-col gap-2">
+                    <p class="font-bold">{{ tenants | length > 0 ? tenants | length : 0 }} Locataire{{ tenants | length > 0 ? 's' : '' }}</p>
+                    <p class="text-muted text-sm">{{ lastTenants | length > 0 ? lastTenants | length : 0 }} les dernières 24h.</p>
+                </div>
+            </div>
+            <div class="rounded-lg bg-ternary grow p-4 flex flex-row gap-4 items-center">
+                <twig:ux:icon name="lucide:mail" class="w-8 object-contain text-foreground" />
+                <div class="flex flex-col gap-2">
+                    <p class="font-bold">{{ newsletterSubscribers | length > 0 ? newsletterSubscribers | length : 0 }} Abonné{{ newsletterSubscribers | length > 0 ? 's' : '' }} à la newsletter</p>
+                    <p class="text-muted text-sm">{{ lastNewsletterSubscribers | length > 0 ? lastNewsletterSubscribers | length : 0 }} les dernières 24h.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

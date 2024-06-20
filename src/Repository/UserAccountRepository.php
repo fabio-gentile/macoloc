@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Tenant;
 use App\Entity\UserAccount;
 use App\Factory\FileUploaderFactory;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -47,6 +48,23 @@ class UserAccountRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * Find latest users
+     * @param DateTime $yesterday
+     * @return UserAccount[]|null
+     */
+    public function findLatest(DateTime $yesterday = new DateTime('-1 day')): ?array
+    {
+        return $this->createQueryBuilder('u')
+            ->orderBy('u.createdAt', 'DESC')
+            ->where('u.createdAt BETWEEN :yesterday AND :today')
+            ->setParameter('yesterday', $yesterday)
+            ->setParameter('today', new DateTime())
+            ->andWhere('u.isVerified = true')
+            ->getQuery()
+            ->getResult();
+    }
 
     public function removeUser(
         UserAccount $user
