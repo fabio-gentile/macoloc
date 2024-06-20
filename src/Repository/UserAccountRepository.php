@@ -49,11 +49,10 @@ class UserAccountRepository extends ServiceEntityRepository
     //    }
 
     public function removeUser(
-        $user
+        UserAccount $user
     ) : bool
     {
-//        dd('removeUser');
-        // remove all related entities
+//        dd($user);
         foreach ($user->getTenants() as $tenant) {
             /** @var Tenant $tenant */
             $tenantImage = $tenant->getTenantImage();
@@ -89,8 +88,24 @@ class UserAccountRepository extends ServiceEntityRepository
                 $this->manager->remove($userImage);
         }
 
+        // remove chat
+        foreach ($user->getConversationsOne() as $conversationOne) {
+            foreach ($conversationOne->getMessages() as $message) {
+                $this->manager->remove($message);
+            }
+
+            $this->manager->remove($conversationOne);
+        }
+
+        foreach ($user->getConversationsTwo() as $conversationTwo) {
+            foreach ($conversationTwo->getMessages() as $message) {
+                $this->manager->remove($message);
+            }
+
+            $this->manager->remove($conversationTwo);
+        }
+
         $this->manager->remove($user);
-//        dd('ok');
         $this->manager->flush();
         return true;
     }
