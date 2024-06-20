@@ -16,6 +16,7 @@ use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/account')]
 class ChatController extends AbstractController
@@ -58,6 +59,7 @@ class ChatController extends AbstractController
     }
 
     #[Route('/chat/{id}', name: 'app_account_chat_conversation', requirements: ['id' => Requirement::UUID_V4])]
+    #[isGranted('CONVERSATION_VIEW', subject: 'conversation')]
     public function conversation(
         Conversation $conversation,
         Request $request,
