@@ -38,7 +38,9 @@
         </div>
         </div>
     </div>
+
     {# Latest houses #}
+    {% if housings is not empty %}
     <div class="flex gap-8 lg:gap-12 flex-col wrapper !max-w-[800px] mt-8 md:mt-12">
         <h2 class="text-lg text-center text-foreground font-semibold sm:text-2xl">Les derniers logement publiés</h2>
         <div class="grid gap-4 lg:gap-6">
@@ -49,8 +51,10 @@
             {% endfor %}
         </div>
     </div>
+    {% endif %}
 
     {# Users #}
+    {% if tenants is not empty %}
     <div class="flex gap-8 lg:gap-12 flex-col wrapper !max-w-[800px] overflow-hidden mt-8 md:mt-12">
         <h2 class="text-lg text-center text-foreground font-semibold sm:text-2xl">Ils recherchent un logement</h2>
         <div
@@ -92,6 +96,7 @@
             <div class="swiper-button-prev"></div>
         </div>
     </div>
+    {% endif %}
 
     {# Newsletter #}
     {% if isSubscribedNewsletter %}
