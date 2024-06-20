@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% form_theme form with ['foundation_5_layout.html.twig'] only %}
 
-{% block title %}Hello ChatController!{% endblock %}
+{% block title %}{{ userTo.getFullname }}{% endblock %}
 
 {% import 'partials/_breadcrumbs.html.twig' as breadcrumbs %}
 

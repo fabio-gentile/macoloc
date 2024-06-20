@@ -1,6 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SearchController!{% endblock %}
+{% set current_path = app.request.get('_route') %}
+{% block title %}
+    {% if current_path == 'app_tenant_edit' %}
+        Modification de l'annonce de {{ tenant.user.getFullname }}
+    {% else %}
+        Publier une recherche de logement
+    {% endif %}
+{% endblock %}
 
 {% block body %}
     <div class="flex flex-col gap-4 items-center">
