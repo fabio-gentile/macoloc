@@ -11,7 +11,7 @@
         <ul class="hidden lg:flex gap-6 items-center">
             <li><a href="{{ path('app_search_housing') }}">Rechercher</a></li>
             <li><a href="{{ path('app_publish_housing') }}">Publier une annonce</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="{{ path('app_contact') }}">Contact</a></li>
         </ul>
         {% if not is_granted("ROLE_USER") %}
         <ul class="hidden lg:flex gap-6 items-center">
@@ -144,11 +144,11 @@
             <hr class="h-px my-1 bg-input border-0">
         </ul>
         <ul class="flex flex-col gap-4 px-4 py-2 text-foreground">
-            <li class="">&copy; 2024 Macoloc</li>
             <li class="flex gap-4 flex-wrap">
-                <a href="">Politique de confidentialité</a>
-                <a href="">Conditions générales</a>
+                <a href="{{ path('app_privacy') }}">Politique de confidentialité</a>
+                <a href="{{ path('app_terms') }}">Conditions générales</a>
             </li>
+            <li class="">&copy; 2024 Macoloc</li>
         </ul>
     </nav>
 </header>

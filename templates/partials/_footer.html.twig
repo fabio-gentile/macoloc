@@ -12,17 +12,17 @@
             <div>
                 <p class="uppercase text-muted mb-4">Explorer</p>
                 <ul class="flex gap-4 flex-col">
-                    <li><a href="{{ path('app_homepage') }}">Accueil</a></li>
-                    <li><a href="{{ path('app_search_housing') }}">Rechercher</a></li>
-                    <li><a href="{{ path('app_publish_housing') }}">Publier une annonce</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a class="hover:underline" href="{{ path('app_homepage') }}">Accueil</a></li>
+                    <li><a class="hover:underline" href="{{ path('app_search_housing') }}">Rechercher</a></li>
+                    <li><a class="hover:underline" href="{{ path('app_publish_housing') }}">Publier une annonce</a></li>
+                    <li><a class="hover:underline" href="{{ path('app_contact') }}">Contact</a></li>
                 </ul>
             </div>
             <div>
                 <p class="uppercase text-muted mb-4 md:mt-0 mt-8">Informations légales</p>
                 <ul class="flex gap-4 flex-col">
-                    <li><a href="#">Politique de confidentialité</a></li>
-                    <li><a href="#">Conditions d’utilisation</a></li>
+                    <li><a class="hover:underline" href="{{ path('app_privacy') }}">Politique de confidentialité</a></li>
+                    <li><a class="hover:underline" href="{{ path('app_terms') }}">Conditions d’utilisation</a></li>
                 </ul>
             </div>
         </nav>
