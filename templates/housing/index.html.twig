@@ -241,12 +241,15 @@
             <div class="sticky top-4 flex flex-col gap-8 items-center justify-center bg-ternary rounded-lg p-6 min-w-max">
                 <h2 class="font-semibold text-xl text-foreground break-words text-center">Cette annonce vous intéresse ?</h2>
                 {% if housing.user.userImage %}
-                    <img src="{{ asset('uploads/users/' ~ housing.user.userImage.filename) }}" alt="Avatar de {{ housing.user.getFullname }}" class="rounded-full object-contain w-[150px] h-[150px]">
+                    <a href="{{ path('app_user_profile', { 'id': app.user.id }) }}">
+                        <img src="{{ asset('uploads/users/' ~ housing.user.userImage.filename) }}" alt="Avatar de {{ housing.user.getFullname }}" class="rounded-full object-contain w-[150px] h-[150px]">
+                    </a>
                 {% else %}
-                    <img src="https://ui-avatars.com/api/?name={{ housing.user.firstName }}+{{ housing.user.lastName }}" alt="Avatar de {{ housing.user.getFullname }}" class="rounded-full object-contain w-[150px] h-[150px]">
+                    <a href="{{ path('app_user_profile', { 'id': app.user.id }) }}">
+                        <img src="https://ui-avatars.com/api/?name={{ housing.user.firstName }}+{{ housing.user.lastName }}" alt="Avatar de {{ housing.user.getFullname }}" class="rounded-full object-contain w-[150px] h-[150px]">
+                    </a>
                 {% endif %}
                 <p class="font-semibold text-xl text-foreground">{{ housing.user.firstname }}</p>
-{#                TODO: Add redirection#}
                 <a href="{{ path('app_account_chat_new', { 'id': housing.user.id }) }}" type="button" class="btn btn-primary w-fit">
                     Envoyer un message
                     <twig:ux:icon name="lucide:chevron-right" class="w-6 object-fit text-white" />
