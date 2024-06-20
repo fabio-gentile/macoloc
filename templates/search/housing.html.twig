@@ -9,7 +9,7 @@
             <a href="{{ path('app_search_tenant') }}" class="btn btn-secondary w-full sm:w-fit sm:rounded-none sm:rounded-r-lg">Je recherche un colocataire</a>
         </div>
         <twig:SearchInput :hasSelectOptions="false" from="housing" class="w-full" />
-        <div class="lg:flex gap-6">
+        <div class="lg:flex w-full">
             <div data-controller="hide-filter" class="lg:min-w-[250px]">
                 <button data-action="click->hide-filter#openForm" class="lg:hidden mb-4 btn btn-primary">Filtes</button>
                 <div data-hide-filter-target="form" class="hidden lg:block w-full border border-input rounded-lg p-4">
@@ -18,14 +18,24 @@
                     {{ form_end(search_form) }}
                 </div>
             </div>
-            <div class="flex flex-col gap-8">
+            <div class="flex flex-col grow mt-6 lg:mt-0 lg:ml-6 items-center gap-8">
                 <turbo-frame id="housings_list_frame" class="flex flex-col gap-4 sm:gap-6">
-                    {% for housing in housings %}
-                        {% include 'search/_housing.html.twig' with {
-                            'today': today,
-                        } %}
-                    {% endfor %}
-                    {{ knp_pagination_render(housings) }}
+                    {% if housings is empty %}
+                        <div class="flex flex-col gap-4 lg:mt-8 items-center">
+                            <div class="p-4 bg-ternary w-fit rounded-full">
+                                <twig:ux:icon name="lucide:home" class="w-16 object-fit text-foreground" />
+                            </div>
+                            <p class="text-foreground text-lg font-medium">Aucun logement trouvé</p>
+                            <p class="text-muted text-center">Essayez de changer de filtres</p>
+                        </div>
+                    {% else %}
+                        {% for housing in housings %}
+                            {% include 'search/_housing.html.twig' with {
+                                'today': today,
+                            } %}
+                        {% endfor %}
+                        {{ knp_pagination_render(housings) }}
+                    {% endif %}
                 </turbo-frame>
             </div>
         </div>

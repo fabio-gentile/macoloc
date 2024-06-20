@@ -18,13 +18,27 @@
                     {{ form_end(search_form) }}
                 </div>
             </div>
-            <div class="flex flex-col gap-8">
-                <turbo-frame id="housings_list_frame" class="grid grid-cols-1 place-items-center sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {% for tenant in tenants %}
-                        {% include 'search/_tenant.html.twig' %}
-                    {% endfor %}
+            <div class="flex flex-col grow mt-6 lg:mt-0 lg:ml-6 items-center gap-8">
+                <turbo-frame id="housings_list_frame">
+                    {% if tenants is empty %}
+                        <div class="flex flex-col gap-4 lg:mt-8 items-center">
+                            <div class="p-4 bg-ternary w-fit rounded-full">
+                                <twig:ux:icon name="lucide:user" class="w-16 object-fit text-foreground" />
+                            </div>
+                            <p class="text-foreground text-lg font-medium">Aucun locataire trouvé</p>
+                            <p class="text-muted text-center">Essayez de changer de filtres</p>
+                        </div>
+                    {% else %}
+                        <div class="flex flex-col gap-4">
+                            <div class="grid grid-cols-1 place-items-center sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {% for tenant in tenants %}
+                                    {% include 'search/_tenant.html.twig' %}
+                                {% endfor %}
+                            </div>
+                            {{ knp_pagination_render(tenants) }}
+                        </div>
+                    {% endif %}
                 </turbo-frame>
-                {{ knp_pagination_render(tenants) }}
             </div>
         </div>
     </div>
