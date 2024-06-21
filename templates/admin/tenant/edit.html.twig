@@ -1,0 +1,94 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modification de l'annonce de {{ tenant.user.getFullname }}{% endblock %}
+
+{% import 'partials/_breadcrumbs.html.twig' as breadcrumbs %}
+
+{% block body %}
+    <div class="flex flex-col gap-8">
+        {{ breadcrumbs.render([
+            {'url': url('admin_dashboard'), 'text': 'Tableau de bord'},
+            {'url': url('admin_tenant'), 'text': 'Annonces locataires'},
+            {'url': url('admin_tenant_edit', {'id': tenant.user.id}), 'text': tenant.user.getFullname},
+        ]) }}
+        <h1 class="font-semibold text-2xl text-foreground">Modification de l'annonce de {{ tenant.user.getFullname }}</h1>
+{#        {{ form_start(form) }}#}
+{#        {{ form_row(form) }}#}
+{#        <button type="submit" class="btn btn-primary">Modifier</button>#}
+{#        {{ form_end(form) }}#}
+        <div class="">
+            {{ form_start(form) }}
+            {% if form_errors(form) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form) }}
+                </div>
+            {% endif %}
+            <div class="grid gap-4">
+                <div class="bg-other py-4 flex flex-col md:flex-row gap-2 items-center rounded-lg">
+                    <div class="min-w-[200px] flex gap-2 flex-col py-4 w-fit items-center">
+                        <div class=" px-3 py-2.5 bg-secondary rounded-full">
+                            <twig:ux:icon name="lucide:map-pin" class="w-6 object-fit text-foreground" />
+                        </div>
+                        <p class="font-medium">Adresse</p>
+                    </div>
+                    <div class="px-4 w-full">
+                        {{ form_errors(form.address) }}
+                        {{ form_widget(form.address, { 'attr': {'class': 'w-full flex flex-col gap-4 justify-between '} }) }}
+                        {{ form_help(form.address) }}
+                    </div>
+                </div>
+                <div class="bg-other py-4 flex flex-col md:flex-row gap-2 items-center rounded-lg">
+                    <div class="min-w-[200px] flex gap-2 flex-col py-4 w-fit items-center">
+                        <div class=" px-3 py-2.5 bg-secondary rounded-full">
+                            <twig:ux:icon name="lucide:circle-help" class="w-6 object-fit text-foreground" />
+                        </div>
+                        <p class="font-medium">À propos</p>
+                    </div>
+                    <div class="px-4 w-full">
+                        {{ form_errors(form.about) }}
+                        {{ form_widget(form.about, { 'attr': {'class': 'w-full flex flex-col gap-4 justify-between '} }) }}
+                        {{ form_help(form.about) }}
+                    </div>
+                </div>
+                <div class="bg-other flex-col md:flex-row py-4 flex gap-2 items-center rounded-lg">
+                    <div class="min-w-[200px] flex gap-2 flex-col py-4 w-fit items-center">
+                        <div class=" px-3 py-2.5 bg-secondary rounded-full">
+                            <twig:ux:icon name="lucide:notebook-pen" class="w-6 object-fit text-foreground" />
+                        </div>
+                        <p class="font-medium">Description</p>
+                    </div>
+                    <div class="px-4 w-full">
+                        {{ form_errors(form.description) }}
+                        {{ form_widget(form.description, { 'attr': {'class': 'w-full flex flex-col gap-4 justify-between'} }) }}
+                        {{ form_help(form.description) }}
+                    </div>
+                </div>
+                <div class="bg-other flex-col md:flex-row py-4 flex gap-2 items-center rounded-lg">
+                    <div class="min-w-[200px] flex gap-2 flex-col py-4 w-fit items-center">
+                        <div class=" px-3 py-2.5 bg-secondary rounded-full">
+                            <twig:ux:icon name="lucide:camera" class="w-6 object-fit text-foreground" />
+                        </div>
+                        <p class="font-medium">Photos</p>
+                    </div>
+                    <div class="px-4 w-full" data-controller="image-preview">
+                        {{ form_help(form.image) }}
+                        {{ form_widget(form.image, { 'attr': {'class': 'w-full flex flex-col gap-4 justify-between', 'data-image-preview-target': 'input'} }) }}
+                        {{ form_errors(form.image) }}
+                        <turbo-frame data-image-preview-target="preview" class="flex gap-2.5 mt-3 flex-wrap">
+                            {% if tenant.tenantImage %}
+                                <div class="flex gap-2 flex-col items-center">
+                                    <img src="{{ asset('uploads/tenants/' ~ tenant.tenantImage.filename) }}" alt="Avatar de {{ tenant.user.getFullname }}" class="preview-image !rounded-full">
+                                    <a href="{{ path('admin_tenant_image_delete', {'id': tenant.tenantImage.id}) }}" class="btn btn-secondary">Supprimer</a>
+                                </div>
+                            {% endif %}
+                        </turbo-frame>
+                    </div>
+                </div>
+
+                {{ form_row(form._token) }}
+                <button type="submit" class="btn btn-primary w-full">Modifier l’annonce</button>
+            </div>
+            {{ form_end(form, {render_rest: false}) }}
+        </div>
+    </div>
+{% endblock %}

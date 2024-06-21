@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\Admin\SearchUserData;
 use App\Data\SearchHousingData;
 use App\Data\SearchTenantData;
 use App\Entity\Tenant;
@@ -45,6 +46,34 @@ class TenantRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * Find tenants by search data
+     * @param SearchUserData $searchData
+     * @param int $limit
+     * @return PaginationInterface
+     */
+    public function findSearchByUser(SearchUserData $searchData, int $limit = 7): PaginationInterface
+    {
+        $queryBuilder = $this->createQueryBuilder('t');
+
+        if ($searchData->q) {
+            $query = strtolower($searchData->q);
+            $queryBuilder
+                ->join('t.user', 'u')
+                ->andWhere('LOWER(u.firstname) LIKE :query')
+                ->orWhere('LOWER(u.lastname) LIKE :query')
+                ->setParameter('query', "%{$query}%");
+        }
+
+        $queryBuilder->orderBy('t.createdAt', 'DESC');
+
+        return $this->paginator->paginate(
+            $queryBuilder,
+            $searchData->page,
+            $limit
+        );
+    }
 
     /**
      * Find latest tenants

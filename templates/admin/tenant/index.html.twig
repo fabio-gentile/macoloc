@@ -1,0 +1,106 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Annonces locataires{% endblock %}
+
+{% import 'partials/_breadcrumbs.html.twig' as breadcrumbs %}
+
+{% block body %}
+    <div class="flex flex-col gap-8">
+        {{ breadcrumbs.render([
+            {'url': url('admin_dashboard'), 'text': 'Tableau de bord'},
+            {'url': url('admin_tenant'), 'text': 'Annonces locataires'},
+        ]) }}
+        <h1 class="font-semibold text-2xl text-foreground">Annonces locataires</h1>
+        <div class="relative overflow-x-auto rounded-lg">
+            <div class="relative mx-auto mb-8">
+                {% include 'admin/partials/_search-bar.html.twig' with {
+                    'form': form
+                } %}
+            </div>
+            <table class="w-full rounded-lg overflow-hidden text-sm text-left text-muted table-striped">
+                <thead class="text-xs text-white uppercase bg-accent">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left">
+                        Nom
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Ville
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Genre
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Activité
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Budget
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Action
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for tenant in tenants %}
+                    <tr class="border-b hover:bg-gray-50">
+                        <th scope="row" class="flex items-center px-6 py-4 text-muted whitespace-nowrap">
+                            {% if tenant.tenantImage %}
+                                <img src="{{ asset('uploads/tenants/' ~ tenant.tenantImage.filename) }}" alt="Avatar de {{ tenant.user.getFullname }}" class="w-10 h-10 rounded-full">
+                            {% else %}
+                                <img src="https://ui-avatars.com/api/?name={{ tenant.user.firstName }}+{{ tenant.user.lastName }}" alt="Avatar de {{ tenant.user.getFullname }}" class="w-10 h-10 rounded-full">
+                            {% endif %}
+                            <div class="ps-3">
+                                <div class="text-base font-semibold">{{ tenant.user.getFullname }}</div>
+                                <div class="font-normal text-gray-500">{{ tenant.user.email }}</div>
+                            </div>
+                        </th>
+                        <td class="px-6 py-4 text-center">
+                            {{ tenant.city }}
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            {{ tenant.gender }}
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            {{ tenant.activity }}
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            {{ tenant.budget }}€
+                        </td>
+                        <td class="px-6 py-4" data-controller="dialog" data-action="click->dialog#backdropClose">
+                            <div class="flex gap-4 items-center justify-center">
+                                <a target="_blank" href="{{ path('app_tenant', {'id': tenant.id}) }}">
+                                    <twig:ux:icon name="lucide:eye" class="w-5 object-fit text-muted" />
+                                </a>
+                                <a href="{{ path('admin_tenant_edit', {'id': tenant.id}) }}">
+                                    <twig:ux:icon name="lucide:pen" class="w-5 object-fit text-muted" />
+                                </a>
+                                <dialog data-dialog-target="dialog">
+                                    <div class="p-6 flex flex-col gap-6 items-center min-w-[300px]">
+                                        <div class="rounded-full bg-destructive/40 p-4 w-fit">
+                                            <twig:ux:icon name="lucide:triangle-alert" class="w-12 object-fit text-destructive" />
+                                        </div>
+                                        <p class="text-muted">Etes-vous sûr de vouloir supprimer l'annonce de</p>
+                                        <div class="alert bg-other text-foreground w-full text-center font-medium">{{ tenant.user.getFullname }}</div>
+                                        <div class="flex gap-4">
+                                            <button class="btn btn-secondary" type="button" data-action="dialog#close" autofocus>Annuler</button>
+                                            <a href="{{ path('admin_tenant_delete', {'id': tenant.id}) }}" class="btn btn-destructive sm:w-fit" type="button">Supprimer</a>
+                                        </div>
+                                    </div>
+                                </dialog>
+                                <button data-action="dialog#open" type="button">
+                                    <twig:ux:icon name="lucide:trash-2" class="w-5 object-fit text-destructive" />
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+        <nav class="w-full flex justify-between mt-4 flex-wrap gap-4">
+            <p class="text-center">Résultat {{ tenants.getPaginationData.firstItemNumber }} - {{ tenants.getPaginationData.lastItemNumber }}</p>
+            {{ knp_pagination_render(tenants) }}
+        </nav>
+    </div>
+{% endblock %}
