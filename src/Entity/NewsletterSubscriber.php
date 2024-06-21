@@ -37,7 +37,7 @@ class NewsletterSubscriber
     /**
      * @var Collection<int, NewsletterReference>
      */
-    #[ORM\OneToMany(targetEntity: NewsletterReference::class, mappedBy: 'subscriber', cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: NewsletterReference::class, mappedBy: 'subscriber', cascade: ['persist', 'remove'])]
     private Collection $newsletterReferences;
 
     public function __construct()

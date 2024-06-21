@@ -43,6 +43,21 @@ class NewsletterSubscriberRepository extends ServiceEntityRepository
     //    }
 
     /**
+     * Delete newsletter subscriber
+     * @param NewsletterSubscriber $newsletterSubscriber
+     */
+    public function delete(NewsletterSubscriber $newsletterSubscriber): void
+    {
+        foreach ($newsletterSubscriber->getNewsletterReferences() as $reference) {
+//            $newsletterSubscriber->removeNewsletterReference($reference);
+            $this->getEntityManager()->remove($reference);
+        }
+
+        $this->getEntityManager()->remove($newsletterSubscriber);
+        $this->getEntityManager()->flush();
+    }
+
+    /**
      * Find latest newsletter subscribers
      * @param DateTime $yesterday
      * @return NewsletterSubscriber[]|null
