@@ -45,7 +45,6 @@ class PublishController extends AbstractController
                 ->setOther($data['other'])
                 ->setUser($this->getUser())
                 ->setCity($address->getCity())
-                ->setPostalCode($address->getPostalCode())
                 ->setLatitude($address->getLatitude())
                 ->setLongitude($address->getLongitude())
                 ->setType($data['housing']['type_housing'])

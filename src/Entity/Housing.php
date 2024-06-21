@@ -82,13 +82,6 @@ class Housing
     private ?string $longitude = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Regex(
-        pattern: "/^\d{5}$/",
-        message: "Code postal invalide."
-    )]
-    private ?string $postal_code = null;
-
-    #[ORM\Column(length: 255)]
     #[Assert\length(
         min: 2,
         max: 255,
@@ -282,18 +275,6 @@ class Housing
     public function setLongitude(string $longitude): static
     {
         $this->longitude = $longitude;
-
-        return $this;
-    }
-
-    public function getPostalCode(): ?string
-    {
-        return $this->postal_code;
-    }
-
-    public function setPostalCode(string $postal_code): static
-    {
-        $this->postal_code = $postal_code;
 
         return $this;
     }

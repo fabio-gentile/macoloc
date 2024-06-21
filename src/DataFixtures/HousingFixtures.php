@@ -38,7 +38,6 @@ class HousingFixtures extends Fixture implements DependentFixtureInterface
                 ->setOther($faker->randomElements($other, rand(0, count($other))))
                 ->setLatitude($faker->latitude())
                 ->setLongitude($faker->longitude())
-                ->setPostalCode($faker->postcode())
                 ->setCity($faker->city())
                 ->setUser($user)
             ;
