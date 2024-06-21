@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Data\Admin\SearchUserData;
-use App\Entity\FrenchCity;
 use App\Entity\Tenant;
 use App\Entity\TenantImage;
 use App\Factory\FileUploaderFactory;
@@ -11,6 +10,7 @@ use App\Form\Admin\SearchInputType;
 use App\Form\EditTenantType;
 use App\Repository\FrenchCityRepository;
 use App\Repository\TenantRepository;
+use App\Traits\TenantTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +20,8 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/admin/tenants')]
 class AdminTenantController extends AbstractController
 {
+    use TenantTrait;
+
     public function __construct(
         private TenantRepository $tenantRepository,
         private EntityManagerInterface $entityManager
@@ -42,8 +44,6 @@ class AdminTenantController extends AbstractController
         $searchData->page = $request->get('page', 1);
         $users = $this->tenantRepository->findSearchByUser($searchData, $LIMIT);
 
-        $searchData->page = $request->get('page', 1);
-
         return $this->render('admin/tenant/index.html.twig', [
             'form' => $form,
             'tenants' => $users,
@@ -56,24 +56,9 @@ class AdminTenantController extends AbstractController
         FileUploaderFactory $fileUploaderFactory
     ): Response
     {
-        $image = $tenant->getTenantImage();
+        $this->removeTenant($this->entityManager, $fileUploaderFactory, $tenant);
 
-        if ($image) {
-            $fileUploader = $fileUploaderFactory->createUploader('tenants');
-            try {
-                $fileUploader->remove($image->getFilename());
-                $this->entityManager->remove($tenant->getTenantImage());
-            } catch (\Exception $e) {
-                throw new \Exception('Erreur lors de la suppression de l\'image. Veuillez réessayer.');
-            }
-        }
-
-        $name = $tenant->getUser()->getFullName();
-
-        $this->entityManager->remove($tenant);
-        $this->entityManager->flush();
-
-        $this->addFlash('success', 'Le locataire ' . $name . ' a bien été supprimé.');
+        $this->addFlash('success', 'Le locataire ' . $tenant->getUser()->getFullname() . ' a bien été supprimé.');
         return $this->redirectToRoute('admin_tenant');
     }
 
@@ -89,50 +74,7 @@ class AdminTenantController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var FrenchCity $address */
-            $address = $form->get('address')->getData();
-
-            $image = $form->get('image')->getData();
-            $about = $form->get('about')->getData();
-
-            $tenant
-                ->setCity($address->getCity())
-                ->setLatitude($address->getLatitude())
-                ->setLongitude($address->getLongitude())
-                ->setBudget($about['budget'])
-                ->setDescription($form->get('description')->getData())
-                ->setActivity($about['activity'])
-                ->setGender($tenant->getUser()->getGender())
-                ->setUpdatedAt(new \DateTime())
-            ;
-
-            if ($image) {
-                $fileUploader = $fileUploaderFactory->createUploader('tenants');
-
-                if ($tenant->getTenantImage()) {
-                    try {
-                        $fileUploader->remove($tenant->getTenantImage()->getFilename());
-                        $this->entityManager->remove($tenant->getTenantImage());
-                        $this->entityManager->flush();
-                    } catch (\Exception $e) {
-                        throw new \Exception('Erreur lors de la suppression de l\'image. Veuillez réessayer.');
-                    }
-
-                }
-
-                $result = $fileUploader->upload($image);
-                $tenantImage = new TenantImage();
-                $tenantImage
-                    ->setFilename($result['fileName'])
-                    ->setOriginalFilename($result['originalFilename'])
-                    ->setMimeType($result['mimeType'])
-                ;
-
-                $tenant->setTenantImage($tenantImage);
-            }
-
-            $this->entityManager->persist($tenant);
-            $this->entityManager->flush();
+            $this->editTenant($form, $tenant, $fileUploaderFactory, $this->entityManager);
 
             $name = $tenant->getUser()->getFullName();
             $this->addFlash('success', 'Le locataire ' . $name . ' a bien été modifié.');
@@ -152,19 +94,9 @@ class AdminTenantController extends AbstractController
         FileUploaderFactory $fileUploaderFactory
     ): Response
     {
-        $tenant = $tenantImage->getTenant();
-        $fileUploader = $fileUploaderFactory->createUploader('tenants');
-        try {
-            $fileUploader->remove($tenantImage->getFilename());
-            $tenant->setTenantImage(null);
-            $this->entityManager->persist($tenant);
-            $this->entityManager->remove($tenantImage);
-            $this->entityManager->flush();
-        } catch (\Exception $e) {
-            throw new \Exception('Erreur lors de la suppression de l\'image. Veuillez réessayer.');
-        }
+        $this->removeTenantImage($this->entityManager, $fileUploaderFactory, $tenantImage);
 
         $this->addFlash('success', 'L\'image a bien été supprimée.');
-        return $this->redirectToRoute('admin_tenant_edit', ['id' => $tenant->getId()]);
+        return $this->redirectToRoute('admin_tenant_edit', ['id' => $tenantImage->getTenant()->getId()]);
     }
 }
