@@ -1,0 +1,75 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Newsletter{% endblock %}
+
+{% import 'partials/_breadcrumbs.html.twig' as breadcrumbs %}
+
+{% block body %}
+    <div class="flex flex-col gap-8">
+        {{ breadcrumbs.render([
+            {'url': url('admin_dashboard'), 'text': 'Tableau de bord'},
+            {'url': url('admin_newsletter'), 'text': 'Newsletter'},
+        ]) }}
+        <h1 class="font-semibold text-2xl text-foreground">Newsletter</h1>
+        <div class="relative overflow-x-auto rounded-lg">
+            <table class="w-full rounded-lg overflow-hidden text-sm text-left text-muted table-striped">
+                <thead class="text-xs text-foreground uppercase bg-accent">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left">
+                        Email
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Abonné depuis
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Newsletter reçues
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Action
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for newsletter in newsletter %}
+                    <tr class="border-b hover:bg-gray-50">
+                        <th scope="row" class="px-6 py-4 text-left">
+                            {{ newsletter.email }}
+                        </th>
+                        <td class="px-6 py-4 text-center">
+                            {{ newsletter.subscribedAt | ago }}
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            {{ newsletter.newsletterReferences | length }}
+                        </td>
+                        <td class="px-6 py-4" data-controller="dialog" data-action="click->dialog#backdropClose">
+                            <div class="flex gap-4 items-center justify-center">
+                                <dialog data-dialog-target="dialog">
+                                    <div class="p-6 flex flex-col gap-6 items-center min-w-[300px]">
+                                        <div class="rounded-full bg-destructive/40 p-4 w-fit">
+                                            <twig:ux:icon name="lucide:triangle-alert" class="w-12 object-fit text-destructive" />
+                                        </div>
+                                        <p class="text-muted">Etes-vous sûr de vouloir supprimer l'inscription à la newsletter de</p>
+                                        <div class="alert bg-other text-foreground w-full text-center font-medium">{{ newsletter.email }}</div>
+                                        <div class="flex gap-4">
+                                            <button class="btn btn-secondary" type="button" data-action="dialog#close" autofocus>Annuler</button>
+                                            <a href="{{ path('admin_newsletter_delete', {'id': newsletter.id}) }}" class="btn btn-destructive sm:w-fit" type="button">Supprimer</a>
+                                        </div>
+                                    </div>
+                                </dialog>
+                                <button data-action="dialog#open" type="button">
+                                    <twig:ux:icon name="lucide:trash-2" class="w-5 object-fit text-destructive" />
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+        <nav class="w-full flex justify-between mt-4 flex-wrap gap-4">
+            <p class="text-center">Résultat {{ newsletter.getPaginationData.firstItemNumber }} - {{ newsletter.getPaginationData.lastItemNumber }}</p>
+            {{ knp_pagination_render(newsletter) }}
+        </nav>
+    </div>
+{% endblock %}

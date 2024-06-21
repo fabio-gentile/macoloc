@@ -35,12 +35,10 @@ class AdminUserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $searchData->q = $form->get('q')->getData();
-            $searchData->page = $request->get('page', 1);
-            $users = $this->userRepository->findSearch($searchData, $LIMIT);
-        } else {
-            $searchData->page = $request->get('page', 1);
-            $users = $this->userRepository->findSearch($searchData, $LIMIT);
         }
+
+        $searchData->page = $request->get('page', 1);
+        $users = $this->userRepository->findSearch($searchData, $LIMIT);
 
         $searchData->page = $request->get('page', 1);
         return $this->render('admin/user/index.html.twig', [
