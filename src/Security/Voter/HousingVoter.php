@@ -2,6 +2,8 @@
 
 namespace App\Security\Voter;
 
+use App\Entity\Housing;
+use App\Entity\HousingImage;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -19,10 +21,15 @@ class HousingVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        // replace with your own logic
-        // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])
-            && $subject instanceof \App\Entity\Housing;
+        if (in_array($attribute, [self::VIEW, self::EDIT])) {
+            return true;
+        }
+
+        if ($subject instanceof Housing || $subject instanceof HousingImage) {
+            return true;
+        }
+
+        return false;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
@@ -42,7 +49,14 @@ class HousingVoter extends Voter
         switch ($attribute) {
             case self::DELETE:
             case self::EDIT:
-                return $subject->getUser() === $user;
+                if ($subject instanceof Housing) {
+                    return $subject->getUser() === $user;
+                };
+
+                if ($subject instanceof HousingImage) {
+                    return $subject->getHousing()->getUser() === $user;
+                };
+                break;
 
             case self::VIEW:
                 // logic to determine if the user can VIEW

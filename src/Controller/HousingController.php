@@ -18,18 +18,16 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/housing/{id}', requirements: ['id' => Requirement::UUID_V4])]
+#[Route('/housing')]
 class HousingController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly FrenchCityRepository $frenchCityRepository,
         private readonly ChamberRepository $chamberRepository
-    )
-    {
-    }
+    ) {}
 
-    #[Route('/', name: 'app_housing')]
+    #[Route('/{id}/', name: 'app_housing', requirements: ['id' => Requirement::UUID_V4])]
     public function index(Housing $housing): Response
     {
         return $this->render('housing/index.html.twig', [
@@ -38,7 +36,7 @@ class HousingController extends AbstractController
         ]);
     }
 
-    #[Route('/edit', name: 'app_housing_edit')]
+    #[Route('/{id}/edit', name: 'app_housing_edit', requirements: ['id' => Requirement::UUID_V4])]
     #[isGranted(HousingVoter::EDIT, subject: 'housing')]
     public function edit(
         Housing $housing,
@@ -63,7 +61,6 @@ class HousingController extends AbstractController
                 ->setCommodity($commodity)
                 ->setOther($other)
                 ->setCity($address->getCity())
-                ->setPostalCode($address->getPostalCode())
                 ->setLatitude($address->getLatitude())
                 ->setLongitude($address->getLongitude())
                 ->setType($housingType['type_housing'])
@@ -119,7 +116,7 @@ class HousingController extends AbstractController
         ]);
     }
 
-    #[Route('/delete', name: 'app_housing_delete')]
+    #[Route('/{id}/delete', name: 'app_housing_delete', requirements: ['id' => Requirement::UUID_V4])]
     #[isGranted(HousingVoter::DELETE, subject: 'housing')]
     public function delete(
         Housing $housing,
@@ -142,5 +139,27 @@ class HousingController extends AbstractController
 
         $this->addFlash('success', 'Votre annonce a bien été supprimée.');
         return $this->redirectToRoute('app_account', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/image-delete', name: 'app_housing_image_delete', requirements: ['id' => Requirement::UUID_V4])]
+    #[isGranted(HousingVoter::DELETE, subject: 'housingImage')]
+    public function deleteImage(
+        HousingImage $housingImage,
+        FileUploaderFactory $fileUploaderFactory
+    ): Response
+    {
+        /** @var Housing $housing */
+        $housing = $housingImage->getHousing();
+        $fileUploader = $fileUploaderFactory->createUploader('housings');
+        try {
+            $fileUploader->remove($housingImage->getFilename());
+            $this->entityManager->remove($housingImage);
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            throw new \Exception('Erreur lors de la suppression de l\'image. Veuillez réessayer.' . $e);
+        }
+
+        $this->addFlash('success', 'L\'image a bien été supprimée.');
+        return $this->redirectToRoute('app_housing_edit', ['id' => $housing->getId()]);
     }
 }
