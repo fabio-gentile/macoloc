@@ -20,7 +20,7 @@
         <div class="flex flex-col gap-4">
             {#housing#}
             {% for housing in housings %}
-                <div class="border border-input rounded-lg lg:flex-row lg:flex">
+                <div class="border border-input rounded-lg lg:flex-row lg:flex justify-between">
                     <div class="md:flex">
                         {% set image = housing.housingImages.first %}
                         <img src="{{ asset('uploads/housings/' ~ image.filename) }}" alt="Logement de {{ housing.user.getFullname }}" class="max-h-[280px] md:max-h-[200px] md:w-[250px] object-cover w-full">
@@ -77,7 +77,7 @@
 
 {#            tenant#}
             {% for tenant in tenants %}
-                <div class="border border-input rounded-lg lg:flex-row lg:flex">
+                <div class="border border-input rounded-lg lg:flex-row lg:flex justify-between">
                     <div class="md:flex">
                         {% if tenant.tenantImage %}
                             <img src="{{ asset('uploads/tenants/' ~ tenant.tenantImage.filename) }}" alt="Avatar de {{ tenant.user.getFullname }}" class="max-h-[280px] md:max-h-[200px] md:w-[250px] object-cover w-full">
