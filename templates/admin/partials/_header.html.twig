@@ -1,4 +1,4 @@
-<div class="w-full bg-primary sticky top-0">
+<div class="w-full bg-primary sticky top-0 z-[99999]">
     <button data-drawer-target="sidebar-multi-level-sidebar" data-drawer-toggle="sidebar-multi-level-sidebar" aria-controls="sidebar-multi-level-sidebar" type="button" class="inline-flex items-center py-2 px-4 sm:px-8 md:px-12 lg:px-16 rounded-lg lg:hidden">
         <span class="sr-only">Ouvrir le menu</span>
         <twig:ux:icon name="lucide:menu" class="h-9 object-contain text-white cursor-pointer" />
@@ -6,7 +6,7 @@
 </div>
 
 {#TODO Redirection#}
-<aside id="sidebar-multi-level-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0" aria-label="Sidebar">
+<aside id="sidebar-multi-level-sidebar" class="fixed top-12 lg:top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0" aria-label="Sidebar">
     <div class="h-full px-3 py-4 bg-primary overflow-y-auto">
         <ul class="space-y-2 font-medium">
             <li>

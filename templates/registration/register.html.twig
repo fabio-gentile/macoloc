@@ -13,15 +13,17 @@
                     <h1 class="font-semibold text-xl">Créer un compte</h1>
                     <p class="text-muted">Entrez votre email et un mot de passe pour vous créer un compte</p>
 
-                    {{ form_errors(registrationForm) }}
+                    <div>
+                        {{ form_errors(registrationForm) }}
 
-                    {{ form_start(registrationForm) }}
-                    {{ form_row(registrationForm.email) }}
-                    {{ form_row(registrationForm.plainPassword) }}
-                    <button class="btn btn-primary">
-                        Créer un compte
-                    </button>
-                    {{ form_end(registrationForm) }}
+                        {{ form_start(registrationForm) }}
+                        {{ form_row(registrationForm.email) }}
+                        {{ form_row(registrationForm.plainPassword) }}
+                        <button class="btn btn-primary w-full">
+                            Créer un compte
+                        </button>
+                        {{ form_end(registrationForm) }}
+                    </div>
                     <div class="text-center text-sm">
                         Vous avez déjà un compte ?
                         <a href="{{ path('app_login') }}" class="text-primary font-semibold">Se connecter</a>

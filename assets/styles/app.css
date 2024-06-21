@@ -197,3 +197,11 @@ dialog[data-dialog-target='dialog'][closing] {
     border-style: solid;
     border-color: #5146CE transparent;
 }
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    @apply bg-white;
+}
+
+.table-striped > tbody > tr:nth-of-type(even) > * {
+    @apply bg-other;
+}

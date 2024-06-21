@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\Admin\SearchUserData;
 use App\Entity\Tenant;
 use App\Entity\UserAccount;
 use App\Factory\FileUploaderFactory;
@@ -9,6 +10,8 @@ use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<UserAccount>
@@ -18,7 +21,8 @@ class UserAccountRepository extends ServiceEntityRepository
     public function __construct(
         ManagerRegistry $registry,
         private EntityManagerInterface $manager,
-        private FileUploaderFactory $fileUploaderFactory
+        private FileUploaderFactory $fileUploaderFactory,
+        private readonly PaginatorInterface $paginator
     )
     {
         parent::__construct($registry, UserAccount::class);
@@ -48,6 +52,33 @@ class UserAccountRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * Find users by search data
+     * @param SearchUserData $searchData
+     * @param int $limit
+     * @return PaginationInterface
+     */
+    public function findSearch(SearchUserData $searchData, int $limit = 7): PaginationInterface
+    {
+        $queryBuilder = $this->createQueryBuilder('u');
+
+        if ($searchData->q) {
+            $query = strtolower($searchData->q);
+            $queryBuilder
+                ->andWhere('LOWER(u.firstname) LIKE :query')
+                ->orWhere('LOWER(u.lastname) LIKE :query')
+                ->setParameter('query', "%{$query}%");
+        }
+
+        $queryBuilder->orderBy('u.createdAt', 'DESC');
+
+        return $this->paginator->paginate(
+            $queryBuilder,
+            $searchData->page,
+            $limit
+        );
+    }
 
     /**
      * Find latest users
