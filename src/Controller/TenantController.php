@@ -125,4 +125,27 @@ class TenantController extends AbstractController
         $this->addFlash('success', 'Votre annonce a bien été supprimée.');
         return $this->redirectToRoute('app_account', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/image-delete', name: 'app_tenant_image_delete')]
+    #[isGranted(TenantVoter::DELETE, subject: 'tenant')]
+    public function deleteImage(
+        Tenant $tenant,
+        FileUploaderFactory $fileUploaderFactory
+    ): Response
+    {
+        $tenantImage = $tenant->getTenantImage();
+        $fileUploader = $fileUploaderFactory->createUploader('tenants');
+        try {
+            $fileUploader->remove($tenantImage->getFilename());
+            $tenant->setTenantImage(null);
+            $this->entityManager->persist($tenant);
+            $this->entityManager->remove($tenantImage);
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            throw new \Exception('Erreur lors de la suppression de l\'image. Veuillez réessayer.');
+        }
+
+        $this->addFlash('success', 'L\'image a bien été supprimée.');
+        return $this->redirectToRoute('app_tenant_edit', ['id' => $tenant->getId()]);
+    }
 }

@@ -59,7 +59,7 @@
 {%- endblock class_help_text %}
 
 {%- block form_row -%}
-    {%- set row_attr = row_attr|merge({'class': (row_attr.class|default('mb-6'))|trim}) -%}
+    {%- set row_attr = row_attr|merge({'class': (row_attr.class|default('mb-4'))|trim}) -%}
     {%- set widget_attr = {} -%}
     {%- if help is not empty -%}
         {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}

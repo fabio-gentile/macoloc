@@ -16,7 +16,7 @@ class TenantImage
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'tenantImage', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'tenantImage')]
     private ?Tenant $tenant = null;
 
     #[ORM\Column(length: 255)]

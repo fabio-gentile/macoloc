@@ -37,7 +37,7 @@
                     </div>
                     <div class="px-4 w-full">
                         {{ form_errors(form.address) }}
-                        {{ form_widget(form.address, { 'attr': {'class': 'w-full flex flex-col gap-4 justify-between '} }) }}
+                        {{ form_widget(form.address) }}
                         {{ form_help(form.address) }}
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                     </div>
                     <div class="px-4 w-full">
                         {{ form_errors(form.about) }}
-                        {{ form_widget(form.about, { 'attr': {'class': 'w-full flex flex-col gap-4 justify-between '} }) }}
+                        {{ form_widget(form.about) }}
                         {{ form_help(form.about) }}
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                     </div>
                     <div class="px-4 w-full">
                         {{ form_errors(form.description) }}
-                        {{ form_widget(form.description, { 'attr': {'class': 'w-full flex flex-col gap-4 justify-between'} }) }}
+                        {{ form_widget(form.description) }}
                         {{ form_help(form.description) }}
                     </div>
                 </div>
@@ -78,21 +78,23 @@
                         {{ form_help(form.image) }}
                         {{ form_widget(form.image, { 'attr': {'class': 'w-full flex flex-col gap-4 justify-between', 'data-image-preview-target': 'input'} }) }}
                         {{ form_errors(form.image) }}
-                        <div data-image-preview-target="preview" class="flex gap-2.5 mt-3 flex-wrap">
+                        <turbo-frame data-image-preview-target="preview" class="flex gap-2.5 mt-3 flex-wrap">
                             {% set current_path = app.request.get('_route') %}
                             {% if current_path == 'app_tenant_edit' %}
                                 {% if tenant.tenantImage %}
-                                    <img src="{{ asset('uploads/tenants/' ~ tenant.tenantImage.filename) }}" alt="Avatar de {{ tenant.user.getFullname }}" class="preview-image !rounded-full">
+                                    <div class="flex gap-2 flex-col items-center">
+                                        <img src="{{ asset('uploads/tenants/' ~ tenant.tenantImage.filename) }}" alt="Avatar de {{ tenant.user.getFullname }}" class="preview-image !rounded-full">
+                                        <a href="{{ path('app_tenant_image_delete', {'id': tenant.id}) }}" class="btn btn-secondary">Supprimer</a>
+                                    </div>
                                 {% endif %}
                             {% endif %}
-                        </div>
+                        </turbo-frame>
                     </div>
                 </div>
                 {{ form_row(form._token) }}
                 <button type="submit" class="btn btn-primary w-full">Publier l’annonce</button>
             </div>
             {{ form_end(form) }}
-
         </div>
     </div>
 {% endblock %}
