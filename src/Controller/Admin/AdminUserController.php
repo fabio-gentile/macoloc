@@ -11,6 +11,7 @@ use App\Form\UserRemoveImageType;
 use App\Repository\UserAccountRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -70,7 +71,11 @@ class AdminUserController extends AbstractController
         EntityManagerInterface $manager
     ): Response
     {
-        $form = $this->createForm(AccountType::class, $user);
+        $form = $this->createForm(AccountType::class, $user, [
+            'roles' => [
+                'Administrateur' => 'ROLE_ADMIN',
+            ],
+        ]);
         $form->handleRequest($request);
         $imageRemoveForm = $this->createForm(UserRemoveImageType::class);
         $imageRemoveForm->handleRequest($request);

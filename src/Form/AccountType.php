@@ -7,11 +7,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class AccountType extends AbstractType
@@ -96,13 +94,28 @@ class AccountType extends AbstractType
                 'help' => 'Votre mot de passe contenir au moins 6 caractères.'
             ])
         ;
+
+        if ($options['roles']) {
+            $builder->add('roles', ChoiceType::class, [
+                'label' => 'Rôles',
+                'required' => false,
+                'multiple' => true,
+                'expanded' => true,
+                'choices' => $options['roles'],
+                'help' => 'Un utilisateur avec le rôle administrateur peut accéder à toutes les fonctionnalités du site.',
+                'help_attr' => [
+                    'class' => '!text-destructive !font-bold'
+                ],
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => UserAccount::class,
-            'translation_domain' => 'forms'
+            'translation_domain' => 'forms',
+            'roles' => [],
         ]);
     }
 }
