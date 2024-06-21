@@ -91,15 +91,15 @@
                 <div class="sticky top-4 flex flex-col gap-8 items-center justify-center bg-ternary rounded-lg p-6 min-w-max">
                     <h2 class="font-semibold text-xl text-foreground break-words text-center">Cette annonce vous intéresse ?</h2>
                     {% if tenant.tenantImage %}
-                        <a href="{{ path('app_user_profile', { 'id': app.user.id }) }}">
+                        <a href="{{ path('app_user_profile', { 'id': tenant.user.id }) }}">
                             <img src="{{ asset('uploads/tenants/' ~ tenant.tenantImage.filename) }}" alt="Avatar de {{ tenant.user.getFullname }}" class="rounded-full object-contain w-[150px] h-[150px]">
                         </a>
                     {% elseif tenant.user.userImage %}
-                        <a href="{{ path('app_user_profile', { 'id': app.user.id }) }}">
+                        <a href="{{ path('app_user_profile', { 'id': tenant.user.id }) }}">
                             <img src="{{ asset('uploads/users/' ~ tenant.user.userImage.filename) }}" alt="Avatar de {{ tenant.user.getFullname }}" class="rounded-full object-contain w-[150px] h-[150px]">
                         </a>
                     {% else %}
-                        <a href="{{ path('app_user_profile', { 'id': app.user.id }) }}">
+                        <a href="{{ path('app_user_profile', { 'id': tenant.user.id }) }}">
                             <img src="https://ui-avatars.com/api/?name={{ tenant.user.firstName }}+{{ tenant.user.lastName }}" alt="Avatar de {{ tenant.user.getFullname }}" class="rounded-full object-contain w-[150px] h-[150px]">
                         </a>
                     {% endif %}
