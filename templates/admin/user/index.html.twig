@@ -20,19 +20,19 @@
         <table class="w-full rounded-lg overflow-hidden text-sm text-left text-muted table-striped">
             <thead class="text-xs text-foreground uppercase bg-accent">
             <tr>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Nom
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Age
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Annonce
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Rôles
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Action
                 </th>
             </tr>
@@ -51,14 +51,14 @@
                         <div class="font-normal text-gray-500">{{ user.email }}</div>
                     </div>
                 </th>
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 text-center">
                     {{ user.dateOfBirth | age }}
                 </td>
-                <td class="px-6 py-4">
-                    {{ user.dateOfBirth | age }}
+                <td class="px-6 py-4 text-center">
+                    {{ (user.housings | length) + (user.tenants | length) }}
                 </td>
                 <td class="px-6 py-4">
-                    <div class=" flex gap-2 flex-col justify-center">
+                    <div class=" flex gap-2 flex-col justify-center items-center">
                     {% for role in user.roles %}
                         {% if role == 'ROLE_USER' %}
                             <span class="bg-input text-foreground text-xs text-center w-fit font-medium me-2 px-2.5 py-0.5 rounded">Utilisateur</span>
@@ -69,8 +69,7 @@
                     </div>
                 </td>
                 <td class="px-6 py-4" data-controller="dialog" data-action="click->dialog#backdropClose">
-                    <div class=" flex gap-4 items-center">
-{#                        TODO: Rediction#}
+                    <div class="flex gap-4 items-center justify-center">
                         <a target="_blank" href="{{ path('app_user_profile', {'id': user.id}) }}">
                             <twig:ux:icon name="lucide:eye" class="w-5 object-fit text-muted" />
                         </a>
