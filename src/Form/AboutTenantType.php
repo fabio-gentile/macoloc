@@ -2,14 +2,12 @@
 
 namespace App\Form;
 
-use App\Entity\Tenant;
 use App\Form\Type\ActivityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Choice;
-use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
 class AboutTenantType extends AbstractType
 {
@@ -32,7 +30,7 @@ class AboutTenantType extends AbstractType
                 'label' => 'Budget',
                 'help' => 'Charges comprises',
                 'constraints' => [
-                    new GreaterThan([
+                    new GreaterThanOrEqual([
                         'value' => 50,
                         'message' => 'Le budget ne peut pas être inférieur à 50€.'
                     ]),

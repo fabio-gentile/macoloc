@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
 class HousingType extends AbstractType
 {
@@ -41,7 +42,7 @@ class HousingType extends AbstractType
                 'label' => 'Surface',
                 'help' => 'En m²',
                 'constraints' => [
-                    new GreaterThan([
+                    new GreaterThanOrEqual([
                         'value' => 5,
                         'message' => 'La surface doit être supérieure à 5m².',
                     ])
