@@ -1,0 +1,132 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modification de l'annonce {{ housing.title }}{% endblock %}
+
+{% import 'partials/_breadcrumbs.html.twig' as breadcrumbs %}
+
+{% block body %}
+    <div class="flex flex-col gap-8">
+        {{ breadcrumbs.render([
+            {'url': url('admin_dashboard'), 'text': 'Tableau de bord'},
+            {'url': url('admin_housing'), 'text': 'Annonces logements'},
+            {'url': url('admin_housing_edit', {'id': housing.id}), 'text': housing.title},
+        ]) }}
+        <h1 class="font-semibold text-2xl text-foreground">Modification de l'annonce {{ housing.title }}</h1>
+        <div>
+            {{ form_start(form) }}
+            {% if form_errors(form) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form) }}
+                </div>
+            {% endif %}
+            <div class="grid gap-4">
+                <div class="bg-other py-4 flex flex-col md:flex-row gap-2 items-center rounded-lg">
+                    <div class="min-w-[200px] flex gap-2 flex-col py-4 w-fit items-center">
+                        <div class=" px-3 py-2.5 bg-secondary rounded-full">
+                            <twig:ux:icon name="lucide:map-pin" class="w-6 object-fit text-foreground" />
+                        </div>
+                        <p class="font-medium">Adresse</p>
+                    </div>
+                    <div class="px-4 w-full">
+                        {{ form_errors(form.address) }}
+                        {{ form_widget(form.address, { 'attr': {'class': 'w-full flex flex-col justify-between '} }) }}
+                        {{ form_help(form.address) }}
+                    </div>
+                </div>
+                <div class="bg-other py-4 flex flex-col md:flex-row gap-2 items-center rounded-lg">
+                    <div class="min-w-[200px] flex gap-2 flex-col py-4 w-fit items-center">
+                        <div class=" px-3 py-2.5 bg-secondary rounded-full">
+                            <twig:ux:icon name="lucide:home" class="w-6 object-fit text-foreground" />
+                        </div>
+                        <p class="font-medium">Logement</p>
+                    </div>
+                    <div class="px-4 w-full">
+                        {{ form_errors(form.housing) }}
+                        {{ form_widget(form.housing, { 'attr': {'class': 'w-full flex flex-col justify-between '} }) }}
+                        {{ form_help(form.housing) }}
+                    </div>
+                </div>
+                <div class="bg-other flex-col md:flex-row py-4 flex gap-2 items-center rounded-lg">
+                    <div class="min-w-[200px] flex gap-2 flex-col py-4 w-fit items-center">
+                        <div class=" px-3 py-2.5 bg-secondary rounded-full">
+                            <twig:ux:icon name="lucide:bed" class="w-6 object-fit text-foreground" />
+                        </div>
+                        <p class="font-medium">Chambre</p>
+                    </div>
+                    <div class="px-4 w-full">
+                        {{ form_errors(form.chambers) }}
+                        {{ form_widget(form.chambers) }}
+                        {{ form_help(form.chambers) }}
+                    </div>
+                </div>
+                <div class="bg-other flex-col md:flex-row py-4 flex gap-2 items-center rounded-lg">
+                    <div class="min-w-[200px] flex gap-2 flex-col py-4 w-fit items-center">
+                        <div class=" px-3 py-2.5 bg-secondary rounded-full">
+                            <twig:ux:icon name="lucide:feather" class="w-6 object-fit text-foreground" />
+                        </div>
+                        <p class="font-medium">Commodités</p>
+                    </div>
+                    <div class="px-4 w-full">
+                        {{ form_errors(form.commodity) }}
+                        {{ form_widget(form.commodity, { 'attr': {'class': 'w-full grid gap-3 grid-cols-2'} }) }}
+                        {{ form_help(form.commodity) }}
+                    </div>
+                </div>
+                <div class="bg-other flex-col md:flex-row py-4 flex gap-2 items-center rounded-lg">
+                    <div class="min-w-[200px] flex gap-2 flex-col py-4 w-fit items-center">
+                        <div class=" px-3 py-2.5 bg-secondary rounded-full">
+                            <twig:ux:icon name="lucide:feather" class="w-6 object-fit text-foreground" />
+                        </div>
+                        <p class="font-medium">Autre</p>
+                    </div>
+                    <div class="px-4 w-full">
+                        {{ form_errors(form.other) }}
+                        {{ form_widget(form.other, { 'attr': {'class': 'w-full flex flex-col gap-3 justify-between'} }) }}
+                        {{ form_help(form.other) }}
+                    </div>
+                </div>
+                <div class="bg-other flex-col md:flex-row py-4 flex gap-2 items-center rounded-lg">
+                    <div class="min-w-[200px] flex gap-2 flex-col py-4 w-fit items-center">
+                        <div class=" px-3 py-2.5 bg-secondary rounded-full">
+                            <twig:ux:icon name="lucide:notebook-pen" class="w-6 object-fit text-foreground" />
+                        </div>
+                        <p class="font-medium">Description</p>
+                    </div>
+                    <div class="px-4 w-full">
+                        {{ form_errors(form.description) }}
+                        {{ form_widget(form.description) }}
+                        {{ form_help(form.description) }}
+                    </div>
+                </div>
+                <div class="bg-other flex-col md:flex-row py-4 flex gap-2 items-center rounded-lg">
+                    <div class="min-w-[200px] flex gap-2 flex-col py-4 w-fit items-center">
+                        <div class=" px-3 py-2.5 bg-secondary rounded-full">
+                            <twig:ux:icon name="lucide:camera" class="w-6 object-fit text-foreground" />
+                        </div>
+                        <p class="font-medium">Photos</p>
+                    </div>
+                    <div class="px-4 w-full" data-controller="image-preview">
+                        {{ form_help(form.images) }}
+                        {{ form_widget(form.images, { 'attr': {'data-image-preview-target': 'input'} }) }}
+                        {{ form_errors(form.images) }}
+                        <div class="flex gap-2.5 mt-3 flex-wrap">
+                            {% if housing.housingImages %}
+                                {% for image in housing.housingImages %}
+                                    <div class="flex gap-2 flex-col items-center">
+                                        <img src="{{ asset('uploads/housings/' ~ image.filename) }}" alt="Logement de {{ housing.user.getFullname }}" class="preview-image">
+                                        <a href="{{ path('admin_housing_image_delete', {'id': image.id}) }}" class="text-destructive hover:text-destructive/80 underline font-medium">Supprimer</a>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            <div data-image-preview-target="preview" class="flex gap-2.5 mt-3 flex-wrap"></div>
+                        </div>
+                    </div>
+                </div>
+                {{ form_row(form._token) }}
+                <button type="submit" class="btn btn-primary w-full">Modifier l’annonce</button>
+            </div>
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+{% endblock %}

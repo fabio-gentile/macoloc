@@ -9,14 +9,10 @@
         {{ breadcrumbs.render([
             {'url': url('admin_dashboard'), 'text': 'Tableau de bord'},
             {'url': url('admin_tenant'), 'text': 'Annonces locataires'},
-            {'url': url('admin_tenant_edit', {'id': tenant.user.id}), 'text': tenant.user.getFullname},
+            {'url': url('admin_tenant_edit', {'id': tenant.id}), 'text': tenant.user.getFullname},
         ]) }}
         <h1 class="font-semibold text-2xl text-foreground">Modification de l'annonce de {{ tenant.user.getFullname }}</h1>
-{#        {{ form_start(form) }}#}
-{#        {{ form_row(form) }}#}
-{#        <button type="submit" class="btn btn-primary">Modifier</button>#}
-{#        {{ form_end(form) }}#}
-        <div class="">
+        <div>
             {{ form_start(form) }}
             {% if form_errors(form) %}
                 <div class="alert alert-danger">

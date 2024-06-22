@@ -33,7 +33,7 @@ class HousingType extends AbstractType
                 'total' => true,
                 'constraints' =>
                     new Choice([
-                            'choices' => NumberOfRoomsType::NUMBER_OF_ROOMS_CHOICES,
+                            'choices' => NumberOfRoomsType::TOTAL_NUMBER_OF_ROOMS_CHOICES,
                             'message' => 'Veuillez choisir un nombre de pièces.',
                     ]),
             ])

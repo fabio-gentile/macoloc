@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Data\Admin\SearchUserData;
+use App\Data\Admin\SearchData;
 use App\Entity\Tenant;
 use App\Entity\UserAccount;
 use App\Factory\FileUploaderFactory;
@@ -55,11 +55,11 @@ class UserAccountRepository extends ServiceEntityRepository
 
     /**
      * Find users by search data
-     * @param SearchUserData $searchData
+     * @param SearchData $searchData
      * @param int $limit
      * @return PaginationInterface
      */
-    public function findSearch(SearchUserData $searchData, int $limit = 7): PaginationInterface
+    public function findSearch(SearchData $searchData, int $limit = 7): PaginationInterface
     {
         $queryBuilder = $this->createQueryBuilder('u');
 

@@ -2,7 +2,7 @@
 
 namespace App\Form\Admin;
 
-use App\Data\Admin\SearchUserData;
+use App\Data\Admin\SearchData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -31,7 +31,7 @@ class SearchInputType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => SearchUserData::class,
+            'data_class' => SearchData::class,
             'method' => 'GET',
             'csrf_protection' => false,
         ]);

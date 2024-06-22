@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\Admin\SearchData;
 use App\Data\SearchHousingData;
 use App\Entity\Housing;
 use DateTime;
@@ -44,6 +45,34 @@ class HousingRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    /**
+     * Find housings by search data
+     * @param SearchData $searchData
+     * @param int $limit
+     * @return PaginationInterface
+     */
+    public function findSearchByUser(SearchData $searchData, int $limit = 7): PaginationInterface
+    {
+        $queryBuilder = $this->createQueryBuilder('h');
+
+        if ($searchData->q) {
+            $query = strtolower($searchData->q);
+            $queryBuilder
+                ->join('h.user', 'u')
+                ->andWhere('LOWER(u.firstname) LIKE :query')
+                ->orWhere('LOWER(u.lastname) LIKE :query')
+                ->setParameter('query', "%{$query}%");
+        }
+
+        $queryBuilder->orderBy('h.createdAt', 'DESC');
+
+        return $this->paginator->paginate(
+            $queryBuilder,
+            $searchData->page,
+            $limit
+        );
+    }
 
     /**
      * Find latest housings

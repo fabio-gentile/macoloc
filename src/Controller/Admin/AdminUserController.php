@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Data\Admin\SearchUserData;
+use App\Data\Admin\SearchData;
 use App\Entity\UserAccount;
 use App\Factory\FileUploaderFactory;
 use App\Form\AccountType;
@@ -29,7 +29,7 @@ class AdminUserController extends AbstractController
         Request $request,
     ): Response
     {
-        $searchData = new SearchUserData();
+        $searchData = new SearchData();
         $form = $this->createForm(SearchInputType::class, $searchData);
         $form->handleRequest($request);
         $LIMIT = 10;
@@ -41,7 +41,6 @@ class AdminUserController extends AbstractController
         $searchData->page = $request->get('page', 1);
         $users = $this->userRepository->findSearch($searchData, $LIMIT);
 
-        $searchData->page = $request->get('page', 1);
         return $this->render('admin/user/index.html.twig', [
             'form' => $form,
             'users' => $users,

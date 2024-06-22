@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Data\Admin\SearchUserData;
+use App\Data\Admin\SearchData;
 use App\Entity\Tenant;
 use App\Entity\TenantImage;
 use App\Factory\FileUploaderFactory;
@@ -32,7 +32,7 @@ class AdminTenantController extends AbstractController
         Request $request,
     ): Response
     {
-        $searchData = new SearchUserData();
+        $searchData = new SearchData();
         $form = $this->createForm(SearchInputType::class, $searchData);
         $form->handleRequest($request);
         $LIMIT = 10;

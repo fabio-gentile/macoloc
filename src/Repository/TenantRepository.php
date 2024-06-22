@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Data\Admin\SearchUserData;
+use App\Data\Admin\SearchData;
 use App\Data\SearchHousingData;
 use App\Data\SearchTenantData;
 use App\Entity\Tenant;
@@ -49,11 +49,11 @@ class TenantRepository extends ServiceEntityRepository
 
     /**
      * Find tenants by search data
-     * @param SearchUserData $searchData
+     * @param SearchData $searchData
      * @param int $limit
      * @return PaginationInterface
      */
-    public function findSearchByUser(SearchUserData $searchData, int $limit = 7): PaginationInterface
+    public function findSearchByUser(SearchData $searchData, int $limit = 7): PaginationInterface
     {
         $queryBuilder = $this->createQueryBuilder('t');
 

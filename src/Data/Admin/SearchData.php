@@ -2,7 +2,7 @@
 
 namespace App\Data\Admin;
 
-class SearchUserData {
+class SearchData {
     public ?string $q = null;
     public int $page = 1;
 }

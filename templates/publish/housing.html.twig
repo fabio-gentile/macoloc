@@ -133,7 +133,13 @@
                 </div>
             </div>
             {{ form_row(form._token) }}
-            <button type="submit" class="btn btn-primary w-full">Publier l’annonce</button>
+            <button type="submit" class="btn btn-primary w-full">
+                {% if current_path == 'app_housing_edit' %}
+                Modifier l’annonce
+                {% else %}
+                Publier l’annonce
+                {% endif %}
+            </button>
             </div>
             {{ form_end(form) }}
 
