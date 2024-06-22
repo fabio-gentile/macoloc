@@ -30,6 +30,10 @@ class AddressAutocompleteType extends AbstractType
             'label' => false,
             'choice_label' => 'city',
             'multiple' => false,
+            'attr' => [
+                'placeholder' => 'Ville',
+//                'class' => '!border !border-input',
+            ],
             'constraints' => [
                 new NotBlank((['message' => 'Veuillez sélectionner une ville.'])),
             ],

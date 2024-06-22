@@ -5,23 +5,24 @@
         data-search-target="form"
         action="" method="POST"
         class="relative w-full sm:min-w-[376px] w-full max-w-[600px] mx-auto">
-    <div class="relative flex flex-col sm:flex-row gap-2 sm:gap-0">
+    <div class="relative flex flex-col sm:flex-row gap-2 sm:gap-0 bg-white overflow-hidden rounded-lg">
         <div class="flex w-full">
             {% if hasSelectOptions  %}
             <div class="sm:block min-w-[120px]">
                 <label for="searchType" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Choisissez le type de recherche</label>
-                <select id="searchType" name="searchType" required="required" class="h-full text-foreground bg-white text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent rounded-l-lg">
+                <select id="searchType" name="searchType" class="h-full text-foreground bg-white text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent rounded-l-lg">
                     <option value="housing">Logement</option>
                     <option value="tenant">Locataire</option>
                 </select>
             </div>
             {% endif %}
+            <div class="relative w-full">
+
             <label class="sr-only" for="_address">Entrez une adresse</label>
             <input
                 type="search"
                 id="_address"
                 name="_address"
-                required
                 class="
                 {% if hasSelectOptions %}
                     {% if app.request.get('_route') != 'app_homepage' %}
@@ -30,27 +31,28 @@
                 {% else %}
                 sm:rounded-l-lg rounded-lg sm:rounded-none
                 {% endif %}
-                w-full text-foreground bg-white text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent
+                w-full rounded-r-lg sm:rounded-r-none text-foreground bg-white text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent
                 "
                 placeholder="Entrez une ville"
                 data-model="debounce(250)|query"
                 data-search-target="input"
                 data-action="focusout->search#close | focusin->search#open"
             />
+                <ul data-search-target="address" class="absolute z-50 w-full text-sm flex flex-col rounded-lg">
+                    {% for address in this.getAddress %}
+                        <li data-search-code-value="{{ address.city }}" data-action="click->search#selectAddress" class="bg-white p-2 py-4 cursor-pointer hover:bg-secondary">
+                            <div class="flex justify-between">
+                                <p>{{ address.label }}</p>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
         <button data-action="click->search#submitForm" class="btn btn-primary sm:!rounded-none sm:!rounded-r-lg">
             Rechercher
         </button>
     </div>
-        <ul data-search-target="address" class="absolute z-50 w-full text-sm flex flex-col rounded-lg">
-            {% for address in this.getAddress %}
-                <li data-search-code-value="{{ address.city }}" data-action="click->search#selectAddress" class="bg-white p-2 py-4 cursor-pointer hover:bg-secondary">
-                    <div class="flex justify-between">
-                        <p>{{ address.label }}</p>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
     </form>
 </div>
 

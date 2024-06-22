@@ -26,11 +26,11 @@ class SearchController extends AbstractController
         $form->handleRequest($request);
         $housings = $housingRepository->findSearch($searchHousingData, $city);
 
-//        TODO: Gérer le rendu de si la recherche ne retourne aucun résultat
         return $this->render('search/housing.html.twig', [
             'housings' => $housings,
-            'search_form' => $form->createView(),
-            'today' => new \DateTime()
+            'search_form' => $form,
+            'today' => new \DateTime(),
+            'city' => $city ?? 'Toutes les villes',
         ]);
     }
 
@@ -44,10 +44,10 @@ class SearchController extends AbstractController
         $form->handleRequest($request);
         $tenants = $tenantRepository->findSearch($searchTenantData, $city);
 
-//        TODO: Gérer le rendu de si la recherche ne retourne aucun résultat
         return $this->render('search/tenant.html.twig', [
             'tenants' => $tenants,
             'search_form' => $form->createView(),
+            'city' => $city ?? 'Toutes les villes',
         ]);
     }
 }

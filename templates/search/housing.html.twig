@@ -2,8 +2,22 @@
 
 {% block title %}Logements{% endblock %}
 
+{% import 'partials/_breadcrumbs.html.twig' as breadcrumbs %}
+
 {% block body %}
-    <div class="flex flex-col gap-4 items-center">
+    <div class="flex flex-col gap-8 items-center">
+        <div class="self-start">
+            {% if app.request.get('_route') == 'app_search_housing' %}
+                {{ breadcrumbs.render([
+                {'url': url('app_search_housing'), 'text': 'Recherche logement'},
+                ]) }}
+            {% else %}
+                {{ breadcrumbs.render([
+                {'url': url('app_search_housing'), 'text': 'Recherche logement'},
+                {'url': url('app_search_housing_city', {'city': city}), 'text': city},
+                ]) }}
+            {% endif %}
+        </div>
         <div class="flex flex-col gap-2 sm:gap-0 sm:flex-row w-full justify-center">
             <a href="{{ path('app_search_housing') }}" class="btn btn-primary w-full sm:w-fit sm:rounded-none sm:rounded-l-lg">Je recherche un logement</a>
             <a href="{{ path('app_search_tenant') }}" class="btn btn-secondary w-full sm:w-fit sm:rounded-none sm:rounded-r-lg">Je recherche un colocataire</a>

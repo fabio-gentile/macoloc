@@ -21,7 +21,6 @@ export default class extends Controller {
     }
 
   close() {
-    // Delay hiding to allow click event to process
     setTimeout(() => {
       this.addressTarget.classList.add('hidden');
     }, 100);
@@ -35,20 +34,25 @@ export default class extends Controller {
 
     submitForm(e) {
       e.preventDefault();
-      if (this.inputTarget.value.length < 3) {
-        return false;
-      }
+      // if (this.inputTarget.value.length < 3) {
+      //   return false;
+      // }
 
       this.updateForm();
       this.formTarget.submit();
     }
     updateForm() {
       if (document.getElementById('searchType')) {
-        const select = document.getElementById('searchType').value ;
-        this.formTarget.action = `/search/${select}/${this.inputTarget.value}`;
-      } else {
+        const select = document.getElementById('searchType').value;
+        if (this.inputTarget.value.length === 0) {
+          console.log('empty')
+          this.formTarget.action = `/search/${select}`;
+        } else {
+            this.formTarget.action = `/search/${select}/${this.inputTarget.value}`;
+        }
+      }
+      else {
         this.formTarget.action = `/search/${this.fromValue}/${this.inputTarget.value}`;
-
       }
     }
 }

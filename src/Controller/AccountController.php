@@ -109,7 +109,6 @@ class AccountController extends AbstractController
             $this->manager->persist($user);
             $this->manager->flush();
 
-//            TODO: optionnellement, envoyer un email de confirmation de changement de mot de passe
             $this->addFlash('success', 'Vos informations ont bien été mises à jour');
             return $this->redirectToRoute('app_account', [], Response::HTTP_SEE_OTHER);
         }
