@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Traits\TenantTrait;
 use App\Data\Admin\SearchData;
 use App\Entity\Tenant;
 use App\Entity\TenantImage;
@@ -10,7 +11,6 @@ use App\Form\Admin\SearchInputType;
 use App\Form\EditTenantType;
 use App\Repository\FrenchCityRepository;
 use App\Repository\TenantRepository;
-use App\Traits\TenantTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

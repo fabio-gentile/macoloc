@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace App\Controller\Traits;
 
 use App\Entity\Housing;
 use App\Entity\HousingImage;

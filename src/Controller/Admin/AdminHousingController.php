@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Traits\HousingTrait;
 use App\Data\Admin\SearchData;
 use App\Entity\Housing;
 use App\Entity\HousingImage;
@@ -16,7 +17,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Traits\HousingTrait;
 
 #[Route('/admin/housings')]
 class AdminHousingController extends AbstractController

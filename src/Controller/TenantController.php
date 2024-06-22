@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
+use App\Controller\Traits\TenantTrait;
 use App\Entity\Tenant;
 use App\Factory\FileUploaderFactory;
 use App\Form\EditTenantType;
 use App\Repository\FrenchCityRepository;
 use App\Security\Voter\TenantVoter;
-use App\Traits\TenantTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\FrenchCity;
+use App\Controller\Traits\HousingTrait;
 use App\Entity\Housing;
 use App\Entity\HousingImage;
 use App\Factory\FileUploaderFactory;
@@ -10,7 +10,6 @@ use App\Form\EditHousingType;
 use App\Repository\ChamberRepository;
 use App\Repository\FrenchCityRepository;
 use App\Security\Voter\HousingVoter;
-use App\Traits\HousingTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
