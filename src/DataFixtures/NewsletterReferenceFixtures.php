@@ -15,11 +15,11 @@ class NewsletterReferenceFixtures extends Fixture implements DependentFixtureInt
     {
         $faker = Factory::create('fr_FR');
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $newsletterSubscriber = $this->getReference(NewsletterSubscriberFixtures::NEWSLETTER_SUBSCRIBER_REFERENCE . $i);
 
-            for ($j = 0; $j < rand(2, 5); $j++) {
-                $date = $faker->dateTimeBetween('-1 month', 'now');
+            for ($j = 0; $j < rand(40, 80); $j++) {
+                $date = $faker->dateTimeBetween('-2 year', 'now');
                 $newsletterReference = new NewsletterReference();
                 $newsletterReference->setSubscriber($newsletterSubscriber)
                     ->setSentAt($date);

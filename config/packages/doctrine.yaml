@@ -29,7 +29,10 @@ doctrine:
         dql:
             string_functions:
                 JSONB_CONTAINS: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Postgresql\JsonbContains
-
+            datetime_functions:
+                month: DoctrineExtensions\Query\Postgresql\Month
+                year: DoctrineExtensions\Query\Postgresql\Year
+                
 when@test:
     doctrine:
         dbal:

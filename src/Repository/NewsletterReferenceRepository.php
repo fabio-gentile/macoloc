@@ -40,4 +40,21 @@ class NewsletterReferenceRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     *  Count newsletters by month
+     * @return array|null
+     */
+    public function countNewslettersByMonth(): ?array
+    {
+        return $this->createQueryBuilder('n')
+            ->select('MONTH(n.sentAt) as month, YEAR(n.sentAt) as year, COUNT(n.id) as count')
+            ->where('n.sentAt > :date')
+            ->setParameter('date', new \DateTime('-1 year'))
+            ->groupBy('year, month')
+            ->orderBy('year', 'ASC')
+            ->addOrderBy('month', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

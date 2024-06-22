@@ -5,7 +5,6 @@
 {% block body %}
     <div class="flex flex-col gap-8">
         <h1 class="font-semibold text-2xl text-foreground">Tableau de bord</h1>
-        {# stats #}
         <div class="flex flex-wrap gap-4 sm:gap-6">
             <div class="rounded-lg bg-ternary grow p-4 flex flex-row gap-4 items-center">
                 <twig:ux:icon name="lucide:users-round" class="w-8 object-contain text-foreground" />
@@ -35,6 +34,11 @@
                     <p class="text-muted text-sm">{{ lastNewsletterSubscribers | length > 0 ? lastNewsletterSubscribers | length : 0 }} les dernières 24h.</p>
                 </div>
             </div>
+        </div>
+        <div class="flex gap-8 flex-wrap items-center mt-4 md:mt-8">
+            {{ render_chart(userChart, {'class': 'w-full max-w-[600px] max-h-[300px]'}) }}
+            {{ render_chart(newsletterChart, {'class': 'w-full max-w-[600px] max-h-[300px]'}) }}
+            {{ render_chart(adsChart, {'class': 'w-full max-w-[400px] max-h-[400px]'}) }}
         </div>
     </div>
 {% endblock %}

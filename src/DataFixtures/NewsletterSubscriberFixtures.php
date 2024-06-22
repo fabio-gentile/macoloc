@@ -13,7 +13,7 @@ class NewsletterSubscriberFixtures extends Fixture implements DependentFixtureIn
 
     public function load(ObjectManager $manager): void
     {
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $newsletterSubscriber = new NewsletterSubscriber();
             $user = $this->getReference(UserFixtures::USER_REFERENCE . $i);
 

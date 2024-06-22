@@ -24,6 +24,13 @@ class UserFixtures extends Fixture
 
         $gender = ['Homme', 'Femme', 'Autre'];
 
+        $dateFrom = new \DateTimeImmutable('-1 years');
+        $dateTo = new \DateTimeImmutable('now');
+        $timestampFrom = $dateFrom->getTimestamp();
+        $timestampTo = $dateTo->getTimestamp();
+        $randomTimestamp = mt_rand($timestampFrom, $timestampTo);
+        $randomDate = (new \DateTimeImmutable())->setTimestamp($randomTimestamp);
+
         $user = new UserAccount();
         $user->setEmail('admin@macoloc.fr')
             ->setFirstname($faker->firstName())
@@ -38,11 +45,14 @@ class UserFixtures extends Fixture
             ->setVerified(true)
             ->setGender($faker->randomElement($gender))
             ->setRoles(['ROLE_ADMIN'])
+            ->setCreatedAt($randomDate)
         ;
 
         $manager->persist($user);
 
         for ($i = 0; $i < 100; $i++) {
+            $randomTimestamp = mt_rand($timestampFrom, $timestampTo);
+            $randomDate = (new \DateTimeImmutable())->setTimestamp($randomTimestamp);
             $user = new UserAccount();
             $user->setEmail($faker->email())
                 ->setFirstname($faker->firstName())
@@ -56,6 +66,7 @@ class UserFixtures extends Fixture
                 )
                 ->setVerified(true)
                 ->setGender($faker->randomElement($gender))
+                ->setCreatedAt($randomDate)
             ;
 
             $manager->persist($user);

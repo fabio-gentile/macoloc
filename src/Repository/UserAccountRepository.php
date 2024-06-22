@@ -54,6 +54,24 @@ class UserAccountRepository extends ServiceEntityRepository
     //    }
 
     /**
+     *  Count users by month
+     * @return array|null
+     */
+    public function countUsersByMonth(): ?array
+    {
+        return $this->createQueryBuilder('u')
+            ->select('MONTH(u.createdAt) as month, YEAR(u.createdAt) as year, COUNT(u.id) as count')
+            ->where('u.createdAt > :date')
+            ->setParameter('date', new \DateTime('-1 year'))
+            ->andWhere('u.isVerified = true')
+            ->groupBy('year, month')
+            ->orderBy('year', 'ASC')
+            ->addOrderBy('month', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * Find users by search data
      * @param SearchData $searchData
      * @param int $limit
