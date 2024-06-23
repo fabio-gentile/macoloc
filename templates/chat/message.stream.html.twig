@@ -1,7 +1,7 @@
 {# New messages received through the Mercure connection are appended to the div with the "messages" ID. #}
 <turbo-stream action="append" targets="#messages">
     <template>
-        {% if message.sender == userTo %}
+        {% if message.sender == app.user %}
             <li class="message">
                 <div class="user-message">
                     <p>{{ message.content }}</p>

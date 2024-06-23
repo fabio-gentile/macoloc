@@ -53,7 +53,8 @@
                     <div data-controller="chat" data-chat-target="container" class="p-4 h-[60dvh] md:h-[50dvh] lg:h-[80dvh] overflow-y-auto">
                         <ul id="messages" class="messages" {{ turbo_stream_listen('chat') }}>
                             {% for message in conversation.messages %}
-                                {% if message.sender == userTo %}
+                                {# TODO: corriger le style entre receveur/donneur #}
+                                {% if message.sender == app.user %}
                                     <li class="message">
                                         <div class="user-message">
                                             <p>{{ message.content }}</p>
