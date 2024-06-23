@@ -45,14 +45,17 @@ export default class extends Controller {
       if (document.getElementById('searchType')) {
         const select = document.getElementById('searchType').value;
         if (this.inputTarget.value.length === 0) {
-          console.log('empty')
           this.formTarget.action = `/search/${select}`;
         } else {
             this.formTarget.action = `/search/${select}/${this.inputTarget.value}`;
         }
       }
       else {
-        this.formTarget.action = `/search/${this.fromValue}/${this.inputTarget.value}`;
+        if (this.inputTarget.value.length === 0) {
+          this.formTarget.action = `/search/${this.fromValue}`;
+        } else {
+          this.formTarget.action = `/search/${this.fromValue}/${this.inputTarget.value}`;
+        }
       }
     }
 }

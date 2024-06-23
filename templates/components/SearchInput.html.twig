@@ -5,7 +5,7 @@
         data-search-target="form"
         action="" method="POST"
         class="relative w-full sm:min-w-[376px] w-full max-w-[600px] mx-auto">
-    <div class="relative flex flex-col sm:flex-row gap-2 sm:gap-0 overflow-hidden rounded-lg">
+    <div class="relative flex flex-col sm:flex-row gap-2 sm:gap-0 rounded-lg">
         <div class="flex w-full">
             {% if hasSelectOptions  %}
             <div class="sm:block min-w-[120px]">
@@ -31,7 +31,7 @@
                 {% else %}
                 sm:rounded-l-lg rounded-lg sm:rounded-none
                 {% endif %}
-                w-full rounded-r-lg sm:rounded-r-none text-foreground bg-white text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent
+                w-full outline-none rounded-r-lg sm:rounded-r-none text-foreground bg-white text-sm block w-full p-2.5 border border-input focus:z-10 focus:ring-accent focus:border-accent
                 "
                 placeholder="Entrez une ville"
                 data-model="debounce(250)|query"

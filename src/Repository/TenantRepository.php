@@ -137,9 +137,9 @@ class TenantRepository extends ServiceEntityRepository
                 ->setParameter('max_age', $data->max_age);
         }
 
-        if ($data->city) {
-            $queryBuilder->andWhere('t.city = :city')
-                ->setParameter('city', $data->city);
+        if ($city) {
+            $queryBuilder->andWhere('t.city LIKE :city')
+                ->setParameter('city', $city);
         }
 
         return $this->paginator->paginate(

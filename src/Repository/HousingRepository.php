@@ -150,9 +150,9 @@ class HousingRepository extends ServiceEntityRepository
                 ->setParameter('postcode', $data->postcode);
         }
 
-        if ($data->city) {
-            $queryBuilder->andWhere('h.city = :city')
-                ->setParameter('city', $data->city);
+        if ($city) {
+            $queryBuilder->andWhere('h.city LIKE :city')
+                ->setParameter('city', $city);
         }
 
         return $this->paginator->paginate(
