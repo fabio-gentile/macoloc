@@ -17,7 +17,12 @@ class EditTenantType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('address', AddressAutocompleteType::class)
+            ->add('address', AddressAutocompleteType::class, [
+                'label' => 'Adresse',
+                'required' => true,
+                'help' => 'La ville sera la seule information visible sur l’annonce.',
+                'mapped' => false,
+            ])
             ->add('about', AboutTenantType::class, [
                 'label' => 'À propos',
                 'mapped' => false,

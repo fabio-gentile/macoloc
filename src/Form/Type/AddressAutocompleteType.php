@@ -14,7 +14,6 @@ namespace App\Form\Type;
 use App\Entity\FrenchCity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;
 use Symfony\UX\Autocomplete\Form\BaseEntityAutocompleteType;
@@ -38,10 +37,6 @@ class AddressAutocompleteType extends AbstractType
             ],
             'security' => 'ROLE_USER',
             'max_results' => 10,
-            'min_characters' => 2,
-            'preload' => true,
-            'required' => true,
-            'help' => 'La ville sera la seule information visible sur l’annonce.'
         ]);
     }
 
