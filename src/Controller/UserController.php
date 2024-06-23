@@ -19,6 +19,10 @@ class UserController extends AbstractController
         TenantRepository $tenantRepository
     ): Response
     {
+        if (in_array('ROLE_REGISTRATION_WAITING', $user->getRoles())) {
+            return $this->redirectToRoute('app_homepage');
+        }
+
         $housings = $housingRepository->findBy(['user' => $user]);
         $tenants = $tenantRepository->findBy(['user' => $user]);
 

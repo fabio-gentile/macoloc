@@ -11,19 +11,19 @@ body {
 }
 
 .btn-primary {
-    @apply bg-primary text-white hover:bg-primary/80;
+    @apply bg-primary text-white hover:bg-primary/90;
 }
 
 .btn-secondary {
-    @apply bg-white border border-input text-foreground hover:bg-white/80;
+    @apply bg-white border border-input text-foreground hover:bg-white/90;
 }
 
 .btn-ternary {
-    @apply bg-ternary text-foreground hover:bg-ternary/80;
+    @apply bg-ternary text-foreground hover:bg-ternary/90;
 }
 
 .btn-destructive {
-    @apply bg-destructive text-white hover:bg-destructive/80;
+    @apply bg-destructive text-white hover:bg-destructive/90;
 }
 
 .btn-ghost {

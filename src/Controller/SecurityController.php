@@ -13,12 +13,14 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_home'); // Replace 'app_homepage' with your desired route
+            return $this->redirectToRoute('app_homepage');
         }
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
 
-        // last username entered by the user
+        $error = $authenticationUtils->getLastAuthenticationError();
+        if ($error && $error->getMessage() === 'Votre compte n\'est pas encore vérifié. Veuillez vérifier votre email.') {
+            return $this->redirectToRoute('app_register_verify');
+        }
+
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', [

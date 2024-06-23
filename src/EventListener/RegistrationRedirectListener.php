@@ -22,7 +22,7 @@ final class RegistrationRedirectListener
         $request = $event->getRequest();
 
         $currentRoute = $request->attributes->get('_route');
-        if (in_array($currentRoute, ['app_logout'])) {
+        if (in_array($currentRoute, ['app_logout', 'app_login'])) {
             return;
         }
 
@@ -32,8 +32,8 @@ final class RegistrationRedirectListener
             return;
         }
 
-        if (!$user->isVerified()) {
-            if (!in_array($currentRoute, ['app_register_verify'])) {
+        if (in_array('ROLE_REGISTRATION_EMAIL_WAITING', $user->getRoles())) {
+            if (!in_array($currentRoute, ['app_register_profile', 'app_logout', 'app_register_verify','app_register_verify_email'])) {
                 $response = new RedirectResponse($this->router->generate('app_register_verify'));
                 $event->setResponse($response);
             }

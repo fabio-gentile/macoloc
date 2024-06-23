@@ -18,6 +18,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 #[Route('/register')]
@@ -47,6 +48,7 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $user->setRoles(['ROLE_REGISTRATION_EMAIL_WAITING']);
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -54,13 +56,11 @@ class RegistrationController extends AbstractController
             //TODO: mettre en page
             $this->emailVerifier->sendEmailConfirmation('app_register_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address($this->getParameter('no_reply_email'), 'No Reply'))
+                    ->from(new Address($this->getParameter('no_reply_email')))
                     ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->subject('S\'il vous plaît, confirmez votre email.')
+                    ->htmlTemplate('emails/registration/index.html.twig')
             );
-
-            // do anything else you need here, like send an email
 
             return $this->redirectToRoute('app_register_verify');
         }
@@ -73,11 +73,17 @@ class RegistrationController extends AbstractController
     #[Route('/verify', name: 'app_register_verify')]
     public function verify(Request $request): Response
     {
+        $user = $this->getUser();
+
+        if ($user && !in_array('ROLE_REGISTRATION_EMAIL_WAITING', $user->getRoles())) {
+            return $this->redirectToRoute('app_account');
+        }
+
         return $this->render('reset_password/check_email.html.twig');
     }
 
     #[Route('/verify/email', name: 'app_register_verify_email')]
-    public function verifyUserEmail(Request $request, UserAccountRepository $userRepository, EntityManagerInterface $entityManager, Security $security): Response
+    public function verifyUserEmail(Request $request, UserAccountRepository $userRepository, EntityManagerInterface $entityManager, Security $security, TranslatorInterface $translator): Response
     {
         $id = $request->query->get('id');
 
@@ -91,11 +97,15 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        // validate email confirmation link, sets User::isVerified=true and persists
+        if ($user->isVerified()) {
+            return $this->redirectToRoute('app_account');
+        }
+
+        // validate email confirmation link, sets User isVerified=true
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $exception->getReason());
+            $this->addFlash('danger', ('Le lien pour vérifier votre email a expiré. Veuillez vous re-connecter pour obtenir un nouveau lien.'));
 
             return $this->redirectToRoute('app_register');
         }

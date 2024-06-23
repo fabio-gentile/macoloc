@@ -11,13 +11,8 @@
                         <twig:ux:icon name="lucide:mail" class="w-8 object-contain" />
                     </div>
                     <h1 class="font-semibold text-xl">Vérifiez votre e-mail</h1>
-                    {% if resetToken is defined %}
-                    <p class="text-muted">Un e-mail vous a été envoyé. Celui-ci expire dans {{ resetToken.expirationMessageKey | trans(resetToken.expirationMessageData, 'ResetPasswordBundle') | replace({'hour': 'heure', 'hours': "heures"}) }}.</p>
-                    {% else %}
-                    <p class="text-muted">Un e-mail vous a été envoyé. Celui-ci expire dans 1 heure.</p>
-                    {% endif %}
+                    <p class="text-muted">Un e-mail vous a été envoyé.</p>
                     <p class="text-muted mt-1">Pensez à vérifier vos spams.</p>
-
                     <a href="{{ path('app_login') }}" class="btn btn-primary">Retour à la page de connexion</a>
                 </div>
             </form>

@@ -25,8 +25,9 @@
             </p>
             <div class="flex flex-col lg:flex-row gap-4 sm:gap-6">
                 {% for housing in housings | slice(0, 3) %}
+                    {% set image = housing.housingImages.first %}
                     <div class="bg-white rounded-lg border-input border flex flex-col md:flex-row">
-                        <img src="https://placehold.co/400" alt="House" class="w-full md:w-[250px] h-[250px] md:min-h-[220px] md:h-full object-cover rounded-t-lg" />
+                        <img src="{{ absolute_url(asset('uploads/housings/' ~ image.filename)) }}" alt="Logement de {{ housing.user.getFullname }}" class="w-full md:w-[250px] h-[250px] md:min-h-[220px] md:h-full object-cover rounded-t-lg">
                         <div class="p-4 grid gap-4 grow">
                             <h3 class="text-foreground font-medium">{{ housing.title }}</h3>
                             <p class="text-sm sm:text-base text-muted break-all">{{ housing.description | u.truncate(100, '...') }}</p>
@@ -61,10 +62,16 @@
                     {% endif %}
                 {% endif %}
             </p>
-            <div class="grid grid-cols-1 place-items-center sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 place-items-center md:grid-cols-2 gap-4">
                 {% for tenant in tenants | slice(0, 3) %}
                     <div class="max-w-[300px] w-full bg-white rounded-lg border-input border flex flex-col">
-                        <img src="https://placehold.co/400" alt="House" class="w-full h-[250px] object-cover" />
+                        {% if tenant.tenantImage %}
+                            <img src="{{ absolute_url(asset('uploads/tenants/' ~ tenant.tenantImage.filename)) }}" alt="Avatar de {{ tenant.user.getFullname }}" class="w-full h-[250px] object-cover">
+                        {% elseif tenant.user.userImage %}
+                            <img src="{{ absolute_url(asset('uploads/users/' ~ tenant.user.userImage.filename)) }}" alt="Avatar de {{ tenant.user.getFullname }}" class="w-full h-[250px] object-cover">
+                        {% else %}
+                            <img src="https://ui-avatars.com/api/?name={{ tenant.user.firstName }}+{{ tenant.user.lastName }}" alt="Avatar de {{ tenant.user.getFullname }}" class="w-full h-[250px] object-cover">
+                        {% endif %}
                         <div class="p-4 grid gap-4 grow">
                             <h6 class="text-foreground font-medium">{{ tenant.getUser.firstname }}</h6>
                             <p class="text-foreground text-sm">{{ tenant.activity }}, {{ tenant.age }} ans</p>
@@ -82,3 +89,9 @@
     </div>
 {% endblock %}
 
+{% block footer %}
+    {% include 'emails/newsletter/_footer.html.twig' with {
+        'unsubscribe_token': unsubscribe_token,
+        'newsletter_token': newsletter_token
+    } %}
+{% endblock %}

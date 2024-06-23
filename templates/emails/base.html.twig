@@ -7,9 +7,8 @@
     <main class="grow wrapper my-8 my:my-12">
     {% block body %}{% endblock %}
     </main>
-    {% include 'emails/_footer.html.twig' with {
-        'unsubscribe_token': unsubscribe_token,
-        'newsletter_token': newsletter_token
-    } %}
+{% block footer %}
+    {% include 'emails/_footer.html.twig' %}
+{% endblock %}
 </body>
 {% endapply %}

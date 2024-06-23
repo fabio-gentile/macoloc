@@ -36,12 +36,12 @@ class NewsletterService extends AbstractController {
             $newsletterReference->setSentAt(new \DateTime());
             $subscriber->addNewsletterReference($newsletterReference);
             $this->entityManager->flush();
-            //TODO: mettre en page
+
             $email = (new TemplatedEmail())
-                ->from($this->getParameter('no_reply_email'), 'Newsletter')
+                ->from($this->getParameter('no_reply_email'))
                 ->to($subscriber->getEmail())
                 ->subject('Dernières annonces de Macoloc')
-                ->htmlTemplate('emails/newsletter.html.twig')
+                ->htmlTemplate('emails/newsletter/index.html.twig')
                 ->context([
                     'housings' => $housings,
                     'tenants' => $tenants,

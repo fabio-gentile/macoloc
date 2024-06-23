@@ -5,9 +5,38 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Welcome!{% endblock %} - Macoloc</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-
-{#        Font family#}
+        <link rel="icon" href="{{ asset('images/logo.png') }}">
+        <meta name="description" content="Macoloc est une plateforme de colocation qui vous permet de trouver des colocataires et des logements en colocation partout en France.">
+        <meta name="keywords" content="colocation, colocataire, colocataires, coloc à plusieurs, coloc à plusieurs">
+        <meta name="author" content="Macoloc">
+        <meta name="robots" content="noindex, follow">
+        <link rel="apple-touch-icon" sizes="57x38" href="{{ asset('images/logo.png') }}">
+        <link rel="apple-touch-icon" sizes="72x49" href="{{ asset('images/logo.png') }}">
+        <link rel="apple-touch-icon" sizes="76x52" href="{{ asset('images/logo.png') }}">
+        <link rel="apple-touch-icon" sizes="114x78" href="{{ asset('images/logo.png') }}">
+        <link rel="apple-touch-icon" sizes="120x82" href="{{ asset('images/logo.png') }}">
+        <link rel="apple-touch-icon" sizes="144x98" href="{{ asset('images/logo.png') }}">
+        <link rel="apple-touch-icon" sizes="152x104" href="{{ asset('images/logo.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}" sizes="196x134">
+        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}" sizes="160x110">
+        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}" sizes="96x66">
+        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}" sizes="16x11">
+        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}" sizes="32x22">
+        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+        <meta property="og:title" content="Macoloc - Votre colocation idéale">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="{{ absolute_url(asset('images/logo.png')) }}">
+        <meta property="og:image:width" content="1800">
+        <meta property="og:image:height" content="945">
+        <meta property="og:url" content="https://macoloc.fabiogentile.me">
+        <meta property="og:description" content="Macoloc est une plateforme de colocation qui vous permet de trouver des colocataires et des logements en colocation partout en France.">
+        <meta property="og:locale" content="fr_FR">
+        <meta property="og:site_name" content="Macoloc">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="Macoloc - Votre colocation idéale">
+        <meta name="twitter:url" content="https://macoloc.fabiogentile.me/">
+        <meta name="twitter:description" content="Macoloc est une plateforme de colocation qui vous permet de trouver des colocataires et des logements en colocation partout en France.">
+        <meta name="twitter:image" content="{{ absolute_url(asset('images/logo.png')) }}">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
