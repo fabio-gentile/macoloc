@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240617121823 extends AbstractMigration
+final class Version20240623193845 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -35,7 +35,7 @@ final class Version20240617121823 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN conversation.user_two_id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN conversation.created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE french_city (id INT NOT NULL, department VARCHAR(255) NOT NULL, city VARCHAR(255) NOT NULL, postal_code VARCHAR(255) NOT NULL, longitude VARCHAR(255) NOT NULL, latitude VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE housing (id UUID NOT NULL, user_id UUID NOT NULL, price NUMERIC(10, 2) DEFAULT NULL, type VARCHAR(255) NOT NULL, number_of_rooms INT NOT NULL, surface_area NUMERIC(6, 2) NOT NULL, avaible_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, description TEXT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, commodity JSONB DEFAULT NULL, other JSON DEFAULT NULL, latitude VARCHAR(255) NOT NULL, longitude VARCHAR(255) NOT NULL, postal_code VARCHAR(255) NOT NULL, city VARCHAR(255) NOT NULL, title VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE housing (id UUID NOT NULL, user_id UUID NOT NULL, price NUMERIC(10, 2) DEFAULT NULL, type VARCHAR(255) NOT NULL, number_of_rooms INT NOT NULL, surface_area NUMERIC(6, 2) NOT NULL, avaible_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, description TEXT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, commodity JSONB DEFAULT NULL, other JSON DEFAULT NULL, latitude VARCHAR(255) NOT NULL, longitude VARCHAR(255) NOT NULL, city VARCHAR(255) NOT NULL, title VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_FB8142C3A76ED395 ON housing (user_id)');
         $this->addSql('COMMENT ON COLUMN housing.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN housing.user_id IS \'(DC2Type:uuid)\'');

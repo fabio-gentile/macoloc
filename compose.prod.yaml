@@ -8,3 +8,6 @@ services:
       APP_SECRET: ${APP_SECRET}
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
       MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
+      # disable worker mode
+      # fix autocomplete bug https://github.com/symfony/ux/issues/1649
+      FRANKENPHP_CONFIG: ''
